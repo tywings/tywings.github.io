@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="关系型数据库——锁关系型数据库包括：  架构 索引 锁 语法 理论范式">
+  <meta name="description" content="关系型数据库——锁关系型数据库包括：  架构 索引 锁 语法 理论范式  MyISAM与InnoDB锁方面的区别是什么 MyISAM默认使用表级锁，不支持行级锁 InnoDB默认使用行级锁，同时支持表级锁  数据库事务的四大特性（ACID） 原子性（Atomic）：事务的操作全都完成/全部回滚  一致性（Consistency）：事务确保数据状态从一个一致状态转变到另一个一致状态   网上最常用的">
 <meta name="keywords" content="数据库,锁,事务">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关系型数据库——锁">
 <meta property="og:url" content="http://yoursite.com/2019/03/22/关系型数据库——锁/index.html">
 <meta property="og:site_name" content="Java后端开发技术总结">
-<meta property="og:description" content="关系型数据库——锁关系型数据库包括：  架构 索引 锁 语法 理论范式">
+<meta property="og:description" content="关系型数据库——锁关系型数据库包括：  架构 索引 锁 语法 理论范式  MyISAM与InnoDB锁方面的区别是什么 MyISAM默认使用表级锁，不支持行级锁 InnoDB默认使用行级锁，同时支持表级锁  数据库事务的四大特性（ACID） 原子性（Atomic）：事务的操作全都完成/全部回滚  一致性（Consistency）：事务确保数据状态从一个一致状态转变到另一个一致状态   网上最常用的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-22T03:07:29.463Z">
+<meta property="og:updated_time" content="2019-03-22T11:48:26.032Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关系型数据库——锁">
-<meta name="twitter:description" content="关系型数据库——锁关系型数据库包括：  架构 索引 锁 语法 理论范式">
+<meta name="twitter:description" content="关系型数据库——锁关系型数据库包括：  架构 索引 锁 语法 理论范式  MyISAM与InnoDB锁方面的区别是什么 MyISAM默认使用表级锁，不支持行级锁 InnoDB默认使用行级锁，同时支持表级锁  数据库事务的四大特性（ACID） 原子性（Atomic）：事务的操作全都完成/全部回滚  一致性（Consistency）：事务确保数据状态从一个一致状态转变到另一个一致状态   网上最常用的">
 
 
 
@@ -174,7 +174,8 @@
 
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
-
+	
+	<a href="https://github.com/tywings/tywings.github.io"><img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_left_green_007200.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta">
@@ -383,7 +384,7 @@
                 
               
 
-              <time title="创建时间：2019-03-22 10:56:47 / 修改时间：11:07:29" itemprop="dateCreated datePublished" datetime="2019-03-22T10:56:47+08:00">2019-03-22</time>
+              <time title="创建时间：2019-03-22 10:56:47 / 修改时间：19:48:26" itemprop="dateCreated datePublished" datetime="2019-03-22T10:56:47+08:00">2019-03-22</time>
             
 
             
@@ -448,6 +449,128 @@
 <li>语法</li>
 <li>理论范式</li>
 </ul>
+<h2 id="MyISAM与InnoDB锁方面的区别是什么"><a href="#MyISAM与InnoDB锁方面的区别是什么" class="headerlink" title="MyISAM与InnoDB锁方面的区别是什么"></a>MyISAM与InnoDB锁方面的区别是什么</h2><ul>
+<li>MyISAM默认使用表级锁，不支持行级锁</li>
+<li>InnoDB默认使用行级锁，同时支持表级锁</li>
+</ul>
+<h2 id="数据库事务的四大特性（ACID）"><a href="#数据库事务的四大特性（ACID）" class="headerlink" title="数据库事务的四大特性（ACID）"></a>数据库事务的四大特性（ACID）</h2><ul>
+<li><p>原子性（Atomic）：事务的操作全都完成/全部回滚</p>
+</li>
+<li><p>一致性（Consistency）：事务确保数据状态从一个一致状态转变到另一个一致状态</p>
+<ul>
+<li><blockquote>
+<p>网上最常用的例子：拿转账来说，假设用户A和用户B两者的钱加起来一共是5000，那么不管A和B之间如何转账，转几次账，事务结束后两个用户的钱相加起来应该还得是5000，这就是事务的一致性</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>隔离性（Isolation）：多个事务并发执行时，一个事务的执行不能影响其他事务的执行</p>
+</li>
+<li><p>持久性（Durability）：事务一旦提交，数据永久保存在数据库，即使发生系统崩溃也不能丢失提交事务</p>
+</li>
+</ul>
+<h2 id="数据库的隔离级别"><a href="#数据库的隔离级别" class="headerlink" title="数据库的隔离级别"></a>数据库的隔离级别</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">隔离级别</th>
+<th style="text-align:center">脏读</th>
+<th style="text-align:center">不可重复读</th>
+<th style="text-align:center">幻读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Read uncommitted（未提交读）</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:center">Read committed（已提交读）</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:center">Repeatable read（可重复读，InnoDB默认隔离级别）</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:center">Serializable（串行化）</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">×</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>脏读</strong>：脏数据指未提交的数据，也就是事务A正在修改且尚未提交的数据（因此该数据可能发生回滚）。此时事务B读取到这条尚未提交的数据，并进行了进一步处理，就可能出现脏读现象（如事务A突然发生回滚）。</li>
+<li><strong>不可重复读</strong>：事务A可以先后读取同一条记录多次，在事务A两次读取之间该数据被事务B修改，则两次读取的数据不同，则称这种现象为不可重复读。</li>
+<li><strong>幻读</strong>：事务A按相同的查询条件重新读取以前检索过的数据，却发现事务B插入了满足其查询条件的新数据，这个现象称为幻读。</li>
+</ul>
+<h2 id="快照读和当前读（不常考，可略过）"><a href="#快照读和当前读（不常考，可略过）" class="headerlink" title="快照读和当前读（不常考，可略过）"></a>快照读和当前读（不常考，可略过）</h2><blockquote>
+<ul>
+<li><p>select快照读（照片）</p>
+<p>当你执行select *之后，在A与B事务中都会返回4条一样的数据，这是不用想的，当执行select的时候，innodb默认会执行快照读，相当于就是给你目前的状态找了一张照片，以后执行select 的时候就会返回当前照片里面的数据，当其他事务提交了也对你不造成影响，和你没关系，这就实现了可重复读了，那这个照片是什么时候生成的呢？不是开启事务的时候，是当你第一次执行select的时候，也就是说，当A开启了事务，然后没有执行任何操作，这时候B insert了一条数据然后commit,这时候A执行 select，那么返回的数据中就会有B添加的那条数据……之后无论再有其他事务commit都没有关系，因为照片已经生成了，而且不会再生成了，以后都会参考这张照片。</p>
+</li>
+<li><p>update、insert、delete 当前读</p>
+<p>当你执行这几个操作的时候默认会执行当前读，也就是会读取最新的记录，也就是别的事务提交的数据你也可以看到，这样很好理解啊，假设你要update一个记录，另一个事务已经delete这条数据并且commit了，这样不是会产生冲突吗，所以你update的时候肯定要知道最新的信息啊。</p>
+<p>我在这里介绍一下update的过程吧，首先会执行当前读，然后把返回的数据加锁，之后执行update。加锁是防止别的事务在这个时候对这条记录做什么，默认加的是排他锁，也就是你读都不可以，这样就可以保证数据不会出错了。但注意一点，就算你这里加了写锁，别的事务也还是能访问的，是不是很奇怪？数据库采取了一致性非锁定读，别的事务会去读取一个快照数据。<br> innodb默认隔离级别是RR， 是通过MVVC来实现了，读方式有两种，执行select的时候是快照读，其余是当前读，所以，mvvc不能根本上解决幻读的情况</p>
+<p>作者：维特无忧堡</p>
+<p>链接：<a href="https://www.jianshu.com/p/27352449bcc0" target="_blank" rel="noopener">当前读与快照读</a></p>
+<p>来源：简书</p>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>mvcc（多版本并发控制）机制</li>
+</ul>
+<p>mvcc只有在Read Commited和Repeatable Read隔离级别下有效。在Read Uncommited下，每次读都是当前读（读最新行，而不是符合系统版本号的行），在Sirializable级别下，所有读都加锁，因此这两种级别不适用mvcc。在InnoDB的 mvcc是通过在每行记录后面保存两个隐藏的列来实现的。这两个列一个保存了行的创建时系统版本号，一个保存了行的删除时系统版本号。每开始一个新事务，系统版本号都会递增。事务开始时的系统版本号就是事务版本号。下面是crud的mvcc实现（注：在事务a、b并发执行的情况下，假设事务a读取行，事务b插入（更新、删除）行。若事务b先执行，则会锁行，事务a会等b执行完之后读取最新结果，这种情况与mvcc机制无关。若事务a先执行，b是插入操作时，b的版本号大于a，a不能查到新增的行；b是更新操作时，新增的行版本号大于a，读到的仍是原始行；b是删除操作时，删除版本号大于a的版本号，仍能查到b删除的这行。以上情况无论b是否已经提交都成立，这样就解决了快照读下的脏读、不可重复读以及幻读）：</p>
+<p>select：只有符合以下两个条件的记录才会作为返回结果。行的创建版本号小于或等于事务版本号。这可以确保事务读取的行，要么是事务开始前已经存在的，要么是事务自身插入或者修改过得。行的删除版本要么未定义，要么大于当前事务版本号。这可以确保事务读到的行，在事务开始之前未被删除。</p>
+<p>insert：新插入的每一行保存当前系统版本号作为行版本号。</p>
+<p>delete：删除的每一行保存当前系统版本号作为行删除版本号。</p>
+<p>update：插入一条新纪录，保存当前系统版本号作为行版本号，同时保存当前系统版本号作为原来的行的删除版本号。</p>
+<p>作者：learsea<br>来源：CSDN<br>原文：<a href="https://blog.csdn.net/learsea/article/details/70243699" target="_blank" rel="noopener">JAVA工程师面试技术点汇总</a></p>
+</blockquote>
+<h2 id="封锁类型"><a href="#封锁类型" class="headerlink" title="封锁类型"></a>封锁类型</h2><blockquote>
+<ul>
+<li><p>读写锁</p>
+<ul>
+<li>排它锁（Exclusive），简写为 X 锁，又称写锁。</li>
+<li>共享锁（Shared），简写为 S 锁，又称读锁。</li>
+</ul>
+<p>有以下两个规定：</p>
+<ul>
+<li>一个事务对数据对象 A 加了 X 锁，就可以对 A 进行读取和更新。加锁期间其它事务不能对 A 加任何锁。</li>
+<li>一个事务对数据对象 A 加了 S 锁，可以对 A 进行读取操作，但是不能进行更新操作。加锁期间其它事务能对 A 加 S 锁，但是不能加 X 锁。</li>
+</ul>
+<p>锁的兼容关系如下：</p>
+<p>| -    | X    | S    |<br>| —- | —- | —- |<br>| X    | ×    | ×    |<br>| S    | ×    | √    |</p>
+</li>
+<li><p>意向锁</p>
+<p>使用意向锁（Intention Locks）可以更容易地支持多粒度封锁。</p>
+<p>在存在行级锁和表级锁的情况下，事务 T 想要对表 A 加 X 锁，就需要先检测是否有其它事务对表 A 或者表 A 中的任意一行加了锁，那么就需要对表 A 的每一行都检测一次，这是非常耗时的。</p>
+<p>意向锁在原来的 X/S 锁之上引入了 IX/IS，IX/IS 都是表锁，用来表示一个事务想要在表中的某个数据行上加 X 锁或 S 锁。有以下两个规定：</p>
+<ul>
+<li>一个事务在获得某个数据行对象的 S 锁之前，必须先获得表的 IS 锁或者更强的锁；</li>
+<li>一个事务在获得某个数据行对象的 X 锁之前，必须先获得表的 IX 锁。</li>
+</ul>
+<p>通过引入意向锁，事务 T 想要对表 A 加 X 锁，只需要先检测是否有其它事务对表 A 加了 X/IX/S/IS 锁，如果加了就表示有其它事务正在使用这个表或者表中某一行的锁，因此事务 T 加 X 锁失败。</p>
+<p>各种锁的兼容关系如下：</p>
+<p>| -    | X    | IX   | S    | IS   |<br>| —- | —- | —- | —- | —- |<br>| X    | ×    | ×    | ×    | ×    |<br>| IX   | ×    | √    | ×    | √    |<br>| S    | ×    | ×    | √    | √    |<br>| IS   | ×    | √    | √    | √    |</p>
+<p>解释如下：</p>
+<ul>
+<li>任意 IS/IX 锁之间都是兼容的，因为它们只是表示想要对表加锁，而不是真正加锁</li>
+<li>S 锁只与 S 锁和 IS 锁兼容，也就是说事务 T 想要对数据行加 S 锁，其它事务可以已经获得对表或者表中的行的 S 锁</li>
+</ul>
+<p>来源：<a href="https://cyc2018.github.io/CS-Notes" target="_blank" rel="noopener">cyc2018 CS-Notes</a></p>
+</li>
+</ul>
+</blockquote>
+<h2 id="GAP锁"><a href="#GAP锁" class="headerlink" title="GAP锁"></a>GAP锁</h2><p>GAP锁属于X锁，存在于可重复读（Repeatable Read）或更高级别，为了防止幻读，于是有了GAP锁和next-key锁存在。除了对唯一索引的唯一搜索外都会获取GAP锁或者next-key锁（行锁 + gap锁）。</p>
 
       
     </div>
@@ -657,7 +780,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关系型数据库——锁"><span class="nav-number">1.</span> <span class="nav-text">关系型数据库——锁</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关系型数据库——锁"><span class="nav-number">1.</span> <span class="nav-text">关系型数据库——锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MyISAM与InnoDB锁方面的区别是什么"><span class="nav-number">1.1.</span> <span class="nav-text">MyISAM与InnoDB锁方面的区别是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库事务的四大特性（ACID）"><span class="nav-number">1.2.</span> <span class="nav-text">数据库事务的四大特性（ACID）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库的隔离级别"><span class="nav-number">1.3.</span> <span class="nav-text">数据库的隔离级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快照读和当前读（不常考，可略过）"><span class="nav-number">1.4.</span> <span class="nav-text">快照读和当前读（不常考，可略过）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封锁类型"><span class="nav-number">1.5.</span> <span class="nav-text">封锁类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GAP锁"><span class="nav-number">1.6.</span> <span class="nav-text">GAP锁</span></a></li></ol></li></ol></div>
             
 
           </div>
