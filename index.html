@@ -337,6 +337,258 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/21/Database/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ty.Wings">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Java后端开发技术总结">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/21/Database/" class="post-title-link" itemprop="url">Database</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-21 21:27:04" itemprop="dateCreated datePublished" datetime="2019-03-21T21:27:04+08:00">2019-03-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-03-22 10:53:37" itemprop="dateModified" datetime="2019-03-22T10:53:37+08:00">2019-03-22</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="关系型数据库——索引"><a href="#关系型数据库——索引" class="headerlink" title="关系型数据库——索引"></a>关系型数据库——索引</h1><p>关系型数据库包括：</p>
+<ul>
+<li>架构</li>
+<li><strong>索引</strong></li>
+<li><strong>锁</strong></li>
+<li>语法</li>
+<li>理论范式</li>
+</ul>
+<p><img src="/2019/03/21/Database/designDB.jpg" alt="设计一个数据库"></p>
+<h2 id="B-Tree索引"><a href="#B-Tree索引" class="headerlink" title="B-Tree索引"></a>B-Tree索引</h2><p><img src="/2019/03/21/Database/btree.jpg" alt="B-Tree数据结构"></p>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><ul>
+<li>根节点至少包括两个孩子</li>
+<li>书中每个节点最多包含m个孩子（m&gt;=2）（m阶树）</li>
+<li>除根节点和叶节点外，其他每个节点至少有ceil(m/2)个孩子</li>
+<li>所有叶子节点都处于同一层</li>
+<li>假设每个非终端节点中包含有n个关键字信息<ul>
+<li>关键字按照升序排序</li>
+<li>关键字个数 (ceil(m/2) - 1) &lt;= n &lt;= m - 1 (每个节点关键字个数比指针少一个)</li>
+<li>Pi(i=1,…n)为指向子树根节点的指针。P(i-1)指向的子树的所有节点关键字均小于ki，但都大于k(i-1)</li>
+</ul>
+</li>
+</ul>
+<h2 id="B-Tree索引-1"><a href="#B-Tree索引-1" class="headerlink" title="B+-Tree索引"></a>B+-Tree索引</h2><p><img src="/2019/03/21/Database/b+tree.jpg" alt="B+Tree"></p>
+<blockquote>
+<p>图片来源：<a href="https://www.cnblogs.com/vianzhang/p/7922426.html" target="_blank" rel="noopener">BTree和B+Tree详解</a></p>
+</blockquote>
+<p>B+-Tree与B-Tree的区别</p>
+<ul>
+<li>非叶子节点的子树指针比关键字个数相同多1（也有相同的版本）</li>
+<li>非叶子节点仅用来索引，数据都保存在叶子节点中</li>
+<li>所有叶子节点均有一个链指针指向下一个叶子节点（数据链表）</li>
+</ul>
+<p>B+-Tree优势</p>
+<ul>
+<li>磁盘读写代价更低（内部结构没有数据，内部节点更小，一次性读入内存的节点更多）</li>
+<li>查询效率更加稳定（所有查询长度相同）</li>
+<li>有利于数据库扫描（叶子节点有链表，可以进行范围查询）</li>
+</ul>
+<h2 id="Hash索引"><a href="#Hash索引" class="headerlink" title="Hash索引"></a>Hash索引</h2><p><img src="/2019/03/21/Database/hash.jpg" alt="Hash索引"></p>
+<p>简单地说，<strong>哈希索引就是采用一定的哈希算法</strong>，把键值换算成新的哈希值，检索时不需要类似B+树那样从根节点到叶子节点逐级查找，只需一次哈希算法即可立刻定位到相应的位置，速度非常快。</p>
+<p>B+-Tree和Hash索引区别：</p>
+<ul>
+<li>等值查询，hash索引有绝对优势，只需要经过一次算法即可找到相应的值；如果键值不是唯一的，需要先找到该键所在的位置，再根据链表往后扫描，知道找到相应数据</li>
+<li>hash索引无法胜任范围查询，经过hash算法后，无法判断数据范围</li>
+<li>hash索引不支持多列联合索引的最左匹配规则</li>
+<li>有大量重复键值的情况下，hash索引效率比较低（因为hash碰撞）</li>
+</ul>
+<h2 id="BitMap索引（不常考）"><a href="#BitMap索引（不常考）" class="headerlink" title="BitMap索引（不常考）"></a>BitMap索引（不常考）</h2><p>位图索引主要针对大量相同值的列而创建。拿全国居民登录一第表来说，假设有四个字段：姓名、性别、年龄、和身份证号，年龄和性别两个字段会产生许多相同的值，性别只有男女两种值，年龄，1到120（假设最大年龄120岁）个值。那么不管一张表有几亿条记录，但根据性别字段来区分的话，只有两种取值（男、女）。那么位图索引就是根据字段的这个特性所建立的一种索引。</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/u012572955/article/details/50112111" target="_blank" rel="noopener">oracle-btree和bitmap索引</a></p>
+<p>以及这个文章通俗移动的介绍了位图索引：<a href="https://www.cnblogs.com/LBSer/p/3322630.html" target="_blank" rel="noopener">位图索引:原理（BitMap index）</a></p>
+</blockquote>
+<h2 id="聚簇（聚集）索引和非聚簇索引的区别"><a href="#聚簇（聚集）索引和非聚簇索引的区别" class="headerlink" title="聚簇（聚集）索引和非聚簇索引的区别"></a>聚簇（聚集）索引和非聚簇索引的区别</h2><p><img src="/2019/03/21/Database/聚簇非聚簇.png" alt="聚簇索引和非聚簇索引的区别"></p>
+<blockquote>
+<p>图片来源：<a href="https://www.cnblogs.com/starhu/p/6406495.html" target="_blank" rel="noopener">详解聚簇索引</a></p>
+</blockquote>
+<p>聚簇索引：</p>
+<ul>
+<li>叶子节点存的是整行数据，直接通过聚簇索引的键值找到某行</li>
+<li>数据的物理存放顺序与索引顺序一致</li>
+<li>一个表只能由一个聚簇索引</li>
+<li>（这也是MySQL中InnoDB表必须存在主键的原因，因为整张表是聚簇索引，默认通过主键聚集数据，如果没有定义主键，则选择第一个非空的唯一索引，如果没有非空的唯一索引，则利用自增的行号隐式作为聚集索引）</li>
+</ul>
+<p>非聚簇索引：</p>
+<ul>
+<li>叶子节点存放的是字段的值，通过非聚簇索引的键值找到对应的聚集索引字段的值，再通过聚集索引键值找到表的某行（辅助索引的用法）</li>
+</ul>
+<h2 id="密集索引与稀疏索引"><a href="#密集索引与稀疏索引" class="headerlink" title="密集索引与稀疏索引"></a>密集索引与稀疏索引</h2><p>稠密（密集）索引：InnoDB必须有且仅有一个密集索引</p>
+<p><img src="/2019/03/21/Database/稠密索引.png" alt="稠密索引"></p>
+<p>稀疏索引：MyISAM主键索引，唯一键索引，普通索引均为稀疏索引</p>
+<p><img src="/2019/03/21/Database/稀疏索引.png" alt="稀疏索引"></p>
+<blockquote>
+<p>稠密索引能够比稀疏索引更快的定位一条记录。但是，稀疏索引相比于稠密索引的优点是：它所占空间更小，且插入和删除时的维护开销也小。</p>
+<p>相对于稠密索引，稀疏索引只为某些搜索码值建立索引记录；在搜索时，找到其最大的搜索码值小于或等于所查找记录的搜索码值的索引项，然后从该记录开始向后顺序查询直到找到为止。</p>
+<p>文字&amp;图片来源：<a href="https://blog.csdn.net/douunderstand/article/details/70215061" target="_blank" rel="noopener">MySQL （8） 聚集索引 非聚集索引 聚簇索引 稀疏索引 稠密索引</a></p>
+</blockquote>
+<h2 id="最左匹配原则"><a href="#最左匹配原则" class="headerlink" title="最左匹配原则"></a>最左匹配原则</h2><ol>
+<li>最左前缀匹配原则，MySQL会一直向右匹配直到遇到范围查询（&gt;，&lt;，between，like）就停止匹配（例如a=3 and b = 4 and c &gt; 5 and d = 6在已建立的(a,b,c,d)顺序的联合索引，d是用不到索引的，但如果索引为(a,b,d,c)则都可以用到，其中a,b,d顺序可以任意调整）。</li>
+<li>=和in可以乱序，比如a=1 and b=2 and c=3建立(a,b,c)索引可以任意顺序，MySQL查询优化器会自动识别成索引可以识别的格式。</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/21/HTTP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1074,7 +1326,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1095,7 +1347,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1120,7 +1374,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
