@@ -101,10 +101,10 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP">
 <meta property="og:url" content="http://yoursite.com/2019/03/21/HTTP/index.html">
-<meta property="og:site_name" content="Java后端开发技术总结">
+<meta property="og:site_name" content="Java面试后端开发技术总结">
 <meta property="og:description" content="HTTPHTTP请求与响应HTTP请求包括：请求行，请求头，空行，消息主体  请求行：请求方法（e.g., GET or POST），URL，协议版本（e.g., HTTP/1.1）：get /index HTTP/1.1 请求头：key:value格式； 空行：表示开始消息主体，即使请求头为空也要保留空行  1234567POST /user HTTP/1.1      //请求行Host: w">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-23T02:47:33.888Z">
+<meta property="og:updated_time" content="2019-03-23T03:08:59.534Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP">
 <meta name="twitter:description" content="HTTPHTTP请求与响应HTTP请求包括：请求行，请求头，空行，消息主体  请求行：请求方法（e.g., GET or POST），URL，协议版本（e.g., HTTP/1.1）：get /index HTTP/1.1 请求头：key:value格式； 空行：表示开始消息主体，即使请求头为空也要保留空行  1234567POST /user HTTP/1.1      //请求行Host: w">
@@ -124,7 +124,7 @@
   };
 </script>
 
-  <title>HTTP | Java后端开发技术总结</title>
+  <title>HTTP | Java面试后端开发技术总结</title>
   
 
 
@@ -184,7 +184,7 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Java后端开发技术总结</span>
+        <span class="site-title">Java面试后端开发技术总结</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -350,7 +350,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Java后端开发技术总结">
+      <meta itemprop="name" content="Java面试后端开发技术总结">
     </span>
 
     
@@ -401,7 +401,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-03-23 10:47:33" itemprop="dateModified" datetime="2019-03-23T10:47:33+08:00">2019-03-23</time>
+                <time title="修改时间：2019-03-23 11:08:59" itemprop="dateModified" datetime="2019-03-23T11:08:59+08:00">2019-03-23</time>
               
             
           </span>
@@ -583,6 +583,13 @@
 <li>HTTPS密文传输，HTTP明文传输</li>
 <li>连接方式不同，HTTPS默认443端口，HTTP80端口</li>
 <li>HTTPS = HTTP + 加密 + 认证 + 完整性保护，较HTTP安全</li>
+</ul>
+<h2 id="HTTPS建立连接流程"><a href="#HTTPS建立连接流程" class="headerlink" title="HTTPS建立连接流程"></a>HTTPS建立连接流程</h2><ul>
+<li>浏览器将支持的加密算法信息发送给服务器</li>
+<li>服务器选择一套浏览器支持的加密算法，以证书的形式回发浏览器</li>
+<li>浏览器验证证书合法性，并生成随机密码，结合证书公钥加密信息发送给服务器（握手）</li>
+<li>服务器使用私钥解密信息确定密码，验证哈希，加密响应信息回发浏览器</li>
+<li>浏览器解密响应消息，并对消息进行验真，之后使用浏览器生成的随机密码进行对称加密交互数据</li>
 </ul>
 
       
@@ -801,7 +808,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP"><span class="nav-number">1.</span> <span class="nav-text">HTTP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP请求与响应"><span class="nav-number">1.1.</span> <span class="nav-text">HTTP请求与响应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用请求方法GET和POST的区别"><span class="nav-number">1.2.</span> <span class="nav-text">常用请求方法GET和POST的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP常用状态码"><span class="nav-number">1.3.</span> <span class="nav-text">HTTP常用状态码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cookie和Session的区别"><span class="nav-number">1.4.</span> <span class="nav-text">Cookie和Session的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP和HTTPS的区别"><span class="nav-number">1.5.</span> <span class="nav-text">HTTP和HTTPS的区别</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP"><span class="nav-number">1.</span> <span class="nav-text">HTTP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP请求与响应"><span class="nav-number">1.1.</span> <span class="nav-text">HTTP请求与响应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用请求方法GET和POST的区别"><span class="nav-number">1.2.</span> <span class="nav-text">常用请求方法GET和POST的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP常用状态码"><span class="nav-number">1.3.</span> <span class="nav-text">HTTP常用状态码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cookie和Session的区别"><span class="nav-number">1.4.</span> <span class="nav-text">Cookie和Session的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP和HTTPS的区别"><span class="nav-number">1.5.</span> <span class="nav-text">HTTP和HTTPS的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPS建立连接流程"><span class="nav-number">1.6.</span> <span class="nav-text">HTTPS建立连接流程</span></a></li></ol></li></ol></div>
             
 
           </div>
