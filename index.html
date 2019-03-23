@@ -383,7 +383,7 @@
                 
               
 
-              <time title="创建时间：2019-03-22 10:56:47 / 修改时间：19:48:26" itemprop="dateCreated datePublished" datetime="2019-03-22T10:56:47+08:00">2019-03-22</time>
+              <time title="创建时间：2019-03-22 10:56:47 / 修改时间：21:46:45" itemprop="dateCreated datePublished" datetime="2019-03-22T10:56:47+08:00">2019-03-22</time>
             
 
             
@@ -442,138 +442,34 @@
       
         
           
-            <h1 id="关系型数据库——锁"><a href="#关系型数据库——锁" class="headerlink" title="关系型数据库——锁"></a>关系型数据库——锁</h1><p>关系型数据库包括：</p>
-<ul>
-<li>架构</li>
-<li><strong>索引</strong></li>
-<li><strong>锁</strong></li>
-<li>语法</li>
-<li>理论范式</li>
-</ul>
-<h2 id="MyISAM与InnoDB锁方面的区别是什么"><a href="#MyISAM与InnoDB锁方面的区别是什么" class="headerlink" title="MyISAM与InnoDB锁方面的区别是什么"></a>MyISAM与InnoDB锁方面的区别是什么</h2><ul>
-<li>MyISAM默认使用表级锁，不支持行级锁</li>
-<li>InnoDB默认使用行级锁，同时支持表级锁</li>
-</ul>
-<h2 id="数据库事务的四大特性（ACID）"><a href="#数据库事务的四大特性（ACID）" class="headerlink" title="数据库事务的四大特性（ACID）"></a>数据库事务的四大特性（ACID）</h2><ul>
-<li><p>原子性（Atomic）：事务的操作全都完成/全部回滚</p>
-</li>
-<li><p>一致性（Consistency）：事务确保数据状态从一个一致状态转变到另一个一致状态</p>
-<ul>
-<li><blockquote>
-<p>网上最常用的例子：拿转账来说，假设用户A和用户B两者的钱加起来一共是5000，那么不管A和B之间如何转账，转几次账，事务结束后两个用户的钱相加起来应该还得是5000，这就是事务的一致性</p>
-</blockquote>
-</li>
-</ul>
-</li>
-<li><p>隔离性（Isolation）：多个事务并发执行时，一个事务的执行不能影响其他事务的执行</p>
-</li>
-<li><p>持久性（Durability）：事务一旦提交，数据永久保存在数据库，即使发生系统崩溃也不能丢失提交事务</p>
-</li>
-</ul>
-<h2 id="数据库的隔离级别"><a href="#数据库的隔离级别" class="headerlink" title="数据库的隔离级别"></a>数据库的隔离级别</h2><table>
-<thead>
-<tr>
-<th style="text-align:center">隔离级别</th>
-<th style="text-align:center">脏读</th>
-<th style="text-align:center">不可重复读</th>
-<th style="text-align:center">幻读</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Read uncommitted（未提交读）</td>
-<td style="text-align:center">√</td>
-<td style="text-align:center">√</td>
-<td style="text-align:center">√</td>
-</tr>
-<tr>
-<td style="text-align:center">Read committed（已提交读）</td>
-<td style="text-align:center">×</td>
-<td style="text-align:center">√</td>
-<td style="text-align:center">√</td>
-</tr>
-<tr>
-<td style="text-align:center">Repeatable read（可重复读，InnoDB默认隔离级别）</td>
-<td style="text-align:center">×</td>
-<td style="text-align:center">×</td>
-<td style="text-align:center">√</td>
-</tr>
-<tr>
-<td style="text-align:center">Serializable（串行化）</td>
-<td style="text-align:center">×</td>
-<td style="text-align:center">×</td>
-<td style="text-align:center">×</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li><strong>脏读</strong>：脏数据指未提交的数据，也就是事务A正在修改且尚未提交的数据（因此该数据可能发生回滚）。此时事务B读取到这条尚未提交的数据，并进行了进一步处理，就可能出现脏读现象（如事务A突然发生回滚）。</li>
-<li><strong>不可重复读</strong>：事务A可以先后读取同一条记录多次，在事务A两次读取之间该数据被事务B修改，则两次读取的数据不同，则称这种现象为不可重复读。</li>
-<li><strong>幻读</strong>：事务A按相同的查询条件重新读取以前检索过的数据，却发现事务B插入了满足其查询条件的新数据，这个现象称为幻读。</li>
-</ul>
-<h2 id="快照读和当前读（不常考，可略过）"><a href="#快照读和当前读（不常考，可略过）" class="headerlink" title="快照读和当前读（不常考，可略过）"></a>快照读和当前读（不常考，可略过）</h2><blockquote>
-<ul>
-<li><p>select快照读（照片）</p>
-<p>当你执行select *之后，在A与B事务中都会返回4条一样的数据，这是不用想的，当执行select的时候，innodb默认会执行快照读，相当于就是给你目前的状态找了一张照片，以后执行select 的时候就会返回当前照片里面的数据，当其他事务提交了也对你不造成影响，和你没关系，这就实现了可重复读了，那这个照片是什么时候生成的呢？不是开启事务的时候，是当你第一次执行select的时候，也就是说，当A开启了事务，然后没有执行任何操作，这时候B insert了一条数据然后commit,这时候A执行 select，那么返回的数据中就会有B添加的那条数据……之后无论再有其他事务commit都没有关系，因为照片已经生成了，而且不会再生成了，以后都会参考这张照片。</p>
-</li>
-<li><p>update、insert、delete 当前读</p>
-<p>当你执行这几个操作的时候默认会执行当前读，也就是会读取最新的记录，也就是别的事务提交的数据你也可以看到，这样很好理解啊，假设你要update一个记录，另一个事务已经delete这条数据并且commit了，这样不是会产生冲突吗，所以你update的时候肯定要知道最新的信息啊。</p>
-<p>我在这里介绍一下update的过程吧，首先会执行当前读，然后把返回的数据加锁，之后执行update。加锁是防止别的事务在这个时候对这条记录做什么，默认加的是排他锁，也就是你读都不可以，这样就可以保证数据不会出错了。但注意一点，就算你这里加了写锁，别的事务也还是能访问的，是不是很奇怪？数据库采取了一致性非锁定读，别的事务会去读取一个快照数据。<br> innodb默认隔离级别是RR， 是通过MVVC来实现了，读方式有两种，执行select的时候是快照读，其余是当前读，所以，mvvc不能根本上解决幻读的情况</p>
-<p>作者：维特无忧堡</p>
-<p>链接：<a href="https://www.jianshu.com/p/27352449bcc0" target="_blank" rel="noopener">当前读与快照读</a></p>
-<p>来源：简书</p>
-</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>mvcc（多版本并发控制）机制</li>
-</ul>
-<p>mvcc只有在Read Commited和Repeatable Read隔离级别下有效。在Read Uncommited下，每次读都是当前读（读最新行，而不是符合系统版本号的行），在Sirializable级别下，所有读都加锁，因此这两种级别不适用mvcc。在InnoDB的 mvcc是通过在每行记录后面保存两个隐藏的列来实现的。这两个列一个保存了行的创建时系统版本号，一个保存了行的删除时系统版本号。每开始一个新事务，系统版本号都会递增。事务开始时的系统版本号就是事务版本号。下面是crud的mvcc实现（注：在事务a、b并发执行的情况下，假设事务a读取行，事务b插入（更新、删除）行。若事务b先执行，则会锁行，事务a会等b执行完之后读取最新结果，这种情况与mvcc机制无关。若事务a先执行，b是插入操作时，b的版本号大于a，a不能查到新增的行；b是更新操作时，新增的行版本号大于a，读到的仍是原始行；b是删除操作时，删除版本号大于a的版本号，仍能查到b删除的这行。以上情况无论b是否已经提交都成立，这样就解决了快照读下的脏读、不可重复读以及幻读）：</p>
-<p>select：只有符合以下两个条件的记录才会作为返回结果。行的创建版本号小于或等于事务版本号。这可以确保事务读取的行，要么是事务开始前已经存在的，要么是事务自身插入或者修改过得。行的删除版本要么未定义，要么大于当前事务版本号。这可以确保事务读到的行，在事务开始之前未被删除。</p>
-<p>insert：新插入的每一行保存当前系统版本号作为行版本号。</p>
-<p>delete：删除的每一行保存当前系统版本号作为行删除版本号。</p>
-<p>update：插入一条新纪录，保存当前系统版本号作为行版本号，同时保存当前系统版本号作为原来的行的删除版本号。</p>
-<p>作者：learsea<br>来源：CSDN<br>原文：<a href="https://blog.csdn.net/learsea/article/details/70243699" target="_blank" rel="noopener">JAVA工程师面试技术点汇总</a></p>
-</blockquote>
-<h2 id="封锁类型"><a href="#封锁类型" class="headerlink" title="封锁类型"></a>封锁类型</h2><blockquote>
-<ul>
-<li><p>读写锁</p>
-<ul>
-<li>排它锁（Exclusive），简写为 X 锁，又称写锁。</li>
-<li>共享锁（Shared），简写为 S 锁，又称读锁。</li>
-</ul>
-<p>有以下两个规定：</p>
-<ul>
-<li>一个事务对数据对象 A 加了 X 锁，就可以对 A 进行读取和更新。加锁期间其它事务不能对 A 加任何锁。</li>
-<li>一个事务对数据对象 A 加了 S 锁，可以对 A 进行读取操作，但是不能进行更新操作。加锁期间其它事务能对 A 加 S 锁，但是不能加 X 锁。</li>
-</ul>
-<p>锁的兼容关系如下：</p>
-<p>| -    | X    | S    |<br>| —- | —- | —- |<br>| X    | ×    | ×    |<br>| S    | ×    | √    |</p>
-</li>
-<li><p>意向锁</p>
-<p>使用意向锁（Intention Locks）可以更容易地支持多粒度封锁。</p>
-<p>在存在行级锁和表级锁的情况下，事务 T 想要对表 A 加 X 锁，就需要先检测是否有其它事务对表 A 或者表 A 中的任意一行加了锁，那么就需要对表 A 的每一行都检测一次，这是非常耗时的。</p>
-<p>意向锁在原来的 X/S 锁之上引入了 IX/IS，IX/IS 都是表锁，用来表示一个事务想要在表中的某个数据行上加 X 锁或 S 锁。有以下两个规定：</p>
-<ul>
-<li>一个事务在获得某个数据行对象的 S 锁之前，必须先获得表的 IS 锁或者更强的锁；</li>
-<li>一个事务在获得某个数据行对象的 X 锁之前，必须先获得表的 IX 锁。</li>
-</ul>
-<p>通过引入意向锁，事务 T 想要对表 A 加 X 锁，只需要先检测是否有其它事务对表 A 加了 X/IX/S/IS 锁，如果加了就表示有其它事务正在使用这个表或者表中某一行的锁，因此事务 T 加 X 锁失败。</p>
-<p>各种锁的兼容关系如下：</p>
-<p>| -    | X    | IX   | S    | IS   |<br>| —- | —- | —- | —- | —- |<br>| X    | ×    | ×    | ×    | ×    |<br>| IX   | ×    | √    | ×    | √    |<br>| S    | ×    | ×    | √    | √    |<br>| IS   | ×    | √    | √    | √    |</p>
-<p>解释如下：</p>
-<ul>
-<li>任意 IS/IX 锁之间都是兼容的，因为它们只是表示想要对表加锁，而不是真正加锁</li>
-<li>S 锁只与 S 锁和 IS 锁兼容，也就是说事务 T 想要对数据行加 S 锁，其它事务可以已经获得对表或者表中的行的 S 锁</li>
-</ul>
-<p>来源：<a href="https://cyc2018.github.io/CS-Notes" target="_blank" rel="noopener">cyc2018 CS-Notes</a></p>
-</li>
-</ul>
-</blockquote>
-<h2 id="GAP锁"><a href="#GAP锁" class="headerlink" title="GAP锁"></a>GAP锁</h2><p>GAP锁属于X锁，存在于可重复读（Repeatable Read）或更高级别，为了防止幻读，于是有了GAP锁和next-key锁存在。除了对唯一索引的唯一搜索外都会获取GAP锁或者next-key锁（行锁 + gap锁）。</p>
+            <p>
+              关系型数据库——锁关系型数据库包括：
 
+架构
+索引
+锁
+语法
+理论范式
+
+MyISAM与InnoDB锁方面的区别是什么
+MyISAM默认使用表级锁，不支持行级锁
+InnoDB默认使用行级锁，同时支持表级锁
+
+数据库事务的四大特性（ACID）
+原子性（Atomic）：事务的操作全都完成/全部回滚
+
+一
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/03/22/关系型数据库——锁/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -744,88 +640,34 @@
       
         
           
-            <h1 id="关系型数据库——索引"><a href="#关系型数据库——索引" class="headerlink" title="关系型数据库——索引"></a>关系型数据库——索引</h1><p>关系型数据库包括：</p>
-<ul>
-<li>架构</li>
-<li><strong>索引</strong></li>
-<li><strong>锁</strong></li>
-<li>语法</li>
-<li>理论范式</li>
-</ul>
-<p><img src="/2019/03/21/关系型数据库——索引/designDB.jpg" alt="设计一个数据库"></p>
-<h2 id="B-Tree索引"><a href="#B-Tree索引" class="headerlink" title="B-Tree索引"></a>B-Tree索引</h2><p><img src="/2019/03/21/关系型数据库——索引/btree.jpg" alt="B-Tree数据结构"></p>
-<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><ul>
-<li>根节点至少包括两个孩子</li>
-<li>书中每个节点最多包含m个孩子（m&gt;=2）（m阶树）</li>
-<li>除根节点和叶节点外，其他每个节点至少有ceil(m/2)个孩子</li>
-<li>所有叶子节点都处于同一层</li>
-<li>假设每个非终端节点中包含有n个关键字信息<ul>
-<li>关键字按照升序排序</li>
-<li>关键字个数 (ceil(m/2) - 1) &lt;= n &lt;= m - 1 (每个节点关键字个数比指针少一个)</li>
-<li>Pi(i=1,…n)为指向子树根节点的指针。P(i-1)指向的子树的所有节点关键字均小于ki，但都大于k(i-1)</li>
-</ul>
-</li>
-</ul>
-<h2 id="B-Tree索引-1"><a href="#B-Tree索引-1" class="headerlink" title="B+-Tree索引"></a>B+-Tree索引</h2><p><img src="/2019/03/21/关系型数据库——索引/b+tree.jpg" alt="B+Tree"></p>
-<blockquote>
-<p>图片来源：<a href="https://www.cnblogs.com/vianzhang/p/7922426.html" target="_blank" rel="noopener">BTree和B+Tree详解</a></p>
-</blockquote>
-<p>B+-Tree与B-Tree的区别</p>
-<ul>
-<li>非叶子节点的子树指针比关键字个数相同多1（也有相同的版本）</li>
-<li>非叶子节点仅用来索引，数据都保存在叶子节点中</li>
-<li>所有叶子节点均有一个链指针指向下一个叶子节点（数据链表）</li>
-</ul>
-<p>B+-Tree优势</p>
-<ul>
-<li>磁盘读写代价更低（内部结构没有数据，内部节点更小，一次性读入内存的节点更多）</li>
-<li>查询效率更加稳定（所有查询长度相同）</li>
-<li>有利于数据库扫描（叶子节点有链表，可以进行范围查询）</li>
-</ul>
-<h2 id="Hash索引"><a href="#Hash索引" class="headerlink" title="Hash索引"></a>Hash索引</h2><p><img src="/2019/03/21/关系型数据库——索引/hash.jpg" alt="Hash索引"></p>
-<p>简单地说，<strong>哈希索引就是采用一定的哈希算法</strong>，把键值换算成新的哈希值，检索时不需要类似B+树那样从根节点到叶子节点逐级查找，只需一次哈希算法即可立刻定位到相应的位置，速度非常快。</p>
-<p>B+-Tree和Hash索引区别：</p>
-<ul>
-<li>等值查询，hash索引有绝对优势，只需要经过一次算法即可找到相应的值；如果键值不是唯一的，需要先找到该键所在的位置，再根据链表往后扫描，知道找到相应数据</li>
-<li>hash索引无法胜任范围查询，经过hash算法后，无法判断数据范围</li>
-<li>hash索引不支持多列联合索引的最左匹配规则</li>
-<li>有大量重复键值的情况下，hash索引效率比较低（因为hash碰撞）</li>
-</ul>
-<h2 id="BitMap索引（不常考）"><a href="#BitMap索引（不常考）" class="headerlink" title="BitMap索引（不常考）"></a>BitMap索引（不常考）</h2><p>位图索引主要针对大量相同值的列而创建。拿全国居民登录一第表来说，假设有四个字段：姓名、性别、年龄、和身份证号，年龄和性别两个字段会产生许多相同的值，性别只有男女两种值，年龄，1到120（假设最大年龄120岁）个值。那么不管一张表有几亿条记录，但根据性别字段来区分的话，只有两种取值（男、女）。那么位图索引就是根据字段的这个特性所建立的一种索引。</p>
-<blockquote>
-<p><a href="https://blog.csdn.net/u012572955/article/details/50112111" target="_blank" rel="noopener">oracle-btree和bitmap索引</a></p>
-<p>以及这个文章通俗易懂的介绍了位图索引：<a href="https://www.cnblogs.com/LBSer/p/3322630.html" target="_blank" rel="noopener">位图索引:原理（BitMap index）</a></p>
-</blockquote>
-<h2 id="聚簇（聚集）索引和非聚簇索引的区别"><a href="#聚簇（聚集）索引和非聚簇索引的区别" class="headerlink" title="聚簇（聚集）索引和非聚簇索引的区别"></a>聚簇（聚集）索引和非聚簇索引的区别</h2><p><img src="/2019/03/21/关系型数据库——索引/聚簇非聚簇.png" alt="聚簇索引和非聚簇索引的区别"></p>
-<blockquote>
-<p>图片来源：<a href="https://www.cnblogs.com/starhu/p/6406495.html" target="_blank" rel="noopener">详解聚簇索引</a></p>
-</blockquote>
-<p>聚簇索引：</p>
-<ul>
-<li>叶子节点存的是整行数据，直接通过聚簇索引的键值找到某行</li>
-<li>数据的物理存放顺序与索引顺序一致</li>
-<li>一个表只能由一个聚簇索引</li>
-<li>（这也是MySQL中InnoDB表必须存在主键的原因，因为整张表是聚簇索引，默认通过主键聚集数据，如果没有定义主键，则选择第一个非空的唯一索引，如果没有非空的唯一索引，则利用自增的行号隐式作为聚集索引）</li>
-</ul>
-<p>非聚簇索引：</p>
-<ul>
-<li>叶子节点存放的是字段的值，通过非聚簇索引的键值找到对应的聚集索引字段的值，再通过聚集索引键值找到表的某行（辅助索引的用法）</li>
-</ul>
-<h2 id="密集索引与稀疏索引"><a href="#密集索引与稀疏索引" class="headerlink" title="密集索引与稀疏索引"></a>密集索引与稀疏索引</h2><p>稠密（密集）索引：InnoDB必须有且仅有一个密集索引</p>
-<p><img src="/2019/03/21/关系型数据库——索引/稠密索引.png" alt="稠密索引"></p>
-<p>稀疏索引：MyISAM主键索引，唯一键索引，普通索引均为稀疏索引</p>
-<p><img src="/2019/03/21/关系型数据库——索引/稀疏索引.png" alt="稀疏索引"></p>
-<blockquote>
-<p>稠密索引能够比稀疏索引更快的定位一条记录。但是，稀疏索引相比于稠密索引的优点是：它所占空间更小，且插入和删除时的维护开销也小。</p>
-<p>相对于稠密索引，稀疏索引只为某些搜索码值建立索引记录；在搜索时，找到其最大的搜索码值小于或等于所查找记录的搜索码值的索引项，然后从该记录开始向后顺序查询直到找到为止。</p>
-<p>文字&amp;图片来源：<a href="https://blog.csdn.net/douunderstand/article/details/70215061" target="_blank" rel="noopener">MySQL （8） 聚集索引 非聚集索引 聚簇索引 稀疏索引 稠密索引</a></p>
-</blockquote>
-<h2 id="最左匹配原则"><a href="#最左匹配原则" class="headerlink" title="最左匹配原则"></a>最左匹配原则</h2><ol>
-<li>最左前缀匹配原则，MySQL会一直向右匹配直到遇到范围查询（&gt;，&lt;，between，like）就停止匹配（例如a=3 and b = 4 and c &gt; 5 and d = 6在已建立的(a,b,c,d)顺序的联合索引，d是用不到索引的，但如果索引为(a,b,d,c)则都可以用到，其中a,b,d顺序可以任意调整）。</li>
-<li>=和in可以乱序，比如a=1 and b=2 and c=3建立(a,b,c)索引可以任意顺序，MySQL查询优化器会自动识别成索引可以识别的格式。</li>
-</ol>
+            <p>
+              关系型数据库——索引关系型数据库包括：
 
+架构
+索引
+锁
+语法
+理论范式
+
+
+B-Tree索引
+定义
+根节点至少包括两个孩子
+书中每个节点最多包含m个孩子（m&gt;=2）（m阶树）
+除根节点和叶节点外，其他每个节点至少有ceil(m/2)个孩子
+所有叶子节点都处于同一层
+假设每个非终端节点中包含有
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/03/21/关系型数据库——索引/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -984,132 +826,23 @@
       
         
           
-            <h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><h2 id="HTTP请求与响应"><a href="#HTTP请求与响应" class="headerlink" title="HTTP请求与响应"></a>HTTP请求与响应</h2><p>HTTP请求包括：请求行，请求头，空行，消息主体</p>
-<ul>
-<li>请求行：请求方法（e.g., GET or POST），URL，协议版本（e.g., HTTP/1.1）：get /index HTTP/1.1</li>
-<li>请求头：key:value格式；</li>
-<li>空行：表示开始消息主体，即使请求头为空也要保留空行</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST /user HTTP/1.1      //请求行</span><br><span class="line">Host: www.user.com</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line">User-agent: Mozilla/5.0.      //以上是首部行</span><br><span class="line">（此处必须有一空行）  //空行分割header和请求内容 </span><br><span class="line">name=world   请求体</span><br></pre></td></tr></table></figure>
-<p>HTTP响应包括：状态行，响应头，响应正文</p>
-<ul>
-<li>状态行包括：协议版本，状态码，状态码描述</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 304 Not Modified</span><br><span class="line">Date：Sat, 15 Oct 2011 15:39:29</span><br><span class="line">(空行)                                      </span><br><span class="line">(空响应体)</span><br></pre></td></tr></table></figure>
-<h2 id="常用请求方法GET和POST的区别"><a href="#常用请求方法GET和POST的区别" class="headerlink" title="常用请求方法GET和POST的区别"></a>常用请求方法GET和POST的区别</h2><ul>
-<li>GET将请求信息放在URL，POST放在报文体中（安全问题）</li>
-<li>GET可以被缓存、被存储，POST不行</li>
-<li>GET有URL最大长度限制，POST没有长度限制</li>
-</ul>
-<h2 id="HTTP常用状态码"><a href="#HTTP常用状态码" class="headerlink" title="HTTP常用状态码"></a>HTTP常用状态码</h2><table>
-<thead>
-<tr>
-<th style="text-align:center">状态码</th>
-<th style="text-align:center">类别</th>
-<th style="text-align:center">含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1XX</td>
-<td style="text-align:center">Informational（信息性状态码）</td>
-<td style="text-align:center">接收的请求正在处理</td>
-</tr>
-<tr>
-<td style="text-align:center">2XX</td>
-<td style="text-align:center">Success（成功状态码）</td>
-<td style="text-align:center">请求正常处理完毕</td>
-</tr>
-<tr>
-<td style="text-align:center">200</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">OK</td>
-</tr>
-<tr>
-<td style="text-align:center">3XX</td>
-<td style="text-align:center">Redirection（重定向状态码）</td>
-<td style="text-align:center">需要进行附加操作以完成请求</td>
-</tr>
-<tr>
-<td style="text-align:center">301</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">永久重定向</td>
-</tr>
-<tr>
-<td style="text-align:center">302</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">临时重定向</td>
-</tr>
-<tr>
-<td style="text-align:center">304</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">Not Modified</td>
-</tr>
-<tr>
-<td style="text-align:center">4XX</td>
-<td style="text-align:center">Client Error（客户端错误状态码）</td>
-<td style="text-align:center">服务器无法处理请求</td>
-</tr>
-<tr>
-<td style="text-align:center">400</td>
-<td style="text-align:center">请求报文中存在语法错误</td>
-<td style="text-align:center">Bad Request</td>
-</tr>
-<tr>
-<td style="text-align:center">401</td>
-<td style="text-align:center">用户认证失败/无认证信息</td>
-<td style="text-align:center">Unauthorized</td>
-</tr>
-<tr>
-<td style="text-align:center">403</td>
-<td style="text-align:center">请求被拒绝</td>
-<td style="text-align:center">Forbidden</td>
-</tr>
-<tr>
-<td style="text-align:center">404</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">Not Found</td>
-</tr>
-<tr>
-<td style="text-align:center">5XX</td>
-<td style="text-align:center">Server Error（服务器错误状态码）</td>
-<td style="text-align:center">服务器处理请求出错</td>
-</tr>
-<tr>
-<td style="text-align:center">500</td>
-<td style="text-align:center">服务器内部错误</td>
-<td style="text-align:center">Internal Server Error</td>
-</tr>
-<tr>
-<td style="text-align:center">503</td>
-<td style="text-align:center">服务器无法处理请求</td>
-<td style="text-align:center">Service Unavailable</td>
-</tr>
-</tbody>
-</table>
-<h2 id="Cookie和Session的区别"><a href="#Cookie和Session的区别" class="headerlink" title="Cookie和Session的区别"></a>Cookie和Session的区别</h2><ul>
-<li>Cookie<ul>
-<li>是由服务器发给客户端的特殊信息，以文本的形式<strong>存放在客户端</strong></li>
-<li>客户端再次请求的时候，会把Cookie回发给服务器</li>
-<li>服务器接收到后，会解析Cookie生成与客户端相对应的内容</li>
-<li>只能存储ASCII码</li>
-</ul>
-</li>
-<li>Session<ul>
-<li>服务器端机制，<strong>在服务器上保存</strong>的信息，服务器负担比较高</li>
-<li>解析客户端请求并操作session id，按需保存状态信息</li>
-<li>可存取任何类型的数据</li>
-</ul>
-</li>
-</ul>
-<h2 id="HTTP和HTTPS的区别"><a href="#HTTP和HTTPS的区别" class="headerlink" title="HTTP和HTTPS的区别"></a>HTTP和HTTPS的区别</h2><ul>
-<li>HTTPS需要到CA申请证书，HTTP不需要</li>
-<li>HTTPS密文传输，HTTP明文传输</li>
-<li>连接方式不同，HTTPS默认443端口，HTTP80端口</li>
-<li>HTTPS = HTTP + 加密 + 认证 + 完整性保护，较HTTP安全</li>
-</ul>
+            <p>
+              HTTPHTTP请求与响应HTTP请求包括：请求行，请求头，空行，消息主体
 
+请求行：请求方法（e.g., GET or POST），URL，协议版本（e.g., HTTP/1.1）：get /index HTTP/1.1
+请求头：key:value格式；
+空行：表示开始消息主体，即使请求头为空也要
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/03/21/HTTP/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1268,105 +1001,29 @@
       
         
           
-            <h1 id="TCP-IP常考内容整理"><a href="#TCP-IP常考内容整理" class="headerlink" title="TCP/IP常考内容整理"></a>TCP/IP常考内容整理</h1><h2 id="OSI七层模型和TCP-IP四层模型"><a href="#OSI七层模型和TCP-IP四层模型" class="headerlink" title="OSI七层模型和TCP/IP四层模型"></a>OSI七层模型和TCP/IP四层模型</h2><p><img src="/2019/03/21/TCP-IP/osi.webp" alt="OSI七层模型"></p>
-<blockquote>
-<p>图片来源：<a href="https://www.jianshu.com/p/c793a279f698" target="_blank" rel="noopener">计算机网络漫谈</a></p>
-</blockquote>
-<h3 id="TCP、UDP协议区别"><a href="#TCP、UDP协议区别" class="headerlink" title="TCP、UDP协议区别"></a>TCP、UDP协议区别</h3><h4 id="TCP："><a href="#TCP：" class="headerlink" title="TCP："></a>TCP：</h4><ul>
-<li>TCP是<strong>面向连接的，可靠的，基于字节流的</strong>传输通信协议；</li>
-<li>数据包都有序号，对方收到发送ACK确认，未收到ACK则重传；</li>
-<li>使用校验和检验数据在传输过程中是否有误。</li>
-</ul>
-<h4 id="UDP："><a href="#UDP：" class="headerlink" title="UDP："></a>UDP：</h4><ul>
-<li>UDP是<strong>非连接的</strong>传输通信协议；</li>
-<li>不维护连接状态；</li>
-<li>尽最大努力交付，不保证可靠交付；</li>
-<li>面向报文，只添加头部，无拆分/合并。</li>
-</ul>
-<h3 id="TCP三次握手与四次挥手"><a href="#TCP三次握手与四次挥手" class="headerlink" title="TCP三次握手与四次挥手"></a>TCP三次握手与四次挥手</h3><ul>
-<li>TCP三次握手</li>
-</ul>
-<p><img src="/2019/03/21/TCP-IP/handshake.png" alt="三次握手"></p>
-<ol>
-<li>建立连接时，客户端发送SYN包到服务器，并进入SYN_SENT状态，等待服务器确认；</li>
-<li>服务器收到SYN包，并确认该SYN，同时自己发送一个SYN+ACK包，进入SYN_RECV状态；</li>
-<li>客户端收到SYN+ACK包，向服务器发送确认包ACK，进入ESTABLISHED状态。</li>
-</ol>
-<p><strong>意义：</strong></p>
-<ul>
-<li>为了初始化Sequence Number的初始值；</li>
-<li><p>为了防止已失效的连接请求报文突然传到了服务器端，进而产生错误。</p>
-</li>
-<li><p>TCP四次挥手</p>
-</li>
-</ul>
-<p><img src="/2019/03/21/TCP-IP/4shake.png" alt="TCP四次挥手"></p>
-<ol>
-<li>Client发送FIN关闭Client到Server的数据传送，Client进入FIN_WAIT_1状态；</li>
-<li>Server收到FIN，发送ACK给Client，Server进入CLOSE_WAIT状态。此后可以继续进行未完成的Server -&gt; Client数据传输;</li>
-<li>Server发送一个FIN，用来关闭Server -&gt; Client数据传送，进入LAST_ACK状态；</li>
-<li>Client收到FIN后，进入TIME_WAIT状态，接着发送ACK给Server，Server进入CLOSED状态，Clinet等待2MSL进入CLOSED状态。</li>
-</ol>
-<p><strong>意义</strong>：因为全双工，发送和接收都需要FIN报文和ACK报文结束连接。</p>
-<blockquote>
-<p>图片来源：<a href="https://blog.csdn.net/albertsh/article/details/81044150" target="_blank" rel="noopener">简述TCP三次握手和四次挥手流程</a></p>
-</blockquote>
-<h2 id="常用端口号"><a href="#常用端口号" class="headerlink" title="常用端口号"></a>常用端口号</h2><table>
-<thead>
-<tr>
-<th style="text-align:center">协议</th>
-<th style="text-align:center">端口</th>
-<th style="text-align:center">解释</th>
-<th style="text-align:center">TCP/UDP</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">FTP</td>
-<td style="text-align:center">21</td>
-<td style="text-align:center">文件传输服务</td>
-<td style="text-align:center">TCP</td>
-</tr>
-<tr>
-<td style="text-align:center">TELNET</td>
-<td style="text-align:center">23</td>
-<td style="text-align:center">终端仿真服务</td>
-<td style="text-align:center">TCP</td>
-</tr>
-<tr>
-<td style="text-align:center">SMTP</td>
-<td style="text-align:center">25</td>
-<td style="text-align:center">简单邮件传输服务</td>
-<td style="text-align:center">TCP</td>
-</tr>
-<tr>
-<td style="text-align:center">DNS</td>
-<td style="text-align:center">53</td>
-<td style="text-align:center">域名解析服务</td>
-<td style="text-align:center">UDP</td>
-</tr>
-<tr>
-<td style="text-align:center">HTTP</td>
-<td style="text-align:center">80</td>
-<td style="text-align:center">超文本传输服务</td>
-<td style="text-align:center">TCP</td>
-</tr>
-<tr>
-<td style="text-align:center">POP3</td>
-<td style="text-align:center">110</td>
-<td style="text-align:center">邮局协议版本3</td>
-<td style="text-align:center">TCP</td>
-</tr>
-<tr>
-<td style="text-align:center">HTTPS</td>
-<td style="text-align:center">443</td>
-<td style="text-align:center">加密的超文本传输服务</td>
-<td style="text-align:center">TCP</td>
-</tr>
-</tbody>
-</table>
+            <p>
+              TCP/IP常考内容整理OSI七层模型和TCP/IP四层模型
 
+图片来源：计算机网络漫谈
+
+TCP、UDP协议区别TCP：
+TCP是面向连接的，可靠的，基于字节流的传输通信协议；
+数据包都有序号，对方收到发送ACK确认，未收到ACK则重传；
+使用校验和检验数据在传输过程中是否有误。
+
+UDP：
+UD
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/03/21/TCP-IP/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1525,17 +1182,19 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
+            <p>
+              Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/03/21/hello-world/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1739,6 +1398,32 @@
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
 
 
 
