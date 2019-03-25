@@ -105,7 +105,7 @@
 <meta property="og:description" content="Java垃圾回收机制对象被判定为垃圾的算法引用计数算法 和 可达性分析算法 引用计数算法判断对象的引用数量  通过判断对象的引用数量来决定对象是否可以被回收 每个对象实例都有一个引用计数器，被引用+1，完成引用-1 任何引用计数为0的对象实例可以被当作垃圾收集  优点：执行效率高，程序执行受影响较小 缺点：无法检测出循环引用的情况，导致内存泄露 可达性分析算法（主流）通过判断对象的引用链是否可达来">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/03/23/GC/GC年轻代.jpg">
-<meta property="og:updated_time" content="2019-03-24T07:36:53.802Z">
+<meta property="og:updated_time" content="2019-03-25T02:31:32.023Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java垃圾回收机制">
 <meta name="twitter:description" content="Java垃圾回收机制对象被判定为垃圾的算法引用计数算法 和 可达性分析算法 引用计数算法判断对象的引用数量  通过判断对象的引用数量来决定对象是否可以被回收 每个对象实例都有一个引用计数器，被引用+1，完成引用-1 任何引用计数为0的对象实例可以被当作垃圾收集  优点：执行效率高，程序执行受影响较小 缺点：无法检测出循环引用的情况，导致内存泄露 可达性分析算法（主流）通过判断对象的引用链是否可达来">
@@ -403,7 +403,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-03-24 15:36:53" itemprop="dateModified" datetime="2019-03-24T15:36:53+08:00">2019-03-24</time>
+                <time title="修改时间：2019-03-25 10:31:32" itemprop="dateModified" datetime="2019-03-25T10:31:32+08:00">2019-03-25</time>
               
             
           </span>
@@ -592,7 +592,7 @@
 <h3 id="老年代常见的垃圾收集器"><a href="#老年代常见的垃圾收集器" class="headerlink" title="老年代常见的垃圾收集器"></a>老年代常见的垃圾收集器</h3><ol>
 <li>Serial Old收集器（-XX:+UseSerialOldGC，标记-整理算法）<ul>
 <li>单线程收集，进行垃圾收集时，必须暂停所有工作线程</li>
-<li>简单高效，Client模式下默认的老年代收集器</li>
+<li>简单高效</li>
 </ul>
 </li>
 <li>Parallel Old收集器（-XX:+UseParallelOldGC，标记-整理算法）<ul>
@@ -729,8 +729,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/24/Multi-Thread/" rel="prev" title="多线程">
-                多线程 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/24/Multi-Thread/" rel="prev" title="多线程（面试问题）">
+                多线程（面试问题） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -800,7 +800,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -882,7 +882,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
