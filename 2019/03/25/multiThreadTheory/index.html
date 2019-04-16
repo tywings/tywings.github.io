@@ -105,7 +105,7 @@
 <meta property="og:description" content="Java多线程原理线程安全的主要原因 存在共享数据 存在多条线程共同操作这些共享数据 因此需要同一时刻有且只有一个线程在操作共享数据，其他线程必须等到该线程处理完数据后在对共享数据进行操作。  互斥锁的特性（原子性、可见性）——synchronized能保证这两点互斥性：在同一时间只允许一个线程持有某个对象锁，通过这种特性来实现多线程的协调机制，这样在同一时间只有一个线程对需要同步的代码块进行访问">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/03/25/multiThreadTheory/monitor.jpg">
-<meta property="og:updated_time" content="2019-03-25T07:40:27.247Z">
+<meta property="og:updated_time" content="2019-04-12T06:00:52.749Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="multiThreadTheory">
 <meta name="twitter:description" content="Java多线程原理线程安全的主要原因 存在共享数据 存在多条线程共同操作这些共享数据 因此需要同一时刻有且只有一个线程在操作共享数据，其他线程必须等到该线程处理完数据后在对共享数据进行操作。  互斥锁的特性（原子性、可见性）——synchronized能保证这两点互斥性：在同一时间只允许一个线程持有某个对象锁，通过这种特性来实现多线程的协调机制，这样在同一时间只有一个线程对需要同步的代码块进行访问">
@@ -386,12 +386,24 @@
                 
               
 
-              <time title="创建时间：2019-03-25 10:40:54 / 修改时间：15:40:27" itemprop="dateCreated datePublished" datetime="2019-03-25T10:40:54+08:00">2019-03-25</time>
+              <time title="创建时间：2019-03-25 10:40:54" itemprop="dateCreated datePublished" datetime="2019-03-25T10:40:54+08:00">2019-03-25</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-12 14:00:52" itemprop="dateModified" datetime="2019-04-12T14:00:52+08:00">2019-04-12</time>
               
             
           </span>
@@ -504,6 +516,13 @@
 <h3 id="重入"><a href="#重入" class="headerlink" title="重入"></a>重入</h3><p>从互斥锁的设计上来说，当一个线程试图操作一个由其他线程持有的对象锁的临界资源时，将会处于阻塞状态。</p>
 <p>但当一个线程再次请求自己持有对象锁的临界资源时，这种情况叫做重入。</p>
 <p>换句话说，synchronized是可以再次上锁的（synchronized代码块中可以再写synchronized）。</p>
+<h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3><p>所谓死锁是指多个进程因竞争资源而造成的一种僵局（互相等待），若无外力作用，这些进程都将无法向前推进。死锁产生的4个必要条件：</p>
+<ul>
+<li>互斥条件：进程要求对所分配的资源（如打印机）进行排他性控制，即在一段时间内某 资源仅为一个进程所占有。此时若有其他进程请求该资源，则请求进程只能等待。</li>
+<li>不剥夺条件：进程所获得的资源在未使用完毕之前，不能被其他进程强行夺走，即只能 由获得该资源的进程自己来释放（只能是主动释放)。</li>
+<li>请求和保持条件：进程已经保持了至少一个资源，但又提出了新的资源请求，而该资源 已被其他进程占有，此时请求进程被阻塞，但对自己已获得的资源保持不放。</li>
+<li>循环等待条件：存在一种进程资源的循环等待链，链中每一个进程已获得的资源同时被 链中下一个进程所请求。</li>
+</ul>
 <h2 id="自旋锁与自适应自旋锁"><a href="#自旋锁与自适应自旋锁" class="headerlink" title="自旋锁与自适应自旋锁"></a>自旋锁与自适应自旋锁</h2><h3 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h3><ul>
 <li>许多情况下，共享数据的锁定状态持续时间较短，切换线程不值得</li>
 <li>通过让线程执行<strong>忙循环</strong>等待锁的释放，不让出CPU（while(true)）</li>
@@ -514,7 +533,8 @@
 <li>自选次数不再固定</li>
 <li>由前一次在同一个锁上的自旋时间及锁的拥有着的状态来决定</li>
 </ul>
-<h2 id="偏向锁：减少同一线程获取锁的代价"><a href="#偏向锁：减少同一线程获取锁的代价" class="headerlink" title="偏向锁：减少同一线程获取锁的代价"></a>偏向锁：减少同一线程获取锁的代价</h2><blockquote>
+<h2 id="Java中的四种锁"><a href="#Java中的四种锁" class="headerlink" title="Java中的四种锁"></a>Java中的四种锁</h2><p>膨胀方向：无锁-&gt;偏向锁-&gt;轻量级锁-&gt;重量级锁（该过程不可逆）</p>
+<h3 id="偏向锁：减少同一线程获取锁的代价（mark-word-01"><a href="#偏向锁：减少同一线程获取锁的代价（mark-word-01" class="headerlink" title="偏向锁：减少同一线程获取锁的代价（mark word 01)"></a>偏向锁：减少同一线程获取锁的代价（mark word 01)</h3><blockquote>
 <p>​    <a href="https://blog.csdn.net/zqz_zqz/article/details/70233767" target="_blank" rel="noopener">https://blog.csdn.net/zqz_zqz/article/details/70233767</a>)</p>
 </blockquote>
 <ul>
@@ -525,32 +545,30 @@
 <ul>
 <li>如果一个线程获得了锁，那么锁就进入偏向模式，此时Mark Word的结构也变为了偏向锁结构。当该线程再次请求锁时，无需再做任何同步操作，即获取所得过程只需要检查Mark Word的锁标记位为偏向锁以及当前线程Id等于Mark Word的ThreadID即可，这样就省去了大量有关锁申请的操作。</li>
 </ul>
-<h3 id="偏向锁的获取过程"><a href="#偏向锁的获取过程" class="headerlink" title="偏向锁的获取过程"></a>偏向锁的获取过程</h3><ol>
+<h4 id="偏向锁的获取过程"><a href="#偏向锁的获取过程" class="headerlink" title="偏向锁的获取过程"></a>偏向锁的获取过程</h4><ol>
 <li><p>访问Mark Word中偏向锁的标识是否设置成1，锁标志位是否为01，确认为可偏向状态。</p>
 </li>
 <li><p>如果为可偏向状态，则测试线程ID是否指向当前线程，如果是，进入步骤5，否则进入步骤3。</p>
 </li>
 <li><p>如果线程ID并未指向当前线程，则通过CAS操作竞争锁。如果竞争成功，则将Mark Word中线程ID设置为当前线程ID，然后执行5；如果竞争失败，执行4。</p>
 </li>
-<li><p>如果CAS获取偏向锁失败，则表示有竞争。当到达全局安全点（safepoint）时获得偏向锁的线程被挂起，偏向锁升级为轻量级锁，然后被阻塞在安全点的线程继续往下执行同步代码。（撤销偏向锁的时候会导致stop the word）</p>
+<li><p>如果CAS获取偏向锁失败，则表示有竞争。当到达全局安全点（safepoint）时获得偏向锁的线程被挂起，偏向锁升级为轻量级锁，然后被阻塞在安全点的线程继续往下执行同步代码。（撤销偏向锁的时候会导致stop the world）</p>
 </li>
 <li>执行同步代码。</li>
 </ol>
-<h3 id="偏向锁的释放"><a href="#偏向锁的释放" class="headerlink" title="偏向锁的释放"></a>偏向锁的释放</h3><ul>
-<li>偏向锁的撤销在上述第四步骤中有提到。偏向锁只有遇到其他线程尝试竞争偏向锁时，持有偏向锁的线程才会释放锁，线程不会主动去释放偏向锁。偏向锁的撤销，需要等待全局安全点（在这个时间点上没有字节码正在执行），它会首先暂停拥有偏向锁的线程，判断锁对象是否处于被锁定状态，撤销偏向锁后恢复到未锁定（标志位为“01”）或轻量级锁（标志位为“00”）的状态。</li>
+<h4 id="偏向锁的释放"><a href="#偏向锁的释放" class="headerlink" title="偏向锁的释放"></a>偏向锁的释放</h4><ul>
+<li>偏向锁的撤销在上述第四步骤中有提到。偏向锁<strong>只有遇到其他线程尝试竞争偏向锁时，持有偏向锁的线程才会释放锁，线程不会主动去释放偏向锁</strong>。偏向锁的撤销，需要等待全局安全点（在这个时间点上没有字节码正在执行），它会首先暂停拥有偏向锁的线程，判断锁对象是否处于被锁定状态，撤销偏向锁后恢复到<strong>未锁定（标志位为“01”）或者偏向其他线程的偏向锁</strong>状态。</li>
 </ul>
-<blockquote>
-<p>本文全部获取&amp;释放来源：<a href="https://blog.csdn.net/zqz_zqz/article/details/70233767" target="_blank" rel="noopener">java 中的锁 – 偏向锁、轻量级锁、自旋锁、重量级锁</a></p>
-</blockquote>
-<h2 id="轻量级锁（自旋）"><a href="#轻量级锁（自旋）" class="headerlink" title="轻量级锁（自旋）"></a>轻量级锁（自旋）</h2><ul>
+<h3 id="轻量级锁（mark-word-00"><a href="#轻量级锁（mark-word-00" class="headerlink" title="轻量级锁（mark word 00)"></a>轻量级锁（mark word 00)</h3><ul>
 <li>轻量级锁是由偏向锁升级来的，偏向锁运行在一个线程进入同步块的情况下，当第二个线程加入锁竞争（并不完全是竞争）的时候，偏向锁就会升级为轻量级锁。</li>
 <li>适应场景：线程<strong>交替执行</strong>同步块</li>
 <li>若存在同一时间访问同一锁的情况，就会导致轻量级锁膨胀为重量级锁</li>
 </ul>
-<h3 id="轻量级锁的加锁过程"><a href="#轻量级锁的加锁过程" class="headerlink" title="轻量级锁的加锁过程"></a>轻量级锁的加锁过程</h3><ol>
-<li>JVM在线程的栈帧中创建用于存储锁记录的空间，并将对象头中的Mark word 存储在该空间，然后线程尝试将mark word替换为指向锁记录的指针（锁标记位为00），成功：线程获取锁，失败：线程通过自旋来获取锁</li>
-</ol>
-<h3 id="轻量级锁的释放"><a href="#轻量级锁的释放" class="headerlink" title="轻量级锁的释放"></a>轻量级锁的释放</h3><p>线程通过CAS将栈帧存储锁记录的空间Mark word替换回来，成功，锁释放，失败：存在线程线程竞争锁，锁膨胀为重量级锁。</p>
+<h4 id="轻量级锁的加锁过程"><a href="#轻量级锁的加锁过程" class="headerlink" title="轻量级锁的加锁过程"></a>轻量级锁的加锁过程</h4><ul>
+<li>JVM在线程的栈帧中创建用于存储锁记录的空间，并将对象头中的Mark word 存储在该空间，然后线程尝试将mark word替换为指向锁记录的指针（锁标记位为00），成功：线程获取锁，失败：线程通过自旋（CAS）来获取锁，若CAS失败依然失败，则将锁膨胀为重量级锁。</li>
+</ul>
+<h4 id="轻量级锁的释放"><a href="#轻量级锁的释放" class="headerlink" title="轻量级锁的释放"></a>轻量级锁的释放</h4><p>线程通过CAS将栈帧存储锁记录的空间Mark word替换回来，成功，锁释放，失败：存在线程线程竞争锁，锁膨胀为重量级锁。</p>
+<h3 id="重量级锁"><a href="#重量级锁" class="headerlink" title="重量级锁"></a>重量级锁</h3><p>此状态下，其他线程试图获取锁时，都会被阻塞住，当持有锁的线程释放锁之后会唤醒这些线程，被唤醒的线程就会进行新一轮的锁争夺。</p>
 <h2 id="锁优化"><a href="#锁优化" class="headerlink" title="锁优化"></a>锁优化</h2><h3 id="锁消除"><a href="#锁消除" class="headerlink" title="锁消除"></a>锁消除</h3><p>JIT编译时，对运行上下文进行扫描，去除不可能存在竞争的锁，提高效率</p>
 <h3 id="锁粗化"><a href="#锁粗化" class="headerlink" title="锁粗化"></a>锁粗化</h3><p>通过扩大加锁范围，避免反复加锁和解锁</p>
 <h2 id="synchronized的四种状态"><a href="#synchronized的四种状态" class="headerlink" title="synchronized的四种状态"></a>synchronized的四种状态</h2><p>无锁、偏向锁、轻量级锁、重量级锁</p>
@@ -607,7 +625,7 @@
 <li>volatile不会造成线程阻塞；synchronized可能会造成线程阻塞；</li>
 <li>volatile标记的变量不会被编译器优化；synchronized标记的变量可以被编译器优化</li>
 </ol>
-<h2 id="CAS（Compare-and-Swap）——乐观锁"><a href="#CAS（Compare-and-Swap）——乐观锁" class="headerlink" title="CAS（Compare and Swap）——乐观锁"></a>CAS（Compare and Swap）——乐观锁</h2><p>一种高效实现线程安全性的方法</p>
+<h2 id="补充：CAS（Compare-and-Swap）——乐观锁"><a href="#补充：CAS（Compare-and-Swap）——乐观锁" class="headerlink" title="补充：CAS（Compare and Swap）——乐观锁"></a>补充：CAS（Compare and Swap）——乐观锁</h2><p>一种高效实现线程安全性的方法</p>
 <ul>
 <li>支持原子更新操作，适用于计数器，序列发生器等场景</li>
 <li>属于乐观锁机制（lock-free）</li>
@@ -755,7 +773,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-count">20</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -784,7 +802,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -843,7 +867,49 @@
                     
                       
                     
-                    <span class="site-state-item-count">21</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">42</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -881,7 +947,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java多线程原理"><span class="nav-number">1.</span> <span class="nav-text">Java多线程原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程安全的主要原因"><span class="nav-number">1.1.</span> <span class="nav-text">线程安全的主要原因</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#互斥锁的特性（原子性、可见性）——synchronized能保证这两点"><span class="nav-number">1.1.1.</span> <span class="nav-text">互斥锁的特性（原子性、可见性）——synchronized能保证这两点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#锁的分类：获取对象锁和获取类锁"><span class="nav-number">1.1.2.</span> <span class="nav-text">锁的分类：获取对象锁和获取类锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Monitor锁的竞争、获取与释放"><span class="nav-number">1.1.3.</span> <span class="nav-text">Monitor锁的竞争、获取与释放</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重入"><span class="nav-number">1.1.4.</span> <span class="nav-text">重入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自旋锁与自适应自旋锁"><span class="nav-number">1.2.</span> <span class="nav-text">自旋锁与自适应自旋锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自旋锁"><span class="nav-number">1.2.1.</span> <span class="nav-text">自旋锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自适应自旋锁"><span class="nav-number">1.2.2.</span> <span class="nav-text">自适应自旋锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#偏向锁：减少同一线程获取锁的代价"><span class="nav-number">1.3.</span> <span class="nav-text">偏向锁：减少同一线程获取锁的代价</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#偏向锁的获取过程"><span class="nav-number">1.3.1.</span> <span class="nav-text">偏向锁的获取过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#偏向锁的释放"><span class="nav-number">1.3.2.</span> <span class="nav-text">偏向锁的释放</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#轻量级锁（自旋）"><span class="nav-number">1.4.</span> <span class="nav-text">轻量级锁（自旋）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#轻量级锁的加锁过程"><span class="nav-number">1.4.1.</span> <span class="nav-text">轻量级锁的加锁过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#轻量级锁的释放"><span class="nav-number">1.4.2.</span> <span class="nav-text">轻量级锁的释放</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁优化"><span class="nav-number">1.5.</span> <span class="nav-text">锁优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#锁消除"><span class="nav-number">1.5.1.</span> <span class="nav-text">锁消除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#锁粗化"><span class="nav-number">1.5.2.</span> <span class="nav-text">锁粗化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#synchronized的四种状态"><span class="nav-number">1.6.</span> <span class="nav-text">synchronized的四种状态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#四种锁的对比："><span class="nav-number">1.6.1.</span> <span class="nav-text">四种锁的对比：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile变量为何立即可见"><span class="nav-number">1.7.</span> <span class="nav-text">volatile变量为何立即可见</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile如何禁止重排优化"><span class="nav-number">1.8.</span> <span class="nav-text">volatile如何禁止重排优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内存屏障（Memory-Barrier）"><span class="nav-number">1.8.1.</span> <span class="nav-text">内存屏障（Memory Barrier）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile和synchronized的区别"><span class="nav-number">1.9.</span> <span class="nav-text">volatile和synchronized的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS（Compare-and-Swap）——乐观锁"><span class="nav-number">1.10.</span> <span class="nav-text">CAS（Compare and Swap）——乐观锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#思想"><span class="nav-number">1.10.1.</span> <span class="nav-text">思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS的使用多数情况下是对开发者透明的"><span class="nav-number">1.10.2.</span> <span class="nav-text">CAS的使用多数情况下是对开发者透明的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点："><span class="nav-number">1.10.3.</span> <span class="nav-text">缺点：</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java多线程原理"><span class="nav-number">1.</span> <span class="nav-text">Java多线程原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程安全的主要原因"><span class="nav-number">1.1.</span> <span class="nav-text">线程安全的主要原因</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#互斥锁的特性（原子性、可见性）——synchronized能保证这两点"><span class="nav-number">1.1.1.</span> <span class="nav-text">互斥锁的特性（原子性、可见性）——synchronized能保证这两点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#锁的分类：获取对象锁和获取类锁"><span class="nav-number">1.1.2.</span> <span class="nav-text">锁的分类：获取对象锁和获取类锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Monitor锁的竞争、获取与释放"><span class="nav-number">1.1.3.</span> <span class="nav-text">Monitor锁的竞争、获取与释放</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重入"><span class="nav-number">1.1.4.</span> <span class="nav-text">重入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁"><span class="nav-number">1.1.5.</span> <span class="nav-text">死锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自旋锁与自适应自旋锁"><span class="nav-number">1.2.</span> <span class="nav-text">自旋锁与自适应自旋锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自旋锁"><span class="nav-number">1.2.1.</span> <span class="nav-text">自旋锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自适应自旋锁"><span class="nav-number">1.2.2.</span> <span class="nav-text">自适应自旋锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java中的四种锁"><span class="nav-number">1.3.</span> <span class="nav-text">Java中的四种锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#偏向锁：减少同一线程获取锁的代价（mark-word-01"><span class="nav-number">1.3.1.</span> <span class="nav-text">偏向锁：减少同一线程获取锁的代价（mark word 01)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#偏向锁的获取过程"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">偏向锁的获取过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#偏向锁的释放"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">偏向锁的释放</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#轻量级锁（mark-word-00"><span class="nav-number">1.3.2.</span> <span class="nav-text">轻量级锁（mark word 00)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#轻量级锁的加锁过程"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">轻量级锁的加锁过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#轻量级锁的释放"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">轻量级锁的释放</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重量级锁"><span class="nav-number">1.3.3.</span> <span class="nav-text">重量级锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锁优化"><span class="nav-number">1.4.</span> <span class="nav-text">锁优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#锁消除"><span class="nav-number">1.4.1.</span> <span class="nav-text">锁消除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#锁粗化"><span class="nav-number">1.4.2.</span> <span class="nav-text">锁粗化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#synchronized的四种状态"><span class="nav-number">1.5.</span> <span class="nav-text">synchronized的四种状态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#四种锁的对比："><span class="nav-number">1.5.1.</span> <span class="nav-text">四种锁的对比：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile变量为何立即可见"><span class="nav-number">1.6.</span> <span class="nav-text">volatile变量为何立即可见</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile如何禁止重排优化"><span class="nav-number">1.7.</span> <span class="nav-text">volatile如何禁止重排优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内存屏障（Memory-Barrier）"><span class="nav-number">1.7.1.</span> <span class="nav-text">内存屏障（Memory Barrier）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile和synchronized的区别"><span class="nav-number">1.8.</span> <span class="nav-text">volatile和synchronized的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充：CAS（Compare-and-Swap）——乐观锁"><span class="nav-number">1.9.</span> <span class="nav-text">补充：CAS（Compare and Swap）——乐观锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#思想"><span class="nav-number">1.9.1.</span> <span class="nav-text">思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS的使用多数情况下是对开发者透明的"><span class="nav-number">1.9.2.</span> <span class="nav-text">CAS的使用多数情况下是对开发者透明的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点："><span class="nav-number">1.9.3.</span> <span class="nav-text">缺点：</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

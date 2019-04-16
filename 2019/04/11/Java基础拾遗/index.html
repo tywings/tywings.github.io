@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Java基础拾遗Hash相关首先，可以被hash的值一定是final的，即不可以被改变的，如String。 HashMap相关参数 size - 元素总数量 Capacity - 容量（HashMap中桶的数量），默认为16，且总时2的幂次。 loadFactor - 装载因子（衡量HashMap满的程度，实时装载因子 = size / capacity; 默认0.75f） threshold -">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础拾遗">
+<meta property="og:url" content="http://yoursite.com/2019/04/11/Java基础拾遗/index.html">
+<meta property="og:site_name" content="Java面试后端开发技术总结">
+<meta property="og:description" content="Java基础拾遗Hash相关首先，可以被hash的值一定是final的，即不可以被改变的，如String。 HashMap相关参数 size - 元素总数量 Capacity - 容量（HashMap中桶的数量），默认为16，且总时2的幂次。 loadFactor - 装载因子（衡量HashMap满的程度，实时装载因子 = size / capacity; 默认0.75f） threshold -">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/04/11/Java基础拾遗/control.png">
+<meta property="og:updated_time" content="2019-04-15T15:55:56.914Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java基础拾遗">
+<meta name="twitter:description" content="Java基础拾遗Hash相关首先，可以被hash的值一定是final的，即不可以被改变的，如String。 HashMap相关参数 size - 元素总数量 Capacity - 容量（HashMap中桶的数量），默认为16，且总时2的幂次。 loadFactor - 装载因子（衡量HashMap满的程度，实时装载因子 = size / capacity; 默认0.75f） threshold -">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/11/Java基础拾遗/control.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/11/Java基础拾遗/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Java基础拾遗 | Java面试后端开发技术总结</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/tywings/tywings.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Java面试后端开发技术总结</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/Java基础拾遗/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ty.Wings">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Java面试后端开发技术总结">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java基础拾遗
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-11 16:16:19" itemprop="dateCreated datePublished" datetime="2019-04-11T16:16:19+08:00">2019-04-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-15 23:55:56" itemprop="dateModified" datetime="2019-04-15T23:55:56+08:00">2019-04-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Java基础拾遗"><a href="#Java基础拾遗" class="headerlink" title="Java基础拾遗"></a>Java基础拾遗</h1><h2 id="Hash相关"><a href="#Hash相关" class="headerlink" title="Hash相关"></a>Hash相关</h2><p>首先，可以被hash的值一定是<strong>final</strong>的，即<strong>不可以被改变</strong>的，如String。</p>
+<h3 id="HashMap相关参数"><a href="#HashMap相关参数" class="headerlink" title="HashMap相关参数"></a>HashMap相关参数</h3><ul>
+<li>size - 元素总数量</li>
+<li>Capacity - 容量（HashMap中桶的数量），默认为16，且总时2的幂次。</li>
+<li>loadFactor - 装载因子（衡量HashMap满的程度，实时装载因子 = size / capacity; 默认0.75f）</li>
+<li>threshold - 门限值（当size大于threshold时触发resize操作。threshold = capacity x loadFactor）</li>
+</ul>
+<blockquote>
+<p>HashMap为了存取高效，要尽量较少碰撞，就是要尽量把数据分配均匀，每个链表长度大致相同，这个实现就在把数据存到哪个链表中的算法；</p>
+<p>这个算法实际就是取模，hash%length，计算机中直接求余效率不如位移运算，源码中做了优化hash&amp;(length-1)， <strong>hash%length==hash&amp;(length-1)</strong>的前提是length是2的n次方；</p>
+<p>为什么这样能均匀分布减少碰撞呢？2的n次方实际就是1后面n个0，2的n次方-1  实际就是n个1； 例如长度为9时候，3&amp;(9-1)=0  2&amp;(9-1)=0 ，都在0上，碰撞了； 例如长度为8时候，3&amp;(8-1)=3  2&amp;(8-1)=2 ，不同位置上，不碰撞；</p>
+</blockquote>
+<h3 id="解决哈希冲突的方法"><a href="#解决哈希冲突的方法" class="headerlink" title="解决哈希冲突的方法"></a>解决哈希冲突的方法</h3><ol>
+<li><p>拉链法：Java HashMap实现的方法，不深说</p>
+</li>
+<li><p>开放地址法</p>
+</li>
+</ol>
+<ul>
+<li>开放地址法有个非常关键的特征，就是所有输入的元素全部存放在哈希表里，也就是说，位桶的实现是不需要任何的链表来实现的，换句话说，也就是这个哈希表的<strong>装载因子不会超过1</strong>。它的实现是在插入一个元素的时候，先通过哈希函数进行判断，若是发生哈希冲突，就以当前地址为基准，根据再寻址的方法（探查序列），去寻找下一个地址，若发生冲突再去寻找，直至找到一个为空的地址为止。</li>
+</ul>
+<ol start="3">
+<li>再散列法</li>
+</ol>
+<ul>
+<li>再散列法其实很简单，就是<strong>再使用另一个哈希函数去散列</strong>一个输入的时候，输出是同一个位置就再次散列，直至不发生冲突位置</li>
+</ul>
+<ol start="4">
+<li>建立公共溢出区</li>
+</ol>
+<ul>
+<li>将哈希表分为基本表和溢出表两部分，凡是和基本表发生冲突的元素，一律填入溢出表</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (Map.Entry&lt;Integer, Integer&gt; entry : hashmap.entrySet()) &#123;</span><br><span class="line">    System.out.print(<span class="string">"("</span> + entry.getKey() + <span class="string">","</span> + entry.getValue() + <span class="string">") "</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="equals-和hashCode"><a href="#equals-和hashCode" class="headerlink" title="equals()和hashCode()"></a>equals()和hashCode()</h2><p><strong>而涉及到HashMap的时候，重写了equals()，就需要重写hashCode()</strong>  </p>
+<p>Object版本的equal只是简单地判断是不是<strong>同一个</strong>实例。但是有的时候，我们想要的的是逻辑上的相等。比如有一个学生类student，有一个属性studentID，只要studentID相等，不是同一个实例我们也认为是同一学生。当我们认为判定equals的相等应该是逻辑上的相等而不是只是判断是不是内存中的同一个东西的时候，就需要重写equal()。  但是hashMap是通过hashCode()来判断相同的，因此此时若不重写hashcode方法，则hashMap就会出错。</p>
+<h2 id="Comparable-和-Comparator的区别"><a href="#Comparable-和-Comparator的区别" class="headerlink" title="Comparable 和 Comparator的区别"></a>Comparable 和 Comparator的区别</h2><p>Comparable是某个实体类内部实现的比较功能，其接口含义也表示该实体的可比较的（其泛型往往就是该实体类型）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Demo o)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Comparator是从外部类构造的方式对实体类进行排序：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Integer o1, Integer o2)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="访问控制符的区别"><a href="#访问控制符的区别" class="headerlink" title="访问控制符的区别"></a>访问控制符的区别</h2><p><img src="/2019/04/11/Java基础拾遗/control.png" alt></p>
+<p>注：default控制符如果子类和父类在同一个包中，则可以访问，如果在不同的包里，则不可访问。</p>
+<h2 id="继承与组合的区别"><a href="#继承与组合的区别" class="headerlink" title="继承与组合的区别"></a>继承与组合的区别</h2><h3 id="继承（is-a关系）"><a href="#继承（is-a关系）" class="headerlink" title="继承（is-a关系）"></a>继承（is-a关系）</h3><ul>
+<li>代码复用</li>
+<li>子类可以重写父类方法</li>
+<li>创建子类对象时，无需创建父类对象，子类自动拥有父类的成员变量和行为</li>
+<li>子类在父类的基础上可根据自己的业务需求扩展</li>
+<li>会破坏封装（子类的访问控制符不能低于父类访问控制符的级别）</li>
+</ul>
+<h3 id="组合（has-a关系）"><a href="#组合（has-a关系）" class="headerlink" title="组合（has-a关系）"></a>组合（has-a关系）</h3><ul>
+<li>不破坏封装，松耦合</li>
+<li>具有可扩展性</li>
+<li>支持动态组合</li>
+</ul>
+<h2 id="绑定（解释什么是多态）"><a href="#绑定（解释什么是多态）" class="headerlink" title="绑定（解释什么是多态）"></a>绑定（解释什么是多态）</h2><h3 id="静态绑定"><a href="#静态绑定" class="headerlink" title="静态绑定"></a>静态绑定</h3><ul>
+<li>final static private 在程序执行前已经被棒顶，也就是说在编译过程中就已经知道这个方法是哪个类的方法。<ul>
+<li>private：不能被继承，则不能通过子类对象调用，而只能通过类本身的对象进行调用，所以可以说private方法和方法所属的类绑定；</li>
+<li>final：final方法虽然可以被继承，但是不能被重写（覆盖），虽然子类对象可以调用，但是调用的都是父类中的final方法（因此可以看出当类中的方法声明为final的时候，一是为了防止方法被覆盖，而是为了有效关闭java的动态绑定）；</li>
+<li>static：static方法可以被子类继承，但是不能被子类重写（覆盖），但是可以被子类隐藏。（这里意思是说如果父类里有一个static方法，它的子类里如果没有对应的方法，那么当子类对象调用这个方法时就会使用父类中的方法。而如果子类中定义了相同的方法，则会调用子类的中定义的方法。唯一的不同就是，当子类对象上转型为父类对象时，不论子类中有没有定义这个静态方法，该对象都会使用父类中的静态方法。因此这里说静态方法可以被隐藏而不能被覆盖。这与子类隐藏父类中的成员变量是一样的。隐藏和覆盖的区别在于，子类对象转换成父类对象后，能够访问父类被隐藏的变量和方法，而不能访问父类被覆盖的方法）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="动态绑定"><a href="#动态绑定" class="headerlink" title="动态绑定"></a>动态绑定</h3><ul>
+<li>调用的方法依赖于隐式参数的实际类型，并且在运行时实现动态绑定。动态绑定的过程分为以下几个环节：<ul>
+<li>编译器查看对象的声明类型和方法名；</li>
+<li>编译器查看调用方法时提供的参数类型。例如x.f(“hello”)，编译器将会挑选f(String)，而不是f(int)，由于存在类型转换（int转换为double），所以可能会更复杂。如果编译器没找到参数类型匹配的方法，或者发现有多个方法与之匹配，就会报告一个错误。</li>
+<li><strong>至此，编译器获得了需要调用的方法名字和参数类型</strong></li>
+<li>采用动态绑定调用方法的时候，一定调用与所引用对象的实际类型最合适的类的方法。如果x的实际类型是D，它是C类的子类，如果D定义了一个方法f(String)，就直接调用它，否则将在D类的超类中寻找f(String)，以此类推。<ul>
+<li>每次调用方法都要进行搜索，时间开销太大，所以虚拟机预先为每个类创建一个方法表（method table），其中列出了所有方法的签名和实际调用的方法。这样在调用方法的时候，只需要查找这个表即可。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="什么是多态"><a href="#什么是多态" class="headerlink" title="什么是多态"></a>什么是多态</h3><ul>
+<li>所谓多态就是指程序中定义的引用变量所指向的具体类型和通过该引用变量发出的方法调用在编程时并不确定，而是在程序运行期间才确定，即一个引用变量倒底会指向哪个类的实例对象，该引用变量发出的方法调用到底是哪个类中实现的方法，必须在由程序运行期间才能决定。因为在程序运行时才确定具体的类，这样，不用修改源程序代码，就可以让引用变量绑定到各种不同的类实现上，从而导致该引用调用的具体方法随之改变，即不修改程序代码就可以改变程序运行时所绑定的具体代码，让程序可以选择多个运行状态，这就是多态性。</li>
+<li>Java实现多态有三个必要条件：继承、重写、向上转型。</li>
+</ul>
+<h2 id="自动装箱与拆箱（Autoboxing-and-unboxing）"><a href="#自动装箱与拆箱（Autoboxing-and-unboxing）" class="headerlink" title="自动装箱与拆箱（Autoboxing and unboxing）"></a>自动装箱与拆箱（Autoboxing and unboxing）</h2><p>Java是一种面向对象语言，很多地方都需要使用对象而不是基本数据类型。比如，在集合类中，我们是无法将int 、double等类型放进去的。因为集合的容器要求元素是Object类型。</p>
+<p>装箱就是自动将基本数据类型转换为包装器类型（对象）；拆箱就是自动将包装器类型转换为基本数据类型。</p>
+<p>自动装箱：Integer i = 100;相当于编译器自动作以下的语法编译：Integer i = Integer.valueOf(100);</p>
+<p>自动拆箱：int i = integer.intValue();</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="Ty.Wings wechat" style="width: 200px; max-width: 100%;">
+  <div>欢迎您订阅我的公众号，并在GitHub上为我Star！</div>
+</div>
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/11/不熟悉的面试题/" rel="next" title="不熟悉的面试题">
+                <i class="fa fa-chevron-left"></i> 不熟悉的面试题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/15/NIO/" rel="prev" title="NIO">
+                NIO <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Ty.Wings</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">42</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java基础拾遗"><span class="nav-number">1.</span> <span class="nav-text">Java基础拾遗</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hash相关"><span class="nav-number">1.1.</span> <span class="nav-text">Hash相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap相关参数"><span class="nav-number">1.1.1.</span> <span class="nav-text">HashMap相关参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决哈希冲突的方法"><span class="nav-number">1.1.2.</span> <span class="nav-text">解决哈希冲突的方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#equals-和hashCode"><span class="nav-number">1.2.</span> <span class="nav-text">equals()和hashCode()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Comparable-和-Comparator的区别"><span class="nav-number">1.3.</span> <span class="nav-text">Comparable 和 Comparator的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问控制符的区别"><span class="nav-number">1.4.</span> <span class="nav-text">访问控制符的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承与组合的区别"><span class="nav-number">1.5.</span> <span class="nav-text">继承与组合的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#继承（is-a关系）"><span class="nav-number">1.5.1.</span> <span class="nav-text">继承（is-a关系）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组合（has-a关系）"><span class="nav-number">1.5.2.</span> <span class="nav-text">组合（has-a关系）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绑定（解释什么是多态）"><span class="nav-number">1.6.</span> <span class="nav-text">绑定（解释什么是多态）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态绑定"><span class="nav-number">1.6.1.</span> <span class="nav-text">静态绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态绑定"><span class="nav-number">1.6.2.</span> <span class="nav-text">动态绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是多态"><span class="nav-number">1.6.3.</span> <span class="nav-text">什么是多态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动装箱与拆箱（Autoboxing-and-unboxing）"><span class="nav-number">1.7.</span> <span class="nav-text">自动装箱与拆箱（Autoboxing and unboxing）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ty.Wings</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

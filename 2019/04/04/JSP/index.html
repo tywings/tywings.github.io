@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Java Web入门——JSP常用语法：1234567891011121314151617&amp;lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; contentType=&quot;text/html; charset=utf-8&quot;%&amp;gt;&amp;lt;!-- 客户端可见，html注释--&amp;gt;&amp;lt;%--jsp注释，客户端不可见 --%&amp;gt;&amp;lt;% // j">
+<meta name="keywords" content="JSP,request,response,session,cookie,page,application">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSP">
+<meta property="og:url" content="http://yoursite.com/2019/04/04/JSP/index.html">
+<meta property="og:site_name" content="Java面试后端开发技术总结">
+<meta property="og:description" content="Java Web入门——JSP常用语法：1234567891011121314151617&amp;lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; contentType=&quot;text/html; charset=utf-8&quot;%&amp;gt;&amp;lt;!-- 客户端可见，html注释--&amp;gt;&amp;lt;%--jsp注释，客户端不可见 --%&amp;gt;&amp;lt;% // j">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-14T15:31:18.749Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSP">
+<meta name="twitter:description" content="Java Web入门——JSP常用语法：1234567891011121314151617&amp;lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; contentType=&quot;text/html; charset=utf-8&quot;%&amp;gt;&amp;lt;!-- 客户端可见，html注释--&amp;gt;&amp;lt;%--jsp注释，客户端不可见 --%&amp;gt;&amp;lt;% // j">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/04/JSP/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>JSP | Java面试后端开发技术总结</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/tywings/tywings.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Java面试后端开发技术总结</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/04/JSP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ty.Wings">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Java面试后端开发技术总结">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JSP
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-04 21:39:07" itemprop="dateCreated datePublished" datetime="2019-04-04T21:39:07+08:00">2019-04-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-14 23:31:18" itemprop="dateModified" datetime="2019-04-14T23:31:18+08:00">2019-04-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java-Web/" itemprop="url" rel="index"><span itemprop="name">Java Web</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Java-Web入门——JSP"><a href="#Java-Web入门——JSP" class="headerlink" title="Java Web入门——JSP"></a>Java Web入门——JSP</h1><h2 id="常用语法："><a href="#常用语法：" class="headerlink" title="常用语法："></a>常用语法：</h2><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=<span class="string">"java"</span> <span class="keyword">import</span>=<span class="string">"java.util.*"</span> contentType=<span class="string">"text/html; charset=utf-8"</span>%&gt;</span><br><span class="line">&lt;!-- 客户端可见，html注释--&gt;</span><br><span class="line">&lt;%--jsp注释，客户端不可见 --%&gt;</span><br><span class="line">&lt;% <span class="comment">// jsp脚本，注释在客户端不可见。</span></span><br><span class="line">out.println(<span class="string">"hehehhehe"</span>);</span><br><span class="line">%&gt;</span><br><span class="line">&lt;%-- Java代码：声明 --%&gt;</span><br><span class="line">&lt;%!</span><br><span class="line">    String s = <span class="string">"张三"</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x+y;</span><br><span class="line">&#125;</span><br><span class="line">%&gt;</span><br><span class="line"></span><br><span class="line">&lt;%-- Java代码：表达式，不以;结束 --%&gt;</span><br><span class="line">s= &lt;%=s %&gt;&lt;br&gt;</span><br><span class="line">x+y= &lt;%=add(<span class="number">1</span>, <span class="number">2</span>) %&gt;&lt;br&gt;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p><strong>&lt;% %&gt;</strong>叫做脚本片段，其中写的内容会翻译在Servlet的Service方法中，显然我们可以在Service方法中定义局部变量或者调用其他方法，但是不能在Service中再定义其他的方法，也就是我们可以在&lt;%%&gt;中定义局部变量或者调用方法，但不能定义方法。在jsp页面可以有多个脚本片段，但是多个脚本片段之间要保证结构完整。</p>
+</li>
+<li><p><strong>&lt;%!%&gt;</strong>称作声明，其中写的内容将来会直接翻译在Servlet类中，因为我们可以在类中定义方法和属性以及全局变量，所以我们可以在&lt;%!%&gt;中声明方法、属性、全局变量。</p>
+</li>
+<li><p><strong>&lt;%=%&gt;</strong>称作jsp表达式，用于将已经声明的变量或者表达式输出到网页上面。</p>
+</li>
+<li><p>直接写在jsp页面”\<body>\</body>“中的代码称作模板元素，将来会Servlet的Service方法中的out.write(“___”)中，作为输出内容。</p>
+</li>
+</ol>
+<h2 id="JSP页面生命周期"><a href="#JSP页面生命周期" class="headerlink" title="JSP页面生命周期"></a>JSP页面生命周期</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">st=&gt;start: Start</span><br><span class="line">request=&gt;operation: 用户发出请求index.jsp</span><br><span class="line">cond=&gt;condition: 是否是第一次请求？</span><br><span class="line">compile=&gt;operation: JSP引擎把该JSP文件转换成为一个Servlet，生成字节码文件，并执行jspInit()</span><br><span class="line">binary=&gt;operation: 生成的字节码文件</span><br><span class="line">jspService=&gt;operation: 解析执行，jspService()</span><br><span class="line">e=&gt;end</span><br><span class="line"></span><br><span class="line">st-&gt;request-&gt;cond</span><br><span class="line">cond(yes)-&gt;compile-&gt;binary</span><br><span class="line">cond(no)-&gt;binary-&gt;jspService-&gt;e</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>jspService()方法被调用来处理客户端的请求。对于每一个请求，JSP引擎创建一个新的线程来处理该请求。如果有多个客户端同时请求该JSP文件，则JSP引擎会创建多个线程。每个客户端请求对应一个线程。以多线程的方式执行可以大大降低对系统的资源需求，提高系统的并发量及响应时间。但也会带来多线程同步问题。由于该Servlet始终驻于内存，所以响应非常快。</p>
+</blockquote>
+<h2 id="JSP内置对象"><a href="#JSP内置对象" class="headerlink" title="JSP内置对象"></a>JSP内置对象</h2><p>JSP内置对象是web容器创建的一组对象，不适用new关键字就可以使用的内置对象（例如out）。</p>
+<h3 id="常用内置对象："><a href="#常用内置对象：" class="headerlink" title="常用内置对象："></a>常用内置对象：</h3><ul>
+<li>out：<ul>
+<li>JspWriter类的实例，是向客户端输出内容常用的对象。</li>
+<li>void println() 向客户端打印字符串</li>
+<li>void clear() 清除缓冲区的内容，<strong>如果在flush之后调用会抛出异常</strong></li>
+<li>void clearBuffer() 清除缓冲区内容，<strong>如果在flush之后调用不会抛出异常</strong></li>
+<li>void flush() 将缓冲区内容输出到客户端</li>
+<li>int getBufferSize() 返回缓冲区以字节数的大小，如不设缓冲区则为0</li>
+<li>int getRemaining() 返回缓冲区还剩余多少可用</li>
+<li>boolean isAutoFlush() 返回缓冲区满时，自动清空/抛出异常</li>
+<li>void close() 关闭输出流</li>
+</ul>
+</li>
+<li>request<ul>
+<li>客户端的请求信息，他是HttpServletRequest类的实例。</li>
+<li>String getParameter(String name) 返回name指定参数的参数值</li>
+<li>String[] getParameterValues(String name) 返回包含参数name的所有值的数组（checkbox多选）</li>
+<li>void setAttribute(String, Object) 储存此请求中的属性</li>
+<li>object getAttribute(String name) 返回指定属性的属性值</li>
+<li>String getContentType() 得到请求体的MIME类型</li>
+<li>String getProtocol() 返回请求用的协议类型及版本号</li>
+<li>String getServerName() 返回接受请求的服务器主机名</li>
+<li>request.setCharacterEncoding(“utf-8”) 解决中文乱码问题</li>
+</ul>
+</li>
+<li>response</li>
+<li>session</li>
+<li>application</li>
+<li>不常用的：<ul>
+<li>Page</li>
+<li>pageContext</li>
+<li>exception</li>
+<li>config</li>
+</ul>
+</li>
+</ul>
+<h2 id="JavaBean"><a href="#JavaBean" class="headerlink" title="JavaBean"></a>JavaBean</h2><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">"myUsers"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"com.po.Users"</span> scope=<span class="string">"page"</span>/&gt;</span><br><span class="line">&lt;h1&gt;setProperty动作元素&lt;/h1&gt;</span><br><span class="line">&lt;hr&gt;</span><br><span class="line">&lt;!--根据表单自动匹配所有的属性 --&gt;</span><br><span class="line">&lt;%-- </span><br><span class="line">    &lt;jsp:setProperty name=<span class="string">"myUsers"</span> property=<span class="string">"*"</span>/&gt;  </span><br><span class="line">   --%&gt;</span><br><span class="line">&lt;!--根据表单匹配所有部分的属性 --&gt;</span><br><span class="line">&lt;%-- </span><br><span class="line">    &lt;jsp:setProperty name=<span class="string">"myUsers"</span> property=<span class="string">"username"</span>/&gt;  </span><br><span class="line">   --%&gt;</span><br><span class="line">&lt;!--根表单无关，通过手工赋值给属性 --&gt;</span><br><span class="line">&lt;%-- </span><br><span class="line">   &lt;jsp:setProperty name=<span class="string">"myUsers"</span> property=<span class="string">"username"</span> value=<span class="string">"lisi"</span>/&gt;</span><br><span class="line">   &lt;jsp:setProperty name=<span class="string">"myUsers"</span> property=<span class="string">"password"</span> value=<span class="string">"888888"</span>/&gt;</span><br><span class="line">   --%&gt;</span><br><span class="line">&lt;!--通过URL传参数给属性赋值 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">"myUsers"</span> property=<span class="string">"username"</span>/&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">"myUsers"</span> property=<span class="string">"password"</span> param=<span class="string">"mypass"</span>/&gt;</span><br><span class="line">&lt;!-- 使用传统的表达式方式来获取用户名和密码 --&gt;</span><br><span class="line">&lt;%--     </span><br><span class="line">    用户名：&lt;%=myUsers.getUsername() %&gt;&lt;br&gt;</span><br><span class="line">	密码：&lt;%=myUsers.getPassword() %&gt;&lt;br&gt; </span><br><span class="line">--%&gt;</span><br><span class="line">&lt;!-- 使用getProperty方式来获取用户名和密码 --&gt;</span><br><span class="line">用户名：&lt;jsp:getProperty name=<span class="string">"myUsers"</span> property=<span class="string">"username"</span>/&gt; &lt;br&gt;</span><br><span class="line">密码：&lt;jsp:getProperty name=<span class="string">"myUsers"</span> property=<span class="string">"password"</span>/&gt;&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="request-getAttribute-s-amp-request-getParameter-s-区别"><a href="#request-getAttribute-s-amp-request-getParameter-s-区别" class="headerlink" title="request.getAttribute(s); &amp; request.getParameter(s);区别"></a>request.getAttribute(s); &amp; request.getParameter(s);区别</h2><p>getAttribute(s)是request域的一个属性，只能由request.setAttribute(k, v);放入</p>
+<p>getParameters(s)获取的值是URL传递过来的值</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="Ty.Wings wechat" style="width: 200px; max-width: 100%;">
+  <div>欢迎您订阅我的公众号，并在GitHub上为我Star！</div>
+</div>
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JSP/" rel="tag"># JSP</a>
+          
+            <a href="/tags/request/" rel="tag"># request</a>
+          
+            <a href="/tags/response/" rel="tag"># response</a>
+          
+            <a href="/tags/session/" rel="tag"># session</a>
+          
+            <a href="/tags/cookie/" rel="tag"># cookie</a>
+          
+            <a href="/tags/page/" rel="tag"># page</a>
+          
+            <a href="/tags/application/" rel="tag"># application</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/25/ThreadPool/" rel="next" title="线程池">
+                <i class="fa fa-chevron-left"></i> 线程池
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/07/filter/" rel="prev" title="Java Web 过滤器">
+                Java Web 过滤器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Ty.Wings</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">42</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-Web入门——JSP"><span class="nav-number">1.</span> <span class="nav-text">Java Web入门——JSP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用语法："><span class="nav-number">1.1.</span> <span class="nav-text">常用语法：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP页面生命周期"><span class="nav-number">1.2.</span> <span class="nav-text">JSP页面生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP内置对象"><span class="nav-number">1.3.</span> <span class="nav-text">JSP内置对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常用内置对象："><span class="nav-number">1.3.1.</span> <span class="nav-text">常用内置对象：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaBean"><span class="nav-number">1.4.</span> <span class="nav-text">JavaBean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#request-getAttribute-s-amp-request-getParameter-s-区别"><span class="nav-number">1.5.</span> <span class="nav-text">request.getAttribute(s); &amp; request.getParameter(s);区别</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ty.Wings</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
