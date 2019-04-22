@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="Java Web入门——JSP常用语法：1234567891011121314151617&amp;lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; contentType=&quot;text/html; charset=utf-8&quot;%&amp;gt;&amp;lt;!-- 客户端可见，html注释--&amp;gt;&amp;lt;%--jsp注释，客户端不可见 --%&amp;gt;&amp;lt;% // j">
+  <meta name="description" content="Java Web入门——JSPjsp本质就是servlet，运行在服务器端，处理请求并生成动态内容。对应的java和class文件在tomcat目录下的work目录。 常用语法：1234567891011121314151617&amp;lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; contentType=&quot;text/html; charset=utf-8">
 <meta name="keywords" content="JSP,request,response,session,cookie,page,application">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JSP">
 <meta property="og:url" content="http://yoursite.com/2019/04/04/JSP/index.html">
 <meta property="og:site_name" content="Java面试后端开发技术总结">
-<meta property="og:description" content="Java Web入门——JSP常用语法：1234567891011121314151617&amp;lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; contentType=&quot;text/html; charset=utf-8&quot;%&amp;gt;&amp;lt;!-- 客户端可见，html注释--&amp;gt;&amp;lt;%--jsp注释，客户端不可见 --%&amp;gt;&amp;lt;% // j">
+<meta property="og:description" content="Java Web入门——JSPjsp本质就是servlet，运行在服务器端，处理请求并生成动态内容。对应的java和class文件在tomcat目录下的work目录。 常用语法：1234567891011121314151617&amp;lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; contentType=&quot;text/html; charset=utf-8">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-14T15:31:18.749Z">
+<meta property="og:updated_time" content="2019-04-22T02:19:16.495Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JSP">
-<meta name="twitter:description" content="Java Web入门——JSP常用语法：1234567891011121314151617&amp;lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; contentType=&quot;text/html; charset=utf-8&quot;%&amp;gt;&amp;lt;!-- 客户端可见，html注释--&amp;gt;&amp;lt;%--jsp注释，客户端不可见 --%&amp;gt;&amp;lt;% // j">
+<meta name="twitter:description" content="Java Web入门——JSPjsp本质就是servlet，运行在服务器端，处理请求并生成动态内容。对应的java和class文件在tomcat目录下的work目录。 常用语法：1234567891011121314151617&amp;lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; contentType=&quot;text/html; charset=utf-8">
 
 
 
@@ -401,7 +401,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-14 23:31:18" itemprop="dateModified" datetime="2019-04-14T23:31:18+08:00">2019-04-14</time>
+                <time title="修改时间：2019-04-22 10:19:16" itemprop="dateModified" datetime="2019-04-22T10:19:16+08:00">2019-04-22</time>
               
             
           </span>
@@ -460,7 +460,8 @@
       
 
       
-        <h1 id="Java-Web入门——JSP"><a href="#Java-Web入门——JSP" class="headerlink" title="Java Web入门——JSP"></a>Java Web入门——JSP</h1><h2 id="常用语法："><a href="#常用语法：" class="headerlink" title="常用语法："></a>常用语法：</h2><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=<span class="string">"java"</span> <span class="keyword">import</span>=<span class="string">"java.util.*"</span> contentType=<span class="string">"text/html; charset=utf-8"</span>%&gt;</span><br><span class="line">&lt;!-- 客户端可见，html注释--&gt;</span><br><span class="line">&lt;%--jsp注释，客户端不可见 --%&gt;</span><br><span class="line">&lt;% <span class="comment">// jsp脚本，注释在客户端不可见。</span></span><br><span class="line">out.println(<span class="string">"hehehhehe"</span>);</span><br><span class="line">%&gt;</span><br><span class="line">&lt;%-- Java代码：声明 --%&gt;</span><br><span class="line">&lt;%!</span><br><span class="line">    String s = <span class="string">"张三"</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x+y;</span><br><span class="line">&#125;</span><br><span class="line">%&gt;</span><br><span class="line"></span><br><span class="line">&lt;%-- Java代码：表达式，不以;结束 --%&gt;</span><br><span class="line">s= &lt;%=s %&gt;&lt;br&gt;</span><br><span class="line">x+y= &lt;%=add(<span class="number">1</span>, <span class="number">2</span>) %&gt;&lt;br&gt;</span><br></pre></td></tr></table></figure>
+        <h1 id="Java-Web入门——JSP"><a href="#Java-Web入门——JSP" class="headerlink" title="Java Web入门——JSP"></a>Java Web入门——JSP</h1><p>jsp本质就是servlet，运行在服务器端，处理请求并生成动态内容。对应的java和class文件在tomcat目录下的work目录。</p>
+<h2 id="常用语法："><a href="#常用语法：" class="headerlink" title="常用语法："></a>常用语法：</h2><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=<span class="string">"java"</span> <span class="keyword">import</span>=<span class="string">"java.util.*"</span> contentType=<span class="string">"text/html; charset=utf-8"</span>%&gt;</span><br><span class="line">&lt;!-- 客户端可见，html注释--&gt;</span><br><span class="line">&lt;%--jsp注释，客户端不可见 --%&gt;</span><br><span class="line">&lt;% <span class="comment">// jsp脚本，注释在客户端不可见。</span></span><br><span class="line">out.println(<span class="string">"hehehhehe"</span>);</span><br><span class="line">%&gt;</span><br><span class="line">&lt;%-- Java代码：声明 --%&gt;</span><br><span class="line">&lt;%!</span><br><span class="line">    String s = <span class="string">"张三"</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x+y;</span><br><span class="line">&#125;</span><br><span class="line">%&gt;</span><br><span class="line"></span><br><span class="line">&lt;%-- Java代码：表达式，不以;结束 --%&gt;</span><br><span class="line">s= &lt;%=s %&gt;&lt;br&gt;</span><br><span class="line">x+y= &lt;%=add(<span class="number">1</span>, <span class="number">2</span>) %&gt;&lt;br&gt;</span><br></pre></td></tr></table></figure>
 <ol>
 <li><p><strong>&lt;% %&gt;</strong>叫做脚本片段，其中写的内容会翻译在Servlet的Service方法中，显然我们可以在Service方法中定义局部变量或者调用其他方法，但是不能在Service中再定义其他的方法，也就是我们可以在&lt;%%&gt;中定义局部变量或者调用方法，但不能定义方法。在jsp页面可以有多个脚本片段，但是多个脚本片段之间要保证结构完整。</p>
 </li>
@@ -515,6 +516,22 @@
 <h2 id="JavaBean"><a href="#JavaBean" class="headerlink" title="JavaBean"></a>JavaBean</h2><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;jsp:useBean id=<span class="string">"myUsers"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"com.po.Users"</span> scope=<span class="string">"page"</span>/&gt;</span><br><span class="line">&lt;h1&gt;setProperty动作元素&lt;/h1&gt;</span><br><span class="line">&lt;hr&gt;</span><br><span class="line">&lt;!--根据表单自动匹配所有的属性 --&gt;</span><br><span class="line">&lt;%-- </span><br><span class="line">    &lt;jsp:setProperty name=<span class="string">"myUsers"</span> property=<span class="string">"*"</span>/&gt;  </span><br><span class="line">   --%&gt;</span><br><span class="line">&lt;!--根据表单匹配所有部分的属性 --&gt;</span><br><span class="line">&lt;%-- </span><br><span class="line">    &lt;jsp:setProperty name=<span class="string">"myUsers"</span> property=<span class="string">"username"</span>/&gt;  </span><br><span class="line">   --%&gt;</span><br><span class="line">&lt;!--根表单无关，通过手工赋值给属性 --&gt;</span><br><span class="line">&lt;%-- </span><br><span class="line">   &lt;jsp:setProperty name=<span class="string">"myUsers"</span> property=<span class="string">"username"</span> value=<span class="string">"lisi"</span>/&gt;</span><br><span class="line">   &lt;jsp:setProperty name=<span class="string">"myUsers"</span> property=<span class="string">"password"</span> value=<span class="string">"888888"</span>/&gt;</span><br><span class="line">   --%&gt;</span><br><span class="line">&lt;!--通过URL传参数给属性赋值 --&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">"myUsers"</span> property=<span class="string">"username"</span>/&gt;</span><br><span class="line">&lt;jsp:setProperty name=<span class="string">"myUsers"</span> property=<span class="string">"password"</span> param=<span class="string">"mypass"</span>/&gt;</span><br><span class="line">&lt;!-- 使用传统的表达式方式来获取用户名和密码 --&gt;</span><br><span class="line">&lt;%--     </span><br><span class="line">    用户名：&lt;%=myUsers.getUsername() %&gt;&lt;br&gt;</span><br><span class="line">	密码：&lt;%=myUsers.getPassword() %&gt;&lt;br&gt; </span><br><span class="line">--%&gt;</span><br><span class="line">&lt;!-- 使用getProperty方式来获取用户名和密码 --&gt;</span><br><span class="line">用户名：&lt;jsp:getProperty name=<span class="string">"myUsers"</span> property=<span class="string">"username"</span>/&gt; &lt;br&gt;</span><br><span class="line">密码：&lt;jsp:getProperty name=<span class="string">"myUsers"</span> property=<span class="string">"password"</span>/&gt;&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br></pre></td></tr></table></figure>
 <h2 id="request-getAttribute-s-amp-request-getParameter-s-区别"><a href="#request-getAttribute-s-amp-request-getParameter-s-区别" class="headerlink" title="request.getAttribute(s); &amp; request.getParameter(s);区别"></a>request.getAttribute(s); &amp; request.getParameter(s);区别</h2><p>getAttribute(s)是request域的一个属性，只能由request.setAttribute(k, v);放入</p>
 <p>getParameters(s)获取的值是URL传递过来的值</p>
+<h2 id="JSP中四种会话跟踪技术（四大作用域）"><a href="#JSP中四种会话跟踪技术（四大作用域）" class="headerlink" title="JSP中四种会话跟踪技术（四大作用域）"></a>JSP中四种会话跟踪技术（四大作用域）</h2><ul>
+<li>application域 数据在一个应用服务器范围内有效，通过application对象访问</li>
+<li>session域 数据在一次会话范围内容有效，通过session对象访问</li>
+<li>request域 数据在一个服务器请求范围内有效，通过request对象访问</li>
+<li>page域（pageContext）  数据在一个页面范围内有效，通过pageContext对象访问</li>
+</ul>
+<p>JSP一共有以下6中基本动作</p>
+<p>  JSP：include       （当页面被请求的时候引入一个文件）</p>
+<p>  JSP：forward      （将请求转到另一个页面）</p>
+<p>  JSP：useBean     （获得JavaBean的一个实例）</p>
+<p>  JSP：setProperty （设置JavaBean的属性）</p>
+<p>  JSP：getProperty （获得JavaBean的属性）</p>
+<p>  JSP：plugin         （根据浏览器类型为Java插件生成object或者embed两种标记）</p>
+<p>&lt;%!%&gt; 表示声明一个变量<br>&lt;%%&gt;表示所执行的jsp语句块,也就是相应的java代码<br>&lt;%=%&gt;相当于&lt;%out.println(“字符串”);%&gt;,在网页中显示某一个变量或某一个表达式的值</p>
+<p>   <strong>声明： 将声明的变量和方法，作为Servlet类的变量和方法。</strong></p>
+<p>   <strong>脚本： 将代码插入到Servlet的service方法中。</strong></p>
 
       
     </div>
@@ -650,7 +667,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -685,7 +702,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -786,7 +807,21 @@
                     
                       
                     
-                    <span class="site-state-item-count">42</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">49</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -824,7 +859,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-Web入门——JSP"><span class="nav-number">1.</span> <span class="nav-text">Java Web入门——JSP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用语法："><span class="nav-number">1.1.</span> <span class="nav-text">常用语法：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP页面生命周期"><span class="nav-number">1.2.</span> <span class="nav-text">JSP页面生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP内置对象"><span class="nav-number">1.3.</span> <span class="nav-text">JSP内置对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常用内置对象："><span class="nav-number">1.3.1.</span> <span class="nav-text">常用内置对象：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaBean"><span class="nav-number">1.4.</span> <span class="nav-text">JavaBean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#request-getAttribute-s-amp-request-getParameter-s-区别"><span class="nav-number">1.5.</span> <span class="nav-text">request.getAttribute(s); &amp; request.getParameter(s);区别</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-Web入门——JSP"><span class="nav-number">1.</span> <span class="nav-text">Java Web入门——JSP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用语法："><span class="nav-number">1.1.</span> <span class="nav-text">常用语法：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP页面生命周期"><span class="nav-number">1.2.</span> <span class="nav-text">JSP页面生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP内置对象"><span class="nav-number">1.3.</span> <span class="nav-text">JSP内置对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常用内置对象："><span class="nav-number">1.3.1.</span> <span class="nav-text">常用内置对象：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaBean"><span class="nav-number">1.4.</span> <span class="nav-text">JavaBean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#request-getAttribute-s-amp-request-getParameter-s-区别"><span class="nav-number">1.5.</span> <span class="nav-text">request.getAttribute(s); &amp; request.getParameter(s);区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP中四种会话跟踪技术（四大作用域）"><span class="nav-number">1.6.</span> <span class="nav-text">JSP中四种会话跟踪技术（四大作用域）</span></a></li></ol></li></ol></div>
             
 
           </div>

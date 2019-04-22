@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Spring入门阶段一——IOC什么是Bean？Spring Bean是被实例的，组装的及被Spring 容器管理的Java对象。 Spring 容器会自动完成@bean对象的实例化。 创建应用对象之间的协作关系的行为称为：装配(wiring)，这就是依赖注入的本质。 Bean的实例化过程 aware 装配  如果bean实现了BeanNameAware接口，spring将bean的id传给set">
+<meta name="keywords" content="Spring,IOC,AOP,DI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring">
+<meta property="og:url" content="http://yoursite.com/2019/04/17/Spring/index.html">
+<meta property="og:site_name" content="Java面试后端开发技术总结">
+<meta property="og:description" content="Spring入门阶段一——IOC什么是Bean？Spring Bean是被实例的，组装的及被Spring 容器管理的Java对象。 Spring 容器会自动完成@bean对象的实例化。 创建应用对象之间的协作关系的行为称为：装配(wiring)，这就是依赖注入的本质。 Bean的实例化过程 aware 装配  如果bean实现了BeanNameAware接口，spring将bean的id传给set">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/04/17/Spring/bean.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/04/17/Spring/beanInstance.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/17/Spring/IOC.png">
+<meta property="og:updated_time" content="2019-04-22T02:53:44.533Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring">
+<meta name="twitter:description" content="Spring入门阶段一——IOC什么是Bean？Spring Bean是被实例的，组装的及被Spring 容器管理的Java对象。 Spring 容器会自动完成@bean对象的实例化。 创建应用对象之间的协作关系的行为称为：装配(wiring)，这就是依赖注入的本质。 Bean的实例化过程 aware 装配  如果bean实现了BeanNameAware接口，spring将bean的id传给set">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/17/Spring/bean.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/17/Spring/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Spring | Java面试后端开发技术总结</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/tywings/tywings.github.io/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Java面试后端开发技术总结</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/17/Spring/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ty.Wings">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Java面试后端开发技术总结">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-17 11:15:44" itemprop="dateCreated datePublished" datetime="2019-04-17T11:15:44+08:00">2019-04-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-22 10:53:44" itemprop="dateModified" datetime="2019-04-22T10:53:44+08:00">2019-04-22</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Spring入门阶段一——IOC"><a href="#Spring入门阶段一——IOC" class="headerlink" title="Spring入门阶段一——IOC"></a>Spring入门阶段一——IOC</h1><h2 id="什么是Bean？"><a href="#什么是Bean？" class="headerlink" title="什么是Bean？"></a>什么是Bean？</h2><p>Spring Bean是被实例的，组装的及被Spring 容器管理的Java对象。</p>
+<p>Spring 容器会自动完成@bean对象的实例化。</p>
+<p>创建应用对象之间的协作关系的行为称为：<strong>装配(wiring)</strong>，这就是依赖注入的本质。</p>
+<h3 id="Bean的实例化过程"><a href="#Bean的实例化过程" class="headerlink" title="Bean的实例化过程"></a>Bean的实例化过程</h3><p><img src="/2019/04/17/Spring/bean.jpg" alt></p>
+<p>aware 装配</p>
+<p><img src="/2019/04/17/Spring/beanInstance.png" alt></p>
+<p>如果bean实现了BeanNameAware接口，spring将bean的id传给setBeanName()方法；</p>
+<h2 id="什么是反转控制（IOC-Inversion-of-Control）依赖注入（DI-Dependency-Injection）"><a href="#什么是反转控制（IOC-Inversion-of-Control）依赖注入（DI-Dependency-Injection）" class="headerlink" title="什么是反转控制（IOC-Inversion of Control）依赖注入（DI-Dependency Injection）"></a>什么是反转控制（IOC-Inversion of Control）依赖注入（DI-Dependency Injection）</h2><p><img src="/2019/04/17/Spring/IOC.png" alt></p>
+<h2 id="IOC容器中Bean的生命周期方法"><a href="#IOC容器中Bean的生命周期方法" class="headerlink" title="IOC容器中Bean的生命周期方法"></a>IOC容器中Bean的生命周期方法</h2><ul>
+<li><strong>Spring IOC容器可以管理Bean的生命周期</strong>, Spring 允许在 Bean 生命周期的特定点执行定制的任务. </li>
+<li>Spring IOC 容器对 Bean 的生命周期进行管理的过程:<ul>
+<li>通过构造器或工厂方法创建 Bean 实例</li>
+<li>为 Bean 的属性设置值和对其他 Bean 的引用</li>
+<li><strong>调用 Bean 的初始化方法</strong></li>
+<li>Bean 可以使用</li>
+<li><strong>当容器关闭时, 调用 Bean 的销毁方法</strong></li>
+</ul>
+</li>
+<li>在 Bean 的声明里设置 init-method 和 destroy-method 属性, 为 Bean 指定初始化和销毁方法.<ul>
+<li><bean id="car" class="beans.Car" init-method="initMethodName（定义在bean中的任意方法）" destroy-method="destroyMethodName">
+
+</bean></li>
+</ul>
+</li>
+</ul>
+<h3 id="后置处理器BeanPostProcessor"><a href="#后置处理器BeanPostProcessor" class="headerlink" title="后置处理器BeanPostProcessor"></a>后置处理器BeanPostProcessor</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.test.spring;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeansException;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.config.BeanPostProcessor;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * bean后置处理器</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zss</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PostProcessor</span> <span class="keyword">implements</span> <span class="title">BeanPostProcessor</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">postProcessBeforeInitialization</span><span class="params">(Object bean,</span></span></span><br><span class="line"><span class="function"><span class="params">            String beanName)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"narCodeService"</span>.equals(beanName)) &#123;<span class="comment">//过滤掉bean实例ID为narCodeService</span></span><br><span class="line">            <span class="keyword">return</span> bean;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"后置处理器处理bean=【"</span>+beanName+<span class="string">"】开始"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> bean;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">postProcessAfterInitialization</span><span class="params">(Object bean,</span></span></span><br><span class="line"><span class="function"><span class="params">            String beanName)</span> <span class="keyword">throws</span> BeansException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">"narCodeService"</span>.equals(beanName)) &#123;</span><br><span class="line">            <span class="keyword">return</span> bean;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"后置处理器处理bean=【"</span>+beanName+<span class="string">"】完毕!"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> bean;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//注意:接口中两个方法不能返回null，如果返回null那么在后续初始化方法将报空指针异常或者通过getBean()方法获取不到bena实例对象 因为后置处理器从Spring IoC容器中取出bean实例对象没有再次放回IoC容器中</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// *.xml文件中加入以下信息即可</span></span><br><span class="line">&lt;!-- Spring后置处理器 --&gt;</span><br><span class="line">&lt;bean id=<span class="string">"postProcessor"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"com.test.spring.PostProcessor"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<p>执行顺序：最先执行的是postProcessBeforeInitialization，然后是afterPropertiesSet，然后是init-method，然后是postProcessAfterInitialization</p>
+<h3 id="Spring中Bean的作用域"><a href="#Spring中Bean的作用域" class="headerlink" title="Spring中Bean的作用域"></a>Spring中Bean的作用域</h3><ul>
+<li>singleton：单例模式</li>
+<li>prototype：每次调用新建一个实例</li>
+<li>request：每次Http请求创建一个新的Bean</li>
+<li>session：同一个HttpSession共享同一个Bean</li>
+</ul>
+<h2 id="Bean的配置三种xml配置方式（全类名反射、工厂方法-静态工厂-amp-实例工厂-、FactoryBean）"><a href="#Bean的配置三种xml配置方式（全类名反射、工厂方法-静态工厂-amp-实例工厂-、FactoryBean）" class="headerlink" title="Bean的配置三种xml配置方式（全类名反射、工厂方法[静态工厂&amp;实例工厂]、FactoryBean）"></a>Bean的配置三种xml配置方式（全类名反射、工厂方法[静态工厂&amp;实例工厂]、FactoryBean）</h2><h2 id="Bean基于注解的配置方式"><a href="#Bean基于注解的配置方式" class="headerlink" title="Bean基于注解的配置方式"></a>Bean基于注解的配置方式</h2><p>组件扫描(component scanning):  Spring 能够从 classpath 下自动扫描, 侦测和实例化具有特定注解的组件。</p>
+<p>对于扫描到的组件，Spring有默认的命名策略：</p>
+<ul>
+<li>使用非限定类名,第一个字母小写，也可以在注解中通过value属性值标识组件的名称</li>
+</ul>
+<p>特定组件包括:</p>
+<ul>
+<li>@Component: 基本注解, 标识了一个受 Spring 管理的组件</li>
+<li>@Respository: 标识持久层组件，持久层一般就是DAO</li>
+<li>@Service: 标识服务层(业务层)组件</li>
+<li>@Controller: 标识表现层组件</li>
+</ul>
+<p>当在组件类上使用了特定的注解之后,还需要在Spring的配置文件中声明\<a href="context:component-scan\" target="_blank" rel="noopener">context:component-scan\</a> </p>
+<h3 id="利用注解建立bean与bean的引用关系（组件装配）-AutoWired-Resource-Inject"><a href="#利用注解建立bean与bean的引用关系（组件装配）-AutoWired-Resource-Inject" class="headerlink" title="利用注解建立bean与bean的引用关系（组件装配）@AutoWired @Resource @Inject"></a>利用注解建立bean与bean的引用关系（组件装配）@AutoWired @Resource @Inject</h3><p>\<a href="context:component-scan\" target="_blank" rel="noopener">context:component-scan\</a> 元素还会自动注册 AutowiredAnnotationBeanPostProcessor 实例, 该实例可以自动装配具有 @Autowired 和 @Resource 、@Inject注解的属性.</p>
+<ul>
+<li>@AutoWired：自动装配具有<strong>兼容类型</strong>的单个 Bean属性（ByType）<ul>
+<li>说人话：在IOC容器中找是否用与被注解类型相兼容的Bean，如果有就引用过来。</li>
+<li>可用在构造器，普通字段（即使不是public），一切具有参数的方法都可以使用</li>
+<li>@AutoWired(required=false)：false：没有该对象则不报错，不引用</li>
+<li>若兼容类型的bean不唯一，则需要在@Component(‘这里的名字’)和需要传参的属性的名字一致；或者在装配时指定bean：@Qualifier(“userRepositoryImpl”)注解</li>
+</ul>
+</li>
+<li>@Resource：默认按照ByName自动注入，其余与@AutoWired类似@Resource(name=“helloWorld”)</li>
+</ul>
+<h2 id="Spring依赖注入"><a href="#Spring依赖注入" class="headerlink" title="Spring依赖注入"></a>Spring依赖注入</h2><ul>
+<li>接口注入(\&lt;property name=”userDao” ref=”userDaoMyBatis”>\&lt;/property>)</li>
+<li>构造器注入（\&lt;constructor-arg name=”userDao” ref=”userDaoJdbc”>\&lt;/constructor-arg>）</li>
+<li>基于注解注入（@Autowired）</li>
+</ul>
+<h1 id="Spring入门阶段二——AOP"><a href="#Spring入门阶段二——AOP" class="headerlink" title="Spring入门阶段二——AOP"></a>Spring入门阶段二——AOP</h1><h2 id="面向切面编程（Aspects-Oriented-Progromming）"><a href="#面向切面编程（Aspects-Oriented-Progromming）" class="headerlink" title="面向切面编程（Aspects Oriented Progromming）"></a>面向切面编程（Aspects Oriented Progromming）</h2><p>AOP(Aspect-Oriented Programming，面向切面编程)：是一种新的方法论，是对传统 OOP(Object-Oriented Programming, 面向对象编程) 的补充。AOP 的主要编程对象是切面(aspect)，而切面模块化横切关注点。在应用 AOP 编程时，仍然需要定义公共功能, 但可以明确的定义这个功能在哪里，以什么方式应用， 并且不必修改受影响的类. 这样一来横切关注点就被模块化到特殊的对象(切面)里。<br>AOP 的好处:<br>每个事物逻辑位于一个位置, 代码不分散, 便于维护和升级业务模块更简洁, 只包含核心业务代码</p>
+<h1 id="Spring入门阶段三——事务管理"><a href="#Spring入门阶段三——事务管理" class="headerlink" title="Spring入门阶段三——事务管理"></a>Spring入门阶段三——事务管理</h1><h2 id="事务简介（实际上和sql的事务一样）："><a href="#事务简介（实际上和sql的事务一样）：" class="headerlink" title="事务简介（实际上和sql的事务一样）："></a>事务简介（实际上和sql的事务一样）：</h2><ul>
+<li>事务管理是企业级应用程序开发中必不可少的技术,  用来确保数据的完整性和一致性。</li>
+<li>事务就是一系列的动作, 它们被当做一个单独的工作单元. 这些动作要么全部完成, 要么全部不起作用</li>
+<li>事务的四个关键属性(ACID)</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center;">
+  <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="Ty.Wings wechat" style="width: 200px; max-width: 100%;">
+  <div>欢迎您订阅我的公众号，并在GitHub上为我Star！</div>
+</div>
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+            <a href="/tags/IOC/" rel="tag"># IOC</a>
+          
+            <a href="/tags/AOP/" rel="tag"># AOP</a>
+          
+            <a href="/tags/DI/" rel="tag"># DI</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/17/SpringBoot-1/" rel="next" title="SpringBoot-1">
+                <i class="fa fa-chevron-left"></i> SpringBoot-1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/21/SpringMVC/" rel="prev" title="SpringMVC">
+                SpringMVC <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Ty.Wings</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">23</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">49</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring入门阶段一——IOC"><span class="nav-number">1.</span> <span class="nav-text">Spring入门阶段一——IOC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Bean？"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Bean？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bean的实例化过程"><span class="nav-number">1.1.1.</span> <span class="nav-text">Bean的实例化过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是反转控制（IOC-Inversion-of-Control）依赖注入（DI-Dependency-Injection）"><span class="nav-number">1.2.</span> <span class="nav-text">什么是反转控制（IOC-Inversion of Control）依赖注入（DI-Dependency Injection）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IOC容器中Bean的生命周期方法"><span class="nav-number">1.3.</span> <span class="nav-text">IOC容器中Bean的生命周期方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#后置处理器BeanPostProcessor"><span class="nav-number">1.3.1.</span> <span class="nav-text">后置处理器BeanPostProcessor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring中Bean的作用域"><span class="nav-number">1.3.2.</span> <span class="nav-text">Spring中Bean的作用域</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean的配置三种xml配置方式（全类名反射、工厂方法-静态工厂-amp-实例工厂-、FactoryBean）"><span class="nav-number">1.4.</span> <span class="nav-text">Bean的配置三种xml配置方式（全类名反射、工厂方法[静态工厂&amp;实例工厂]、FactoryBean）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean基于注解的配置方式"><span class="nav-number">1.5.</span> <span class="nav-text">Bean基于注解的配置方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#利用注解建立bean与bean的引用关系（组件装配）-AutoWired-Resource-Inject"><span class="nav-number">1.5.1.</span> <span class="nav-text">利用注解建立bean与bean的引用关系（组件装配）@AutoWired @Resource @Inject</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring依赖注入"><span class="nav-number">1.6.</span> <span class="nav-text">Spring依赖注入</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring入门阶段二——AOP"><span class="nav-number">2.</span> <span class="nav-text">Spring入门阶段二——AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#面向切面编程（Aspects-Oriented-Progromming）"><span class="nav-number">2.1.</span> <span class="nav-text">面向切面编程（Aspects Oriented Progromming）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring入门阶段三——事务管理"><span class="nav-number">3.</span> <span class="nav-text">Spring入门阶段三——事务管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#事务简介（实际上和sql的事务一样）："><span class="nav-number">3.1.</span> <span class="nav-text">事务简介（实际上和sql的事务一样）：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ty.Wings</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

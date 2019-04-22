@@ -105,7 +105,7 @@
 <meta property="og:description" content="Java多线程原理线程安全的主要原因 存在共享数据 存在多条线程共同操作这些共享数据 因此需要同一时刻有且只有一个线程在操作共享数据，其他线程必须等到该线程处理完数据后在对共享数据进行操作。  互斥锁的特性（原子性、可见性）——synchronized能保证这两点互斥性：在同一时间只允许一个线程持有某个对象锁，通过这种特性来实现多线程的协调机制，这样在同一时间只有一个线程对需要同步的代码块进行访问">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/03/25/multiThreadTheory/monitor.jpg">
-<meta property="og:updated_time" content="2019-04-12T06:00:52.749Z">
+<meta property="og:updated_time" content="2019-04-20T03:28:10.643Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="multiThreadTheory">
 <meta name="twitter:description" content="Java多线程原理线程安全的主要原因 存在共享数据 存在多条线程共同操作这些共享数据 因此需要同一时刻有且只有一个线程在操作共享数据，其他线程必须等到该线程处理完数据后在对共享数据进行操作。  互斥锁的特性（原子性、可见性）——synchronized能保证这两点互斥性：在同一时间只允许一个线程持有某个对象锁，通过这种特性来实现多线程的协调机制，这样在同一时间只有一个线程对需要同步的代码块进行访问">
@@ -403,7 +403,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-12 14:00:52" itemprop="dateModified" datetime="2019-04-12T14:00:52+08:00">2019-04-12</time>
+                <time title="修改时间：2019-04-20 11:28:10" itemprop="dateModified" datetime="2019-04-20T11:28:10+08:00">2019-04-20</time>
               
             
           </span>
@@ -544,6 +544,7 @@
 <p>核心思想：</p>
 <ul>
 <li>如果一个线程获得了锁，那么锁就进入偏向模式，此时Mark Word的结构也变为了偏向锁结构。当该线程再次请求锁时，无需再做任何同步操作，即获取所得过程只需要检查Mark Word的锁标记位为偏向锁以及当前线程Id等于Mark Word的ThreadID即可，这样就省去了大量有关锁申请的操作。</li>
+<li>因此单线程下对代码进行synchronized，其效率也不低</li>
 </ul>
 <h4 id="偏向锁的获取过程"><a href="#偏向锁的获取过程" class="headerlink" title="偏向锁的获取过程"></a>偏向锁的获取过程</h4><ol>
 <li><p>访问Mark Word中偏向锁的标识是否设置成1，锁标志位是否为01，确认为可偏向状态。</p>
@@ -773,7 +774,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -808,7 +809,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -909,7 +914,21 @@
                     
                       
                     
-                    <span class="site-state-item-count">42</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">49</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

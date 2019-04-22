@@ -96,13 +96,13 @@
 
 
 
-  <meta name="description" content="关系型数据库——索引关系型数据库包括：  架构 索引 锁 语法 理论范式   B-Tree索引 定义 根节点至少包括两个孩子 书中每个节点最多包含m个孩子（m&amp;gt;=2）（m阶树） 除根节点和叶节点外，其他每个节点至少有ceil(m/2)个孩子 所有叶子节点都处于同一层 假设每个非终端节点中包含有n个关键字信息 关键字按照升序排序 关键字个数 (ceil(m/2) - 1) &amp;lt;= n &amp;l">
+  <meta name="description" content="关系型数据库——索引关系型数据库包括：  架构 索引 锁 语法 理论范式   B-Tree索引 定义 根节点至少包括两个孩子 树中每个节点最多包含m个孩子（m&amp;gt;=2）（m阶树） 除根节点和叶节点外，其他每个节点至少有ceil(m/2)个孩子 所有叶子节点都处于同一层 假设每个非终端节点中包含有n个关键字信息 关键字按照升序排序 关键字个数 (ceil(m/2) - 1) &amp;lt;= n &amp;l">
 <meta name="keywords" content="数据库">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关系型数据库——索引">
 <meta property="og:url" content="http://yoursite.com/2019/03/21/关系型数据库——索引/index.html">
 <meta property="og:site_name" content="Java面试后端开发技术总结">
-<meta property="og:description" content="关系型数据库——索引关系型数据库包括：  架构 索引 锁 语法 理论范式   B-Tree索引 定义 根节点至少包括两个孩子 书中每个节点最多包含m个孩子（m&amp;gt;=2）（m阶树） 除根节点和叶节点外，其他每个节点至少有ceil(m/2)个孩子 所有叶子节点都处于同一层 假设每个非终端节点中包含有n个关键字信息 关键字按照升序排序 关键字个数 (ceil(m/2) - 1) &amp;lt;= n &amp;l">
+<meta property="og:description" content="关系型数据库——索引关系型数据库包括：  架构 索引 锁 语法 理论范式   B-Tree索引 定义 根节点至少包括两个孩子 树中每个节点最多包含m个孩子（m&amp;gt;=2）（m阶树） 除根节点和叶节点外，其他每个节点至少有ceil(m/2)个孩子 所有叶子节点都处于同一层 假设每个非终端节点中包含有n个关键字信息 关键字按照升序排序 关键字个数 (ceil(m/2) - 1) &amp;lt;= n &amp;l">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/03/21/关系型数据库——索引/designDB.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/03/21/关系型数据库——索引/btree.jpg">
@@ -111,10 +111,11 @@
 <meta property="og:image" content="http://yoursite.com/2019/03/21/关系型数据库——索引/聚簇非聚簇.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/21/关系型数据库——索引/稠密索引.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/21/关系型数据库——索引/稀疏索引.png">
-<meta property="og:updated_time" content="2019-03-22T06:45:28.155Z">
+<meta property="og:image" content="http://yoursite.com/2019/03/21/关系型数据库——索引/join.png">
+<meta property="og:updated_time" content="2019-04-16T14:23:20.667Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关系型数据库——索引">
-<meta name="twitter:description" content="关系型数据库——索引关系型数据库包括：  架构 索引 锁 语法 理论范式   B-Tree索引 定义 根节点至少包括两个孩子 书中每个节点最多包含m个孩子（m&amp;gt;=2）（m阶树） 除根节点和叶节点外，其他每个节点至少有ceil(m/2)个孩子 所有叶子节点都处于同一层 假设每个非终端节点中包含有n个关键字信息 关键字按照升序排序 关键字个数 (ceil(m/2) - 1) &amp;lt;= n &amp;l">
+<meta name="twitter:description" content="关系型数据库——索引关系型数据库包括：  架构 索引 锁 语法 理论范式   B-Tree索引 定义 根节点至少包括两个孩子 树中每个节点最多包含m个孩子（m&amp;gt;=2）（m阶树） 除根节点和叶节点外，其他每个节点至少有ceil(m/2)个孩子 所有叶子节点都处于同一层 假设每个非终端节点中包含有n个关键字信息 关键字按照升序排序 关键字个数 (ceil(m/2) - 1) &amp;lt;= n &amp;l">
 <meta name="twitter:image" content="http://yoursite.com/2019/03/21/关系型数据库——索引/designDB.jpg">
 
 
@@ -409,7 +410,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-03-22 14:45:28" itemprop="dateModified" datetime="2019-03-22T14:45:28+08:00">2019-03-22</time>
+                <time title="修改时间：2019-04-16 22:23:20" itemprop="dateModified" datetime="2019-04-16T22:23:20+08:00">2019-04-16</time>
               
             
           </span>
@@ -480,7 +481,7 @@
 <h2 id="B-Tree索引"><a href="#B-Tree索引" class="headerlink" title="B-Tree索引"></a>B-Tree索引</h2><p><img src="/2019/03/21/关系型数据库——索引/btree.jpg" alt="B-Tree数据结构"></p>
 <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><ul>
 <li>根节点至少包括两个孩子</li>
-<li>书中每个节点最多包含m个孩子（m&gt;=2）（m阶树）</li>
+<li>树中每个节点最多包含m个孩子（m&gt;=2）（m阶树）</li>
 <li>除根节点和叶节点外，其他每个节点至少有ceil(m/2)个孩子</li>
 <li>所有叶子节点都处于同一层</li>
 <li>假设每个非终端节点中包含有n个关键字信息<ul>
@@ -528,7 +529,7 @@
 <ul>
 <li>叶子节点存的是整行数据，直接通过聚簇索引的键值找到某行</li>
 <li>数据的物理存放顺序与索引顺序一致</li>
-<li>一个表只能由一个聚簇索引</li>
+<li>一个表只能有一个聚簇索引</li>
 <li>（这也是MySQL中InnoDB表必须存在主键的原因，因为整张表是聚簇索引，默认通过主键聚集数据，如果没有定义主键，则选择第一个非空的唯一索引，如果没有非空的唯一索引，则利用自增的行号隐式作为聚集索引）</li>
 </ul>
 <p>非聚簇索引：</p>
@@ -548,6 +549,7 @@
 <li>最左前缀匹配原则，MySQL会一直向右匹配直到遇到范围查询（&gt;，&lt;，between，like）就停止匹配（例如a=3 and b = 4 and c &gt; 5 and d = 6在已建立的(a,b,c,d)顺序的联合索引，d是用不到索引的，但如果索引为(a,b,d,c)则都可以用到，其中a,b,d顺序可以任意调整）。</li>
 <li>=和in可以乱序，比如a=1 and b=2 and c=3建立(a,b,c)索引可以任意顺序，MySQL查询优化器会自动识别成索引可以识别的格式。</li>
 </ol>
+<h2 id="JOIN"><a href="#JOIN" class="headerlink" title="JOIN"></a>JOIN</h2><p><img src="/2019/03/21/关系型数据库——索引/join.png" alt></p>
 
       
     </div>
@@ -671,7 +673,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -706,7 +708,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -807,7 +813,21 @@
                     
                       
                     
-                    <span class="site-state-item-count">42</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">49</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -845,7 +865,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关系型数据库——索引"><span class="nav-number">1.</span> <span class="nav-text">关系型数据库——索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#B-Tree索引"><span class="nav-number">1.1.</span> <span class="nav-text">B-Tree索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">1.1.1.</span> <span class="nav-text">定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-Tree索引-1"><span class="nav-number">1.2.</span> <span class="nav-text">B+-Tree索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hash索引"><span class="nav-number">1.3.</span> <span class="nav-text">Hash索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BitMap索引（不常考）"><span class="nav-number">1.4.</span> <span class="nav-text">BitMap索引（不常考）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚簇（聚集）索引和非聚簇索引的区别"><span class="nav-number">1.5.</span> <span class="nav-text">聚簇（聚集）索引和非聚簇索引的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密集索引与稀疏索引"><span class="nav-number">1.6.</span> <span class="nav-text">密集索引与稀疏索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最左匹配原则"><span class="nav-number">1.7.</span> <span class="nav-text">最左匹配原则</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关系型数据库——索引"><span class="nav-number">1.</span> <span class="nav-text">关系型数据库——索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#B-Tree索引"><span class="nav-number">1.1.</span> <span class="nav-text">B-Tree索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">1.1.1.</span> <span class="nav-text">定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-Tree索引-1"><span class="nav-number">1.2.</span> <span class="nav-text">B+-Tree索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hash索引"><span class="nav-number">1.3.</span> <span class="nav-text">Hash索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BitMap索引（不常考）"><span class="nav-number">1.4.</span> <span class="nav-text">BitMap索引（不常考）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚簇（聚集）索引和非聚簇索引的区别"><span class="nav-number">1.5.</span> <span class="nav-text">聚簇（聚集）索引和非聚簇索引的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密集索引与稀疏索引"><span class="nav-number">1.6.</span> <span class="nav-text">密集索引与稀疏索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最左匹配原则"><span class="nav-number">1.7.</span> <span class="nav-text">最左匹配原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JOIN"><span class="nav-number">1.8.</span> <span class="nav-text">JOIN</span></a></li></ol></li></ol></div>
             
 
           </div>

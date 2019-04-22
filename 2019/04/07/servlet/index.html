@@ -106,8 +106,13 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/04/07/servlet/tomcatHierarchy.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/04/07/servlet/circle.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/04/07/servlet/servletThread.png">
 <meta property="og:image" content="http://yoursite.com/2019/04/07/servlet/jsp-servlet.jpg">
-<meta property="og:updated_time" content="2019-04-08T07:46:53.552Z">
+<meta property="og:image" content="http://yoursite.com/2019/04/07/servlet/sessionCopy.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/07/servlet/sessionBind.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/07/servlet/sessionCookie.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/07/servlet/sessionServer.png">
+<meta property="og:updated_time" content="2019-04-21T15:35:44.805Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Servlet">
 <meta name="twitter:description" content="Servlet什么是ServletServlet实在服务器上运行的小程序，一个Servlet就是一个Java类，并且可以通过“请求-响应”编程模型来访问的这个驻留再服务器内存里的Servlet程序 Tomcat容器等级Tomcat - Container - HOST - Servlet容器 - Context  Servlet的容器管理Context容器，一个Context对应一个Web工程。">
@@ -405,7 +410,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-08 15:46:53" itemprop="dateModified" datetime="2019-04-08T15:46:53+08:00">2019-04-08</time>
+                <time title="修改时间：2019-04-21 23:35:44" itemprop="dateModified" datetime="2019-04-21T23:35:44+08:00">2019-04-21</time>
               
             
           </span>
@@ -468,16 +473,78 @@
 <h2 id="Tomcat容器等级"><a href="#Tomcat容器等级" class="headerlink" title="Tomcat容器等级"></a>Tomcat容器等级</h2><p>Tomcat - Container - HOST - Servlet容器 - Context</p>
 <p><img src="/2019/04/07/servlet/tomcatHierarchy.jpg" alt="容器等级"></p>
 <p>Servlet的容器管理Context容器，一个Context对应一个Web工程。</p>
-<h2 id="Servlet生命周期"><a href="#Servlet生命周期" class="headerlink" title="Servlet生命周期"></a>Servlet生命周期</h2><p><img src="/2019/04/07/servlet/circle.jpg" alt="生命周期"></p>
+<h2 id="Servlet执行流程"><a href="#Servlet执行流程" class="headerlink" title="Servlet执行流程"></a>Servlet执行流程</h2><ul>
+<li><p>浏览器请求</p>
 <ol>
-<li><p>初始化阶段，调用init()方法</p>
-</li>
-<li><p>响应客户端请求阶段，调用service()方法。由service()方法根据提交方式选择执行doGet()或者doPost()方法。</p>
-<p><strong>也就是说，Servlet常驻于内存中。</strong></p>
-</li>
-<li><p>终止阶段，调用destroy()方法。（服务器关闭）</p>
+<li>浏览器向服务器发出请求，服务器从web.xml里面寻找路径名（URI）</li>
+<li>根据URI找到已注册的servlet名称<ol start="3">
+<li>根据映射表找到servlet名</li>
+<li>根据servlet名找到全限定类名</li>
+</ol>
 </li>
 </ol>
+</li>
+<li><p>服务器创建对象</p>
+<ol>
+<li>服务器找到全限定类名后，通过反射创建servlet对象，同时也创建了servletConifg，里面存放了一些初始化信息（只创建一次）</li>
+</ol>
+</li>
+<li><p>调用init方法</p>
+<ol>
+<li><p>对象创建好之后，首先要执行init方法，但是我们发现我们自定义类下没有init方法，所以程序会到其父类HttpServlet里找</p>
+</li>
+<li><p>发现HttpServlet里也没有init方法，所以继续向上找，既向其父类GenericServlet中继续寻找,在GenericServlet中我们发现了init方法，则执行init方法（对接口Servlet中的init方法进行了重写）</p>
+<p>在GenericServlet中执行public void init(ServletConfig config)方法的时候，又调用了自己无参无方法体的init()方法，其目的是为了方便开发者，如果开发者在初始化的过程中需要实现一些功能，可以重写此方法</p>
+</li>
+</ol>
+</li>
+<li><p>调用service方法</p>
+<p>服务器会先创建两个对象：ServletRequest请求对象和ServletResponse响应对象，用来封装浏览器的请求数据和封装向浏览器的响应数据</p>
+<ol>
+<li>接着服务器会默认在我们写的类里寻找service(ServletRequest req, ServletResponse res)方法，但是DemoServlet中不存在，那么会到其父类（HttpServlet）中寻找，直接调用此方法，并将之前创建好的两个对象传入 </li>
+<li>然后将传入的两个参数强转，并调用HttpServlet下的另外个service方法 </li>
+<li>接着执行service(HttpServletRequest req, HttpServletResponse resp)方法，在此方法内部进行了判断请求方式，并执行doGet和doPost，但是doGet和doPost方法已经被我们自己重写了，所以会执行我们重写的方法</li>
+</ol>
+</li>
+<li><p>向浏览器响应</p>
+<ol>
+<li>处理完数据后，将数据响应到浏览器</li>
+</ol>
+</li>
+</ul>
+<h2 id="Servlet生命周期-重要"><a href="#Servlet生命周期-重要" class="headerlink" title="Servlet生命周期(重要)"></a>Servlet生命周期(重要)</h2><p><img src="/2019/04/07/servlet/circle.jpg" alt="生命周期"></p>
+<p>ServletConfig getServletConfig() :获取当前servlet的配置对象</p>
+<ul>
+<li>void init(ServletConfig config):初始化<ul>
+<li>初始化方法</li>
+<li>执行者:服务器</li>
+<li>执行次数:一次</li>
+<li>执行时机:默认第一次访问的时候</li>
+</ul>
+</li>
+<li>void service(ServletRequest request,ServletResponse response):服务 处理业务逻辑<ul>
+<li>服务<ul>
+<li>执行者:服务器</li>
+<li>执行次数:请求一次执行一次</li>
+<li>执行时机:请求来的时候</li>
+</ul>
+</li>
+<li>void destroy():销毁<ul>
+<li>销毁</li>
+<li>执行者:服务器</li>
+<li>执行次数:只执行一次</li>
+<li>执行时机:当servlet被移除的时候或者服务器正常关闭的时候</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>serlvet是单实例多线程(重要）</strong></p>
+<ul>
+<li>默认第一次访问的时候,服务器创建servlet,并调用init实现初始化操作.并调用一次service方法</li>
+<li>每当请求来的时候,服务器创建一个线程,调用service方法执行自己的业务逻辑</li>
+<li>当serlvet被移除的时候服务器正常关闭的时候,服务器调用servlet的destroy方法实现销毁操作.</li>
+</ul>
 <h3 id="在下列时刻Servlet容器装载Servlet："><a href="#在下列时刻Servlet容器装载Servlet：" class="headerlink" title="在下列时刻Servlet容器装载Servlet："></a>在下列时刻Servlet容器装载Servlet：</h3><ul>
 <li>Servlet容器启动时自动装载某些Servlet，需要在web.xml文件中的\<servlet>\</servlet>之间添加如下代码：<ul>
 <li>\<loadon-startup>1\</loadon-startup> (数字越小表示优先级别越高)。</li>
@@ -487,6 +554,16 @@
 <li>Servlet类文件被更新/修改后，重新装载Servlet。</li>
 </ul>
 <p>Servlet被装载后，Servlet容器创建一个Servlet实例并且调用Servlet的init()方法进行初始化。在Servlet的整个生命周期内，init()方法只被调用一次。</p>
+<h3 id="Servlet线程安全吗？"><a href="#Servlet线程安全吗？" class="headerlink" title="Servlet线程安全吗？"></a>Servlet线程安全吗？</h3><p>Servlet不是线程安全的。</p>
+<p>要解释为什么Servlet为什么不是线程安全的，需要了解Servlet容器（即Tomcat）使如何响应HTTP请求的。</p>
+<p><img src="/2019/04/07/servlet/servletThread.png" alt></p>
+<p>当Tomcat接收到Client的HTTP请求时，Tomcat从线程池中取出一个线程，之后找到该请求对应的Servlet对象并进行初始化，之后调用service()方法。要注意的是每一个Servlet对象再Tomcat容器中只有一个实例对象，即是单例模式。如果多个HTTP请求请求的是同一个Servlet，那么着两个HTTP请求对应的线程将并发调用Servlet的service()方法。</p>
+<p>比如下面的Servlet中的 <code>name</code> 和 <code>i</code>变量就会引发线程安全问题。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.servlet.ServletException;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadSafeServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String name = <span class="string">"Hello"</span>;   <span class="comment">//静态变量，可能发生线程安全问题</span></span><br><span class="line">    <span class="keyword">int</span> i;  <span class="comment">//实例变量，可能发生线程安全问题</span></span><br><span class="line">    SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd hh:mm:ss"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.init();</span><br><span class="line">        System.out.println(<span class="string">"Servlet初始化"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        System.out.printf(<span class="string">"%s：%s[%s]\n"</span>, Thread.currentThread().getName(), i, format.format(<span class="keyword">new</span> Date()));</span><br><span class="line">        i++;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.printf(<span class="string">"%s：%s[%s]\n"</span>, Thread.currentThread().getName(), i, format.format(<span class="keyword">new</span> Date()));</span><br><span class="line">        resp.getWriter().println(<span class="string">"&lt;html&gt;&lt;body&gt;&lt;h1&gt;"</span> + i + <span class="string">"&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在Tomcat中启动这个Servlet并在浏览器发起多个HTTP访问，最后会发现变量 <code>i</code> 是多线程共享的。</p>
+<p>Single ThreadMode接口。Tomcat将保证在一个时刻仅有一个线程可以在给定的Serlvet实例的service方法中执行。其他所有请求进行排队。</p>
+<p><strong>变量的线程安全</strong></p>
+<p>这里的变量变量指的是字段和共享数据，主要是表单的参数值。基于多线程不共享局部变量的特点我们可以将这类变量参数本地化。</p>
 <h2 id="Servlet与JSP九大内置对象"><a href="#Servlet与JSP九大内置对象" class="headerlink" title="Servlet与JSP九大内置对象"></a>Servlet与JSP九大内置对象</h2><p><img src="/2019/04/07/servlet/jsp-servlet.jpg" alt="对应关系"></p>
 <h2 id="获取初始化参数"><a href="#获取初始化参数" class="headerlink" title="获取初始化参数"></a>获取初始化参数</h2><p>在web.xml中配置Servlet时，可以配置一些初始化参数，在Servlet中可以通过ServletConifg接口提供的方法来取得这些参数。</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- web.xml中 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>LoginServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>com.servlet.LoginServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">param-name</span>&gt;</span>username<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">param-value</span>&gt;</span>123<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -494,6 +571,54 @@
 <h2 id="MVC与java-web的关系"><a href="#MVC与java-web的关系" class="headerlink" title="MVC与java web的关系"></a>MVC与java web的关系</h2><p>Controller  - Servlet</p>
 <p>View - JSP</p>
 <p>Model - Java Bean</p>
+<h2 id="域对象"><a href="#域对象" class="headerlink" title="域对象"></a>域对象</h2><ul>
+<li>servletcontext（application）（一个JavaWeb应用只创建一个ServletContext对象，该应用内部共享）</li>
+<li>session（当前会话所有Servlet共享）</li>
+<li>request（仅在当前请求中有效）</li>
+<li>pageContext（页面执行期）</li>
+</ul>
+<h3 id="servletcontext创建和销毁"><a href="#servletcontext创建和销毁" class="headerlink" title="servletcontext创建和销毁:"></a>servletcontext创建和销毁:</h3><ul>
+<li>当项目启动的时候,服务器为每一个web项目创建一个servletcontext对象.</li>
+<li>当项目被移除的时候或者服务器关闭的时候servletcontext销毁</li>
+<li>存放：共享的数据</li>
+</ul>
+<h3 id="request"><a href="#request" class="headerlink" title="request:"></a>request:</h3><ul>
+<li>创建：一次请求来的时候</li>
+<li>销毁：响应生成的时候</li>
+<li>作用：一次请求里面的数据</li>
+</ul>
+<p>请求转发(请求链,请求串)：request.getRequestDispatcher(“内部路径”).forward(request,response);</p>
+<h2 id="Session和Cookie"><a href="#Session和Cookie" class="headerlink" title="Session和Cookie"></a>Session和Cookie</h2><h3 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h3><p>服务器创建session出来后，会把session的id号，以cookie的形式回写给客户机，这样，只要客户机的浏览器不关，再去访问服务器时，都会带着session的id号去，服务器发现客户机浏览器带session id过来了，就会使用内存中与之对应的session为之服务。</p>
+<p>getSession(boolean create)意思是返回当前reqeust中的HttpSession ，如果当前reqeust中的HttpSession 为null，当create为true，就创建一个新的Session，否则返回null；<br>简而言之： </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HttpServletRequest.getSession(ture) <span class="comment">// 等同于 HttpServletRequest.getSession() </span></span><br><span class="line">HttpServletRequest.getSession(<span class="keyword">false</span>) <span class="comment">// 等同于 如果当前Session没有就为null；</span></span><br></pre></td></tr></table></figure>
+<h4 id="如果客户端禁用cookie，如何使session依然起作用"><a href="#如果客户端禁用cookie，如何使session依然起作用" class="headerlink" title="如果客户端禁用cookie，如何使session依然起作用"></a>如果客户端禁用cookie，如何使session依然起作用</h4><p>URL重写：</p>
+<ul>
+<li><strong>response.encodeRedirectURL(java.lang.String url)</strong>  // 用于对sendRedirect方法后的url地址进行重写。</li>
+<li><strong>response.encodeURL(java.lang.String url)</strong> // 用于对表单action和超链接的url地址进行重写</li>
+</ul>
+<h4 id="集群服务器Session同步"><a href="#集群服务器Session同步" class="headerlink" title="集群服务器Session同步"></a>集群服务器Session同步</h4><ul>
+<li>session复制<ul>
+<li><img src="/2019/04/07/servlet/sessionCopy.png" alt></li>
+<li>只适合小型集群，规模变大的时候，就需要大量复制</li>
+</ul>
+</li>
+<li>Session绑定：利用负载均衡的源地址Hash算法实现，负载均衡服务器总是将来自同一个IP地址的访问分发到同一台服务器上。这样整个会话期间，用户所有的请求都来自一台服务器，保证了Session总是从这台服务器获取。<ul>
+<li><img src="/2019/04/07/servlet/sessionBind.png" alt></li>
+<li>如果其中一台服务器宕机，则Session会话会丢失，一部分用户无法访问</li>
+</ul>
+</li>
+<li>利用Cookie记录Session：将Session记录在客户端，每次请求服务器的时候，将Session放在请求中发送给服务器，服务器处理完成后再将修改后的Session响应给客户端。<ul>
+<li><img src="/2019/04/07/servlet/sessionCookie.png" alt></li>
+<li>Cookie大小限制，能记录的信息也有限，因为很多时候我们在Session中储存的也并非String类型的记录。每次请求都需要传输Cookie，影响性能；另外如果用户关闭Cookie功能就不能用了。</li>
+<li>但是这种方式因此高可用性、支持服务器的线性伸缩，许多网站都在使用这种方式。</li>
+</ul>
+</li>
+<li>Session服务器：利用独立部署的Session服务器统一管理Session，应用服务器每次读写Session时，都访问Session服务器。<ul>
+<li><img src="/2019/04/07/servlet/sessionServer.png" alt></li>
+<li>这种方式实际上是将应用服务器的状态分离，分为无状态的应用服务器和有状态的Session服务器，然后针对这两种服务器的不同特性分别设计其架构。对于有状态的Session服务器，一种比较简单的方式是利用分布式缓存、数据库等。</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -623,7 +748,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -658,7 +783,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -759,7 +888,21 @@
                     
                       
                     
-                    <span class="site-state-item-count">42</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">49</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -797,7 +940,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Servlet"><span class="nav-number">1.</span> <span class="nav-text">Servlet</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Servlet"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Servlet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat容器等级"><span class="nav-number">1.2.</span> <span class="nav-text">Tomcat容器等级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Servlet生命周期"><span class="nav-number">1.3.</span> <span class="nav-text">Servlet生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在下列时刻Servlet容器装载Servlet："><span class="nav-number">1.3.1.</span> <span class="nav-text">在下列时刻Servlet容器装载Servlet：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Servlet与JSP九大内置对象"><span class="nav-number">1.4.</span> <span class="nav-text">Servlet与JSP九大内置对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取初始化参数"><span class="nav-number">1.5.</span> <span class="nav-text">获取初始化参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVC与java-web的关系"><span class="nav-number">1.6.</span> <span class="nav-text">MVC与java web的关系</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Servlet"><span class="nav-number">1.</span> <span class="nav-text">Servlet</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Servlet"><span class="nav-number">1.1.</span> <span class="nav-text">什么是Servlet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat容器等级"><span class="nav-number">1.2.</span> <span class="nav-text">Tomcat容器等级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Servlet执行流程"><span class="nav-number">1.3.</span> <span class="nav-text">Servlet执行流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Servlet生命周期-重要"><span class="nav-number">1.4.</span> <span class="nav-text">Servlet生命周期(重要)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在下列时刻Servlet容器装载Servlet："><span class="nav-number">1.4.1.</span> <span class="nav-text">在下列时刻Servlet容器装载Servlet：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet线程安全吗？"><span class="nav-number">1.4.2.</span> <span class="nav-text">Servlet线程安全吗？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Servlet与JSP九大内置对象"><span class="nav-number">1.5.</span> <span class="nav-text">Servlet与JSP九大内置对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取初始化参数"><span class="nav-number">1.6.</span> <span class="nav-text">获取初始化参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVC与java-web的关系"><span class="nav-number">1.7.</span> <span class="nav-text">MVC与java web的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#域对象"><span class="nav-number">1.8.</span> <span class="nav-text">域对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#servletcontext创建和销毁"><span class="nav-number">1.8.1.</span> <span class="nav-text">servletcontext创建和销毁:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#request"><span class="nav-number">1.8.2.</span> <span class="nav-text">request:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Session和Cookie"><span class="nav-number">1.9.</span> <span class="nav-text">Session和Cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Session"><span class="nav-number">1.9.1.</span> <span class="nav-text">Session</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如果客户端禁用cookie，如何使session依然起作用"><span class="nav-number">1.9.1.1.</span> <span class="nav-text">如果客户端禁用cookie，如何使session依然起作用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集群服务器Session同步"><span class="nav-number">1.9.1.2.</span> <span class="nav-text">集群服务器Session同步</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>

@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="Java面试后端开发技术总结">
 <meta property="og:description" content="关系型数据库——锁关系型数据库包括：  架构 索引 锁 语法 理论范式  MyISAM与InnoDB锁方面的区别是什么 MyISAM默认使用表级锁，不支持行级锁 InnoDB默认使用行级锁，同时支持表级锁  数据库事务的四大特性（ACID） 原子性（Atomic）：事务的操作全都完成/全部回滚  一致性（Consistency）：事务确保数据状态从一个一致状态转变到另一个一致状态   网上最常用的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-14T15:15:40.403Z">
+<meta property="og:updated_time" content="2019-04-16T14:30:38.744Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关系型数据库——锁">
 <meta name="twitter:description" content="关系型数据库——锁关系型数据库包括：  架构 索引 锁 语法 理论范式  MyISAM与InnoDB锁方面的区别是什么 MyISAM默认使用表级锁，不支持行级锁 InnoDB默认使用行级锁，同时支持表级锁  数据库事务的四大特性（ACID） 原子性（Atomic）：事务的操作全都完成/全部回滚  一致性（Consistency）：事务确保数据状态从一个一致状态转变到另一个一致状态   网上最常用的">
@@ -401,7 +401,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-14 23:15:40" itemprop="dateModified" datetime="2019-04-14T23:15:40+08:00">2019-04-14</time>
+                <time title="修改时间：2019-04-16 22:30:38" itemprop="dateModified" datetime="2019-04-16T22:30:38+08:00">2019-04-16</time>
               
             
           </span>
@@ -488,7 +488,7 @@
 <li><p>持久性（Durability）：事务一旦提交，数据永久保存在数据库，即使发生系统崩溃也不能丢失提交事务</p>
 </li>
 </ul>
-<h2 id="数据库的隔离级别"><a href="#数据库的隔离级别" class="headerlink" title="数据库的隔离级别"></a>数据库的隔离级别</h2><table>
+<h2 id="数据库的事务隔离级别"><a href="#数据库的事务隔离级别" class="headerlink" title="数据库的事务隔离级别"></a>数据库的事务隔离级别</h2><table>
 <thead>
 <tr>
 <th style="text-align:center">隔离级别</th>
@@ -727,7 +727,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -762,7 +762,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -863,7 +867,21 @@
                     
                       
                     
-                    <span class="site-state-item-count">42</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">49</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -901,7 +919,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关系型数据库——锁"><span class="nav-number">1.</span> <span class="nav-text">关系型数据库——锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MyISAM与InnoDB锁方面的区别是什么"><span class="nav-number">1.1.</span> <span class="nav-text">MyISAM与InnoDB锁方面的区别是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库事务的四大特性（ACID）"><span class="nav-number">1.2.</span> <span class="nav-text">数据库事务的四大特性（ACID）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库的隔离级别"><span class="nav-number">1.3.</span> <span class="nav-text">数据库的隔离级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快照读和当前读（不常考，可略过）"><span class="nav-number">1.4.</span> <span class="nav-text">快照读和当前读（不常考，可略过）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封锁类型"><span class="nav-number">1.5.</span> <span class="nav-text">封锁类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GAP锁"><span class="nav-number">1.6.</span> <span class="nav-text">GAP锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是GAP锁"><span class="nav-number">1.6.1.</span> <span class="nav-text">什么是GAP锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GAP锁的使用情况"><span class="nav-number">1.6.2.</span> <span class="nav-text">GAP锁的使用情况</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关系型数据库——锁"><span class="nav-number">1.</span> <span class="nav-text">关系型数据库——锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MyISAM与InnoDB锁方面的区别是什么"><span class="nav-number">1.1.</span> <span class="nav-text">MyISAM与InnoDB锁方面的区别是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库事务的四大特性（ACID）"><span class="nav-number">1.2.</span> <span class="nav-text">数据库事务的四大特性（ACID）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库的事务隔离级别"><span class="nav-number">1.3.</span> <span class="nav-text">数据库的事务隔离级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快照读和当前读（不常考，可略过）"><span class="nav-number">1.4.</span> <span class="nav-text">快照读和当前读（不常考，可略过）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封锁类型"><span class="nav-number">1.5.</span> <span class="nav-text">封锁类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GAP锁"><span class="nav-number">1.6.</span> <span class="nav-text">GAP锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是GAP锁"><span class="nav-number">1.6.1.</span> <span class="nav-text">什么是GAP锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GAP锁的使用情况"><span class="nav-number">1.6.2.</span> <span class="nav-text">GAP锁的使用情况</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

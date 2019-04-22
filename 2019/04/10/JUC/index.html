@@ -96,21 +96,22 @@
 
 
 
-  <meta name="description" content="java.util.concurrent包相关讲解原子变量JDK1.5后，jUC.atomic 包下提供了常用的原子变量。常用的AtomicInteger，AtomicBoolean等都有，很像包装类。  volatile保证内存可见性 CAS算法保证数据的原子性（Compare-and-Swap） CAS算法是硬件对于并发操作共享数据的支持 CAS包含了三个操作数： 内存中已经存在的值 V 预估">
+  <meta name="description" content="java.util.concurrent包相关讲解 原子变量JDK1.5后，jUC.atomic 包下提供了常用的原子变量。常用的AtomicInteger，AtomicBoolean等都有，很像包装类。  volatile保证内存可见性 CAS算法保证数据的原子性（Compare-and-Swap） CAS算法是硬件对于并发操作共享数据的支持 CAS包含了三个操作数： 内存中已经存在的值 V 预">
 <meta name="keywords" content="Java,JUC,concurrent,Thread Pool,Lock">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JUC">
 <meta property="og:url" content="http://yoursite.com/2019/04/10/JUC/index.html">
 <meta property="og:site_name" content="Java面试后端开发技术总结">
-<meta property="og:description" content="java.util.concurrent包相关讲解原子变量JDK1.5后，jUC.atomic 包下提供了常用的原子变量。常用的AtomicInteger，AtomicBoolean等都有，很像包装类。  volatile保证内存可见性 CAS算法保证数据的原子性（Compare-and-Swap） CAS算法是硬件对于并发操作共享数据的支持 CAS包含了三个操作数： 内存中已经存在的值 V 预估">
+<meta property="og:description" content="java.util.concurrent包相关讲解 原子变量JDK1.5后，jUC.atomic 包下提供了常用的原子变量。常用的AtomicInteger，AtomicBoolean等都有，很像包装类。  volatile保证内存可见性 CAS算法保证数据的原子性（Compare-and-Swap） CAS算法是硬件对于并发操作共享数据的支持 CAS包含了三个操作数： 内存中已经存在的值 V 预">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/04/10/JUC/JUC.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/04/10/JUC/segmentLock.png">
 <meta property="og:image" content="http://yoursite.com/2019/04/10/JUC/threadPoolExecutor.jpg">
-<meta property="og:updated_time" content="2019-04-15T03:08:44.305Z">
+<meta property="og:updated_time" content="2019-04-21T15:18:48.884Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JUC">
-<meta name="twitter:description" content="java.util.concurrent包相关讲解原子变量JDK1.5后，jUC.atomic 包下提供了常用的原子变量。常用的AtomicInteger，AtomicBoolean等都有，很像包装类。  volatile保证内存可见性 CAS算法保证数据的原子性（Compare-and-Swap） CAS算法是硬件对于并发操作共享数据的支持 CAS包含了三个操作数： 内存中已经存在的值 V 预估">
-<meta name="twitter:image" content="http://yoursite.com/2019/04/10/JUC/segmentLock.png">
+<meta name="twitter:description" content="java.util.concurrent包相关讲解 原子变量JDK1.5后，jUC.atomic 包下提供了常用的原子变量。常用的AtomicInteger，AtomicBoolean等都有，很像包装类。  volatile保证内存可见性 CAS算法保证数据的原子性（Compare-and-Swap） CAS算法是硬件对于并发操作共享数据的支持 CAS包含了三个操作数： 内存中已经存在的值 V 预">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/10/JUC/JUC.jpg">
 
 
 
@@ -404,7 +405,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-15 11:08:44" itemprop="dateModified" datetime="2019-04-15T11:08:44+08:00">2019-04-15</time>
+                <time title="修改时间：2019-04-21 23:18:48" itemprop="dateModified" datetime="2019-04-21T23:18:48+08:00">2019-04-21</time>
               
             
           </span>
@@ -463,7 +464,8 @@
       
 
       
-        <h1 id="java-util-concurrent包相关讲解"><a href="#java-util-concurrent包相关讲解" class="headerlink" title="java.util.concurrent包相关讲解"></a>java.util.concurrent包相关讲解</h1><h2 id="原子变量"><a href="#原子变量" class="headerlink" title="原子变量"></a>原子变量</h2><p>JDK1.5后，jUC.atomic 包下提供了常用的原子变量。常用的AtomicInteger，AtomicBoolean等都有，很像包装类。</p>
+        <h1 id="java-util-concurrent包相关讲解"><a href="#java-util-concurrent包相关讲解" class="headerlink" title="java.util.concurrent包相关讲解"></a>java.util.concurrent包相关讲解</h1><p><img src="/2019/04/10/JUC/JUC.jpg" alt></p>
+<h2 id="原子变量"><a href="#原子变量" class="headerlink" title="原子变量"></a>原子变量</h2><p>JDK1.5后，jUC.atomic 包下提供了常用的原子变量。常用的AtomicInteger，AtomicBoolean等都有，很像包装类。</p>
 <ul>
 <li>volatile保证内存可见性</li>
 <li>CAS算法保证数据的原子性（Compare-and-Swap）<ul>
@@ -478,6 +480,11 @@
 </ul>
 </li>
 </ul>
+<h2 id="volatile-happens-before"><a href="#volatile-happens-before" class="headerlink" title="volatile happens-before"></a>volatile happens-before</h2><p>happens-before 关系是程序语句之间的排序保证，这能确保任何内存的写，对其他语句都是可见的。</p>
+<p>JMM为所有程序内部动作定义了一个偏序关系，叫做happens-before。要想保证执行动作B的线程看到动作A的结果（无论A和B是否发生在同一个线程中），A和B之间就必须满足happens-before关系。</p>
+<p>当写一个 volatile 变量时，随后对该变量读时会创建一个 happens-before 关系。所以，所有在 volatile 变量写操作之前完成的写操作，将会对随后该 volatile 变量读操作之后的所有语句可见。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Definition: Some variables</span></span><br><span class="line"><span class="comment">// 变量定义</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> first = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> second = ``<span class="number">2</span>``;</span><br><span class="line"><span class="keyword">private</span>` `<span class="keyword">int</span>` `third = ``<span class="number">3</span>``;</span><br><span class="line"><span class="keyword">private</span>` `<span class="keyword">volatile</span>` `<span class="keyword">boolean</span>` `hasValue = ``<span class="keyword">false</span>``;</span><br><span class="line"><span class="comment">// First Snippet: A sequence of write operations being executed by Thread 1</span></span><br><span class="line"><span class="comment">//片段 1：线程 1 顺序的写操作</span></span><br><span class="line">first = ``<span class="number">5</span>``;</span><br><span class="line">second = ``<span class="number">6</span>``;</span><br><span class="line">third = ``<span class="number">7</span>``;</span><br><span class="line">hasValue = ``<span class="keyword">true</span>``;</span><br><span class="line"><span class="comment">// Second Snippet: A sequence of read operations being executed by Thread 2</span></span><br><span class="line"><span class="comment">//片段 2：线程 2 顺序的读操作</span></span><br><span class="line">System.out.println(``<span class="string">"Flag is set to : "</span>` `+ hasValue);</span><br><span class="line">System.out.println(``<span class="string">"First: "</span>` `+ first);  ``<span class="comment">// will print 5 打印 5</span></span><br><span class="line">System.out.println(``<span class="string">"Second: "</span>` `+ second); ``<span class="comment">// will print 6 打印 6</span></span><br><span class="line">System.out.println(``<span class="string">"Third: "</span>` `+ third);  ``<span class="comment">// will print 7 打印 7</span></span><br></pre></td></tr></table></figure>
+<p>我们假设上面的两个代码片段有由两个线程执行：线程 1 和线程 2。当第一个线程改变 hasValue 的值时，它不仅仅是刷新这个改变的值到主存，也会引起前面三个值的写（之前任何的写操作）刷新到主存（happens-before具有传递性，即violate写之前的所有操作都会发生在violate读操作之前）。结果，当第二个线程访问这三个变量的时候，就可以访问到被线程 1 写入的值，即使这些变量之前被缓存（这些缓存的副本都会被更新）。</p>
 <h3 id="i-原子性问题：读-改-写"><a href="#i-原子性问题：读-改-写" class="headerlink" title="i++原子性问题：读-改-写"></a>i++原子性问题：读-改-写</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> j = i++; <span class="comment">//j == 10;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*	实际上发生了以下操作：</span></span><br><span class="line"><span class="comment">	int temp = i;</span></span><br><span class="line"><span class="comment">	i = i + 1;</span></span><br><span class="line"><span class="comment">	j = temp;	*/</span></span><br><span class="line"><span class="comment">// 例题：</span></span><br><span class="line"><span class="keyword">int</span> i = <span class="number">10</span>;</span><br><span class="line">i = i++;</span><br><span class="line"><span class="comment">// 此时i++为多少</span></span><br><span class="line"><span class="comment">//i == 10；</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AtomicDemo</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> serialNumber = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> </span><br><span class="line">            Tread.sleep(<span class="number">100</span>);</span><br><span class="line">        <span class="keyword">catch</span>(InterruptedException e) &#123;&#125;</span><br><span class="line">        System.out.println(getSerialNumber());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getSerialNumber</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> serialNumber++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 多线程运行上述AtomicDemo类，依然会产生错误，因为i++操作不是原子性的，即使用volatile修饰也不会改善。</span></span><br><span class="line"><span class="comment">// 因此需要原子变量</span></span><br></pre></td></tr></table></figure>
 <h2 id="ConcurrentHashMap讲解"><a href="#ConcurrentHashMap讲解" class="headerlink" title="ConcurrentHashMap讲解"></a>ConcurrentHashMap讲解</h2><p>采用“<strong>锁分段</strong>”机制。在JDK1.8之前，采用segment方式来锁表。</p>
 <p>下图为JDK1.8之前ConcurrentHashMap的设计方式。JDK1.8改为由synchronized + CAS算法控制并发安全。</p>
@@ -606,6 +613,58 @@
 <li>可以同时实现排它锁和共享锁模式（独占、共享）</li>
 </ul>
 <p><a href="https://segmentfault.com/a/1190000008471362" target="_blank" rel="noopener">https://segmentfault.com/a/1190000008471362</a></p>
+<h2 id="原子类（AtomicXXX）"><a href="#原子类（AtomicXXX）" class="headerlink" title="原子类（AtomicXXX）"></a>原子类（AtomicXXX）</h2><h3 id="原子更新基本类型"><a href="#原子更新基本类型" class="headerlink" title="原子更新基本类型"></a>原子更新基本类型</h3><p>使用原子的方式更新基本类型，Atomic包提供了以下3个类。 （CAS）</p>
+<ul>
+<li><p>AtomicBoolean: 原子更新布尔类型。 </p>
+</li>
+<li><p>AtomicInteger: 原子更新整型。 </p>
+</li>
+<li><p>AtomicLong: 原子更新长整型。 </p>
+</li>
+</ul>
+<p>以上3个类提供的方法几乎一模一样，以AtomicInteger为例进行详解，AtomicIngeter的常用方法如下： </p>
+<ul>
+<li><p>int addAndGet(int delta): 以原子的方式将输入的数值与实例中的值相加，并返回结果。 </p>
+</li>
+<li><p>boolean compareAndSet(int expect, int update): 如果输入的值等于预期值，则以原子方式将该值设置为输入的值。 </p>
+</li>
+<li><p>int getAndIncrement(): 以原子的方式将当前值加1，注意，这里返回的是自增前的值。 </p>
+</li>
+<li><p>void lazySet(int newValue): 最终会设置成newValue,使用lazySet设置值后，可能导致其他线程在之后的一小段时间内还是可以读到旧的值。 </p>
+</li>
+<li><p>int getAndSet(int newValue): 以原子的方式设置为newValue,并返回旧值。 </p>
+</li>
+</ul>
+<h3 id="原子更新数组"><a href="#原子更新数组" class="headerlink" title="原子更新数组"></a>原子更新数组</h3><p>通过原子的方式更新数组里的某个元素，Atomic包提供了以下的4个类： （CAS）</p>
+<ul>
+<li>AtomicIntegerArray: 原子更新整型数组里的元素。 </li>
+<li>AtomicLongArray: 原子更新长整型数组里的元素。 </li>
+<li>AtomicReferenceArray: 原子更新引用类型数组里的元素。<br>这三个类的最常用的方法是如下两个方法： </li>
+<li><p>get(int index)：获取索引为index的元素值。 </p>
+</li>
+<li><p>compareAndSet(int i,E expect,E update): 如果当前值等于预期值，则以原子方式将数组位置i的元素设置为update值。 </p>
+</li>
+</ul>
+<h3 id="原子更新字段类"><a href="#原子更新字段类" class="headerlink" title="原子更新字段类"></a>原子更新字段类</h3><p>不改变reference，而实改变reference里面的某个字段。</p>
+<p>Atomic包提供了四个类进行原子字段更新： </p>
+<ul>
+<li>AtomicIntegerFieldUpdater: 原子更新整型的字段的更新器。 </li>
+<li>AtomicLongFieldUpdater: 原子更新长整型字段的更新器。 </li>
+<li>AtomicStampedFieldUpdater: 原子更新带有版本号的引用类型。 </li>
+<li>AtomicReferenceFieldUpdater: 上面已经说过此处不在赘述。 </li>
+</ul>
+<p>这四个类的使用方式都差不多，示例代码如上一小节的AtomicReferenceFieldUpdater一样，要想原子地更新字段类需要两步。第一步，因为原子更新字段类都是抽象类，每次使用的时候必须使用静态方法newUpdater()创建一个更新器，并且需要设置想要更新的类和属性。第二步，更新类的字段必须使用public volatile修饰。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> concurrency;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicIntegerFieldUpdater;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ThreadSafe</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadSafeConcurrency</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AtomicIntegerFieldUpdater&lt;User&gt; atomicIntegerFieldUpdater = AtomicIntegerFieldUpdater.newUpdater(User.class, <span class="string">"old"</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> User user;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        testAtomicIntegerFieldUpdater();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testAtomicIntegerFieldUpdater</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        user = <span class="keyword">new</span> User(<span class="string">"user "</span>, <span class="number">100</span>);</span><br><span class="line">        atomicIntegerFieldUpdater.incrementAndGet(user);</span><br><span class="line">        <span class="comment">// 等待线程池所有任务执行结束</span></span><br><span class="line">        System.out.println(<span class="string">"ConcurrencyDemo:"</span> + atomicIntegerFieldUpdater.get(user));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">volatile</span> <span class="keyword">int</span> old;<span class="comment">//必须使用 volatile 标识，并且是 非 static</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String name, <span class="keyword">int</span> old)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.old = old;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getOld</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> old;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="阻塞队列（BlockingQueue）"><a href="#阻塞队列（BlockingQueue）" class="headerlink" title="阻塞队列（BlockingQueue）"></a>阻塞队列（BlockingQueue）</h2><p>阻塞队列（BlockingQueue）是一个支持两个附加操作的队列。这两个附加的操作是：在队列为空时，获取元素的线程会等待队列变为非空。当队列满时，存储元素的线程会等待队列可用。阻塞队列常用于生产者和消费者的场景，生产者是往队列里添加元素的线程，消费者是从队列里拿元素的线程。阻塞队列就是生产者存放元素的容器，而消费者也只从容器里拿元素。</p>
+<ul>
+<li>ArrayBlockingQueue ：一个由数组结构组成的有界阻塞队列。（先进先出）</li>
+<li>LinkedBlockingQueue ：一个由链表结构组成的有界阻塞队列。（默认和最大长度为Integer.MAX_VALUE）</li>
+<li>PriorityBlockingQueue ：一个支持优先级排序的无界阻塞队列。</li>
+<li>DelayQueue：一个使用优先级队列实现的无界阻塞队列。</li>
+<li>SynchronousQueue：一个不存储元素的阻塞队列。每一个put操作必须等待一个take操作，否则不能继续添加元素。</li>
+<li>LinkedTransferQueue：一个由链表结构组成的无界阻塞队列。</li>
+<li>LinkedBlockingDeque：一个由链表结构组成的双向阻塞队列。</li>
+</ul>
 
       
     </div>
@@ -737,7 +796,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -772,7 +831,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -873,7 +936,21 @@
                     
                       
                     
-                    <span class="site-state-item-count">42</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">49</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -911,7 +988,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#java-util-concurrent包相关讲解"><span class="nav-number">1.</span> <span class="nav-text">java.util.concurrent包相关讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原子变量"><span class="nav-number">1.1.</span> <span class="nav-text">原子变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#i-原子性问题：读-改-写"><span class="nav-number">1.1.1.</span> <span class="nav-text">i++原子性问题：读-改-写</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConcurrentHashMap讲解"><span class="nav-number">1.2.</span> <span class="nav-text">ConcurrentHashMap讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HashTable的缺点"><span class="nav-number">1.2.1.</span> <span class="nav-text">HashTable的缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CopyOnWrite机制（COW）"><span class="nav-number">1.3.</span> <span class="nav-text">CopyOnWrite机制（COW）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用AQS同步组件CountDownLatch-amp-CyclicBarrier"><span class="nav-number">1.4.</span> <span class="nav-text">常用AQS同步组件CountDownLatch &amp; CyclicBarrier</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CountDownLatch（闭锁，倒计时器）"><span class="nav-number">1.4.1.</span> <span class="nav-text">CountDownLatch（闭锁，倒计时器）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CyclicBarrier（循环屏障）"><span class="nav-number">1.4.2.</span> <span class="nav-text">CyclicBarrier（循环屏障）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Semaphore-（信号量）"><span class="nav-number">1.4.3.</span> <span class="nav-text">Semaphore （信号量）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Callable-和-Runnable的区别"><span class="nav-number">1.5.</span> <span class="nav-text">Callable 和 Runnable的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Callable的实现（需要FutureTask配合接收返回值）"><span class="nav-number">1.5.1.</span> <span class="nav-text">Callable的实现（需要FutureTask配合接收返回值）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ReentrantLock-与-锁（ReentrantLock与synchronized区别）"><span class="nav-number">1.5.2.</span> <span class="nav-text">ReentrantLock 与 锁（ReentrantLock与synchronized区别）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步锁-amp-读写锁"><span class="nav-number">1.6.</span> <span class="nav-text">同步锁 &amp; 读写锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程安全——同步锁lock"><span class="nav-number">1.6.1.</span> <span class="nav-text">多线程安全——同步锁lock</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Condition控制线程通信"><span class="nav-number">1.6.1.1.</span> <span class="nav-text">Condition控制线程通信</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读写锁-ReadWriteLock"><span class="nav-number">1.6.2.</span> <span class="nav-text">读写锁 ReadWriteLock</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用两个int实现一个读写锁"><span class="nav-number">1.6.2.1.</span> <span class="nav-text">用两个int实现一个读写锁</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池"><span class="nav-number">1.7.</span> <span class="nav-text">线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadPoolExecutor"><span class="nav-number">1.7.1.</span> <span class="nav-text">ThreadPoolExecutor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#线程池的状态"><span class="nav-number">1.7.1.1.</span> <span class="nav-text">线程池的状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用方法"><span class="nav-number">1.7.1.2.</span> <span class="nav-text">常用方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池的体系架构"><span class="nav-number">1.7.2.</span> <span class="nav-text">线程池的体系架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadPoolExecutor的构造函数"><span class="nav-number">1.7.3.</span> <span class="nav-text">ThreadPoolExecutor的构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Executors工具类"><span class="nav-number">1.7.4.</span> <span class="nav-text">Executors工具类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AbstractQueuedSynchronizer-AQS"><span class="nav-number">1.8.</span> <span class="nav-text">AbstractQueuedSynchronizer - AQS</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#java-util-concurrent包相关讲解"><span class="nav-number">1.</span> <span class="nav-text">java.util.concurrent包相关讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原子变量"><span class="nav-number">1.1.</span> <span class="nav-text">原子变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volatile-happens-before"><span class="nav-number">1.2.</span> <span class="nav-text">volatile happens-before</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#i-原子性问题：读-改-写"><span class="nav-number">1.2.1.</span> <span class="nav-text">i++原子性问题：读-改-写</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConcurrentHashMap讲解"><span class="nav-number">1.3.</span> <span class="nav-text">ConcurrentHashMap讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HashTable的缺点"><span class="nav-number">1.3.1.</span> <span class="nav-text">HashTable的缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CopyOnWrite机制（COW）"><span class="nav-number">1.4.</span> <span class="nav-text">CopyOnWrite机制（COW）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用AQS同步组件CountDownLatch-amp-CyclicBarrier"><span class="nav-number">1.5.</span> <span class="nav-text">常用AQS同步组件CountDownLatch &amp; CyclicBarrier</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CountDownLatch（闭锁，倒计时器）"><span class="nav-number">1.5.1.</span> <span class="nav-text">CountDownLatch（闭锁，倒计时器）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CyclicBarrier（循环屏障）"><span class="nav-number">1.5.2.</span> <span class="nav-text">CyclicBarrier（循环屏障）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Semaphore-（信号量）"><span class="nav-number">1.5.3.</span> <span class="nav-text">Semaphore （信号量）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Callable-和-Runnable的区别"><span class="nav-number">1.6.</span> <span class="nav-text">Callable 和 Runnable的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Callable的实现（需要FutureTask配合接收返回值）"><span class="nav-number">1.6.1.</span> <span class="nav-text">Callable的实现（需要FutureTask配合接收返回值）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ReentrantLock-与-锁（ReentrantLock与synchronized区别）"><span class="nav-number">1.6.2.</span> <span class="nav-text">ReentrantLock 与 锁（ReentrantLock与synchronized区别）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步锁-amp-读写锁"><span class="nav-number">1.7.</span> <span class="nav-text">同步锁 &amp; 读写锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程安全——同步锁lock"><span class="nav-number">1.7.1.</span> <span class="nav-text">多线程安全——同步锁lock</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Condition控制线程通信"><span class="nav-number">1.7.1.1.</span> <span class="nav-text">Condition控制线程通信</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读写锁-ReadWriteLock"><span class="nav-number">1.7.2.</span> <span class="nav-text">读写锁 ReadWriteLock</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用两个int实现一个读写锁"><span class="nav-number">1.7.2.1.</span> <span class="nav-text">用两个int实现一个读写锁</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池"><span class="nav-number">1.8.</span> <span class="nav-text">线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadPoolExecutor"><span class="nav-number">1.8.1.</span> <span class="nav-text">ThreadPoolExecutor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#线程池的状态"><span class="nav-number">1.8.1.1.</span> <span class="nav-text">线程池的状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用方法"><span class="nav-number">1.8.1.2.</span> <span class="nav-text">常用方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程池的体系架构"><span class="nav-number">1.8.2.</span> <span class="nav-text">线程池的体系架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadPoolExecutor的构造函数"><span class="nav-number">1.8.3.</span> <span class="nav-text">ThreadPoolExecutor的构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Executors工具类"><span class="nav-number">1.8.4.</span> <span class="nav-text">Executors工具类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AbstractQueuedSynchronizer-AQS"><span class="nav-number">1.9.</span> <span class="nav-text">AbstractQueuedSynchronizer - AQS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原子类（AtomicXXX）"><span class="nav-number">1.10.</span> <span class="nav-text">原子类（AtomicXXX）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原子更新基本类型"><span class="nav-number">1.10.1.</span> <span class="nav-text">原子更新基本类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原子更新数组"><span class="nav-number">1.10.2.</span> <span class="nav-text">原子更新数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原子更新字段类"><span class="nav-number">1.10.3.</span> <span class="nav-text">原子更新字段类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阻塞队列（BlockingQueue）"><span class="nav-number">1.11.</span> <span class="nav-text">阻塞队列（BlockingQueue）</span></a></li></ol></li></ol></div>
             
 
           </div>
