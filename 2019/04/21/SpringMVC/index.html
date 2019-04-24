@@ -105,7 +105,7 @@
 <meta property="og:description" content="Spring MVC入门流程（1）用户发送请求至前端控制器DispatcherServlet；（2） DispatcherServlet收到请求后，调用HandlerMapping处理器映射器，请求获取Handle；（3）处理器映射器根据请求url找到具体的处理器，生成处理器对象及处理器拦截器(如果有则生成)一并返回给DispatcherServlet；（4）DispatcherServlet 调">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://img-blog.csdn.net/20180708224853769?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NDUyMzM3MDA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:updated_time" content="2019-04-21T15:59:44.753Z">
+<meta property="og:updated_time" content="2019-04-24T03:21:16.427Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringMVC">
 <meta name="twitter:description" content="Spring MVC入门流程（1）用户发送请求至前端控制器DispatcherServlet；（2） DispatcherServlet收到请求后，调用HandlerMapping处理器映射器，请求获取Handle；（3）处理器映射器根据请求url找到具体的处理器，生成处理器对象及处理器拦截器(如果有则生成)一并返回给DispatcherServlet；（4）DispatcherServlet 调">
@@ -386,12 +386,24 @@
                 
               
 
-              <time title="创建时间：2019-04-21 11:08:49 / 修改时间：23:59:44" itemprop="dateCreated datePublished" datetime="2019-04-21T11:08:49+08:00">2019-04-21</time>
+              <time title="创建时间：2019-04-21 11:08:49" itemprop="dateCreated datePublished" datetime="2019-04-21T11:08:49+08:00">2019-04-21</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-24 11:21:16" itemprop="dateModified" datetime="2019-04-24T11:21:16+08:00">2019-04-24</time>
               
             
           </span>
@@ -450,9 +462,12 @@
       
 
       
-        <h1 id="Spring-MVC入门"><a href="#Spring-MVC入门" class="headerlink" title="Spring MVC入门"></a>Spring MVC入门</h1><h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><p>（1）用户发送请求至前端控制器DispatcherServlet；<br>（2） DispatcherServlet收到请求后，调用HandlerMapping处理器映射器，请求获取Handle；<br>（3）处理器映射器根据请求url找到具体的处理器，生成处理器对象及处理器拦截器(如果有则生成)一并返回给DispatcherServlet；<br>（4）DispatcherServlet 调用 HandlerAdapter处理器适配器；<br>（5）HandlerAdapter 经过适配调用 具体处理器(Handler，也叫后端控制器)；<br>（6）Handler执行完成返回ModelAndView；<br>（7）HandlerAdapter将Handler执行结果ModelAndView返回给DispatcherServlet；<br>（8）DispatcherServlet将ModelAndView传给ViewResolver视图解析器进行解析；<br>（9）ViewResolver解析后返回具体View；<br>（10）DispatcherServlet对View进行渲染视图（即将模型数据填充至视图中）</p>
-<p>（11）DispatcherServlet响应用户。</p>
+        <h1 id="Spring-MVC入门"><a href="#Spring-MVC入门" class="headerlink" title="Spring MVC入门"></a>Spring MVC入门</h1><h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><p>（1）用户发送请求至前端控制器DispatcherServlet；<br>（2） DispatcherServlet收到请求后，调用HandlerMapping处理器映射器，请求获取Handle；<br>（3）处理器映射器根据请求url找到具体的处理器，生成处理器对象及处理器拦截器(如果有则生成)一并返回给DispatcherServlet；<br>（4）DispatcherServlet 调用 HandlerAdapter处理器适配器；<br>（5）HandlerAdapter 经过适配调用 具体处理器(Handler，也叫后端控制器)；<br>（6）Handler执行完成返回ModelAndView；<br>（7）HandlerAdapter将Handler执行结果ModelAndView返回给DispatcherServlet；<br>（8）DispatcherServlet将ModelAndView传给ViewResolver视图解析器进行解析；<br>（9）ViewResolver解析后返回具体View；<br>（10）DispatcherServlet对View进行渲染视图（即将模型数据填充至视图中）<br>（11）DispatcherServlet响应用户。</p>
 <p><img src="https://img-blog.csdn.net/20180708224853769?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NDUyMzM3MDA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p>@RequestMapping</p>
+<p>@PathVariable(“xxx”)</p>
+<p>@RequestParam    get</p>
+<p>@RequestBody    post</p>
 
       
     </div>
@@ -613,6 +628,8 @@
                     
                       
                     
+                      
+                    
                     <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
@@ -629,6 +646,8 @@
                     
                   
                     
+                    
+                      
                     
                       
                     

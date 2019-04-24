@@ -105,7 +105,7 @@
 <meta property="og:description" content="Java多线程（面试问题）进程和线程的区别进程：进程独占内存空间，保存各自运行状态，相互间不干扰且可以互相切换，为并发处理任务提供了可能 线程：共享进程的内存资源，相互间切换更快速，支持更细力度的任务控制，使进程内的子任务得以并发执行 进程是资源分配的最小单位，线程是CPU调度的最小单位  所有与进程相关的资源，都被记录在进程控制块（PCB）中 进程是抢占处理器的调度单位；线程属于某个进程，共享其">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/03/24/Multi-Thread/statement.png">
-<meta property="og:updated_time" content="2019-04-16T15:40:22.291Z">
+<meta property="og:updated_time" content="2019-04-23T15:37:42.312Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="多线程（面试问题）">
 <meta name="twitter:description" content="Java多线程（面试问题）进程和线程的区别进程：进程独占内存空间，保存各自运行状态，相互间不干扰且可以互相切换，为并发处理任务提供了可能 线程：共享进程的内存资源，相互间切换更快速，支持更细力度的任务控制，使进程内的子任务得以并发执行 进程是资源分配的最小单位，线程是CPU调度的最小单位  所有与进程相关的资源，都被记录在进程控制块（PCB）中 进程是抢占处理器的调度单位；线程属于某个进程，共享其">
@@ -403,7 +403,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-16 23:40:22" itemprop="dateModified" datetime="2019-04-16T23:40:22+08:00">2019-04-16</time>
+                <time title="修改时间：2019-04-23 23:37:42" itemprop="dateModified" datetime="2019-04-23T23:37:42+08:00">2019-04-23</time>
               
             
           </span>
@@ -555,7 +555,7 @@
 <li>Object.wait()不仅让出CPU，还会释放已经占有的同步锁资源</li>
 </ul>
 <h2 id="notify-和notifyAll-的区别"><a href="#notify-和notifyAll-的区别" class="headerlink" title="notify()和notifyAll()的区别"></a>notify()和notifyAll()的区别</h2><h3 id="两个概念：锁池EntryList-、-等待池WaitSet"><a href="#两个概念：锁池EntryList-、-等待池WaitSet" class="headerlink" title="两个概念：锁池EntryList 、 等待池WaitSet"></a>两个概念：锁池EntryList 、 等待池WaitSet</h3><ul>
-<li><p><strong>锁池（未获得锁的线程等待的地方）</strong>：假设线程A已经拥有了某个对象（不是类）的锁，而其他线程B、C想要调用这个对象的某个synchronized方法（或者块），由于B、C县城在进入对象synchronized方法（或者块）之前必须先获得该对象锁的拥有权，而恰巧该对象的锁目前正被线程A所占用，此时B、C线程就会被阻塞，进入一个地方区等待锁的释放，这个地方便是该对象的锁池。</p>
+<li><p><strong>锁池（未获得锁的线程等待的地方）</strong>：假设线程A已经拥有了某个对象（不是类）的锁，而其他线程B、C想要调用这个对象的某个synchronized方法（或者块），由于B、C线程在进入对象synchronized方法（或者块）之前必须先获得该对象锁的拥有权，而恰巧该对象的锁目前正被线程A所占用，此时B、C线程就会被阻塞，进入一个地方区等待锁的释放，这个地方便是该对象的锁池。</p>
 </li>
 <li><p><strong>等待池</strong>：假设线程A调用了某个对象的wait()方法，线程A就会释放该对象的锁，同时线程A就进入到了该对象的等待池中，进入到等待池中的线程不会去竞争该对象的锁。</p>
 </li>
@@ -761,6 +761,8 @@
                     
                       
                     
+                      
+                    
                     <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
@@ -777,6 +779,8 @@
                     
                   
                     
+                    
+                      
                     
                       
                     
